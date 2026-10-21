@@ -1,26 +1,243 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Dark mode is not supported (DESIGN.md §1). This keeps shadcn's `dark:`
+   classes inert instead of falling back to prefers-color-scheme. */
+@custom-variant dark (&:is(.dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* WhiteHill palette (DESIGN.md §2). Tailwind's default colours are removed
+   so only these tokens generate utilities. */
+@theme {
+  --color-*: initial;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-white: #ffffff;
+  --color-navy-900: #172c6b;
+  --color-blue-700: #1e3a8a;
+  --color-blue-600: #1d4ed8;
+  --color-blue-300: #9cc3fb;
+  --color-blue-200: #bcd5fb;
+  --color-blue-100: #dbe6f8;
+  --color-blue-50: #e8f0fe;
+  --color-blue-25: #f3f7fe;
+  --color-line: #e3eaf7;
+  --color-field: #c9d6ee;
+  --color-bond: #7fa9f2;
+  --color-ink: #13234a;
+  --color-ink-muted: #3a4a6e;
+  --color-ink-faint: #56648a;
+  --color-ink-on-navy: #d6e2f7;
+  /* Molecule bonds (DESIGN.md §6). */
+  --color-bond: #7fa9f2;
+  /* Only exception to blue-only: form validation errors. */
+  --color-error: #b42318;
+
+  --radius-tag: 10px;
+  --radius-tile: 14px;
+  --radius-card-sm: 18px;
+  --radius-card: 22px;
+  --radius-hero: 28px;
+
+  /* Desktop navigation appears at 820px (PRD F2). */
+  --breakpoint-nav: 820px;
+
+  --animate-float: float 7s ease-in-out infinite;
+
+  /* Splash screen (components/preloader). Total life: 2.8s. */
+  --animate-splash-exit: splash-exit 2.8s ease-in-out both;
+  --animate-splash-pop: splash-pop 0.6s ease-out both;
+  --animate-splash-rise: splash-rise 0.6s ease-out both;
+  --animate-splash-scene: splash-scene 0.8s ease-out both;
+  --animate-splash-progress: splash-progress 2.2s ease-in-out both;
+
+  @keyframes splash-exit {
+    0%,
+    76% {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes splash-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes splash-rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes splash-scene {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes splash-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Lab-notebook dot grid behind the hero molecule (DESIGN.md §6). */
+@utility dot-grid {
+  background-image: radial-gradient(
+    var(--color-blue-100) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 28px 28px;
+}
+
+/* shadcn semantic tokens mapped onto the palette. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-plex);
+  --font-heading: var(--font-source-serif);
+  --font-display: var(--font-jakarta);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: var(--color-white);
+  --foreground: var(--color-ink);
+  --card: var(--color-white);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-white);
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-blue-600);
+  --primary-foreground: var(--color-white);
+  --secondary: var(--color-blue-50);
+  --secondary-foreground: var(--color-blue-700);
+  --muted: var(--color-blue-25);
+  --muted-foreground: var(--color-ink-muted);
+  --accent: var(--color-blue-50);
+  --accent-foreground: var(--color-blue-700);
+  --destructive: var(--color-error);
+  --border: var(--color-blue-100);
+  --input: var(--color-field);
+  --ring: var(--color-blue-600);
+  --radius: 0.625rem;
+
+  --header-height: 64px;
+}
+
+@media (min-width: 820px) {
+  :root {
+    --header-height: 72px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
+  }
+
+  body {
+    @apply bg-background text-foreground text-[15px] leading-[1.6];
+  }
+
+  /* Thin brand-blue scrollbar. Standard properties cover Firefox and
+     Chromium; the ::-webkit-scrollbar rules cover Safari. */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-blue-600) var(--color-blue-25);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-blue-25);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-blue-600);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-blue-700);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-blue-600);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
 }
