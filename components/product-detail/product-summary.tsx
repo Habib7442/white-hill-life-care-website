@@ -1,4 +1,4 @@
-import { CircleCheck, Download } from "lucide-react"
+import { CircleCheck, Download, MessageCircle } from "lucide-react"
 
 import { buttonVariants } from "@/components/ui/button"
 import { Chip } from "@/components/ui/chip"
@@ -6,14 +6,31 @@ import {
   isPrescriptionOnly,
   prescriptionAudience,
   prescriptionCaution,
+  productHref,
   productTypeLabels,
   scheduleLabels,
 } from "@/lib/products"
-import { headerCta } from "@/lib/site-nav"
+import { siteUrl } from "@/lib/seo"
+import { productEnquiryMessage, whatsappHref } from "@/lib/whatsapp"
 
 import type { ProductDetail } from "./types"
 
-export function ProductSummary({ product }: { product: ProductDetail }) {
+export function ProductSummary({
+  product,
+  whatsappNumber,
+}: {
+  product: ProductDetail
+  whatsappNumber: string
+}) {
+  const enquiryHref = whatsappHref(
+    whatsappNumber,
+    productEnquiryMessage({
+      name: product.name,
+      mark: product.mark,
+      pack: product.pack,
+      url: new URL(productHref(product.slug), siteUrl).href,
+    })
+  )
   const isRx = isPrescriptionOnly(product.schedule)
   const supports = product.supports?.filter(Boolean) ?? []
 
@@ -91,8 +108,10 @@ export function ProductSummary({ product }: { product: ProductDetail }) {
       )}
 
       <div className="flex flex-wrap gap-3">
-        <a href={headerCta.href} className={buttonVariants()}>
+        <a href={enquiryHref} target="_blank" rel="noopener noreferrer" className={buttonVariants()}>
+          <MessageCircle aria-hidden="true" strokeWidth={1.8} data-icon="inline-start" />
           Send an Enquiry
+          <span className="sr-only"> on WhatsApp (opens in a new tab)</span>
         </a>
         {product.leafletUrl && (
           <a

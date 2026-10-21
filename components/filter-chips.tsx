@@ -16,7 +16,10 @@ type FilterChipsProps<T extends string> = {
   className?: string
 }
 
-/** Single-select row of pill toggle buttons. */
+/**
+ * Single-select row of pill toggle buttons. Stays on one line and scrolls
+ * sideways (scrollbar hidden) when the chips don't fit.
+ */
 export function FilterChips<T extends string>({
   label,
   options,
@@ -25,7 +28,12 @@ export function FilterChips<T extends string>({
   className,
 }: FilterChipsProps<T>) {
   return (
-    <div role="group" aria-label={label} className={cn("flex flex-wrap gap-2", className)}>
+    <div
+      role="group"
+      aria-label={label}
+      // Padding keeps focus outlines from being clipped by the scroll box.
+      className={cn("no-scrollbar -m-1 flex gap-2 overflow-x-auto overscroll-x-contain p-1", className)}
+    >
       {options.map((option) => {
         const selected = option.value === value
         return (
@@ -33,9 +41,13 @@ export function FilterChips<T extends string>({
             key={option.value}
             type="button"
             aria-pressed={selected}
-            onClick={() => onChange(option.value)}
+            onClick={(event) => {
+              onChange(option.value)
+              // Bring a partly hidden chip fully into view.
+              event.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" })
+            }}
             className={cn(
-              "inline-flex min-h-11 items-center rounded-full border px-4 text-sm font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600",
+              "inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 text-sm font-medium whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600",
               selected
                 ? "border-blue-600 bg-blue-600 text-white"
                 : "border-blue-100 bg-white text-ink-muted hover:bg-blue-25 hover:text-blue-700"

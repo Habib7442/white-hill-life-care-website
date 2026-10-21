@@ -35,6 +35,7 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 - Sticky header with smooth-scroll nav and a hamburger menu below 820 px
 - Product cards rendered from Sanity `product` documents, with category / dosage-form filters and a debounced search (client-side)
 - A page per medicine at `/medicines/[slug]` (added at the user's request; `prompts/medicines-catalog-and-detail-pages.md`)
+- "Send an Enquiry" on medicine pages opens WhatsApp with a prefilled message and the page link (added at the user's request; `lib/whatsapp.ts`). Number: `siteSettings.whatsapp`, else `company.whatsapp` in `lib/site.ts`
 - Company details rendered from the Sanity `siteSettings` document
 - Embedded Sanity Studio at `/studio`
 - Enquiry form sent through Web3Forms, with validation, honeypot spam protection, consent line, and success/error states
@@ -50,7 +51,7 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 - Multi-language support
 - Dark mode
 - Separate `/about`, `/medicines` (listing), `/contact` pages (Phase 2)
-- Lightbox, WhatsApp button, Google Map (PRD "Could" items — only when asked)
+- Lightbox, floating WhatsApp button, Google Map (PRD "Could" items — only when asked)
 - Analytics (decided at launch)
 - Any database other than Sanity
 

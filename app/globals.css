@@ -190,6 +190,14 @@
   }
 }
 
+/* Scrolls, but shows no scrollbar (filter chip rows). */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

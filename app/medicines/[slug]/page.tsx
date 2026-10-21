@@ -14,9 +14,10 @@ import { StorageCard } from "@/components/product-detail/storage-card"
 import { SiteHeader } from "@/components/site-header/site-header"
 import { SectionHeading } from "@/components/typography/section-heading"
 import { medicinesDisclaimer, withPackImage } from "@/lib/products"
-import { getProductBySlug, getProductSlugs } from "@/lib/sanity/fetch"
+import { getProductBySlug, getProductSlugs, getSiteSettings } from "@/lib/sanity/fetch"
 import { urlFor } from "@/lib/sanity/image"
 import { productMetadata } from "@/lib/seo"
+import { company } from "@/lib/site"
 import { sectionIds } from "@/lib/site-nav"
 
 export async function generateStaticParams() {
@@ -36,8 +37,15 @@ export async function generateMetadata({
   return productMetadata({
     ...product,
     image: {
-      // Pack on white, never cropped.
-      url: urlFor(product.packImage).width(1200).height(630).fit("fill").bg("ffffff").url(),
+      // Pack on white, never cropped. JPEG so WhatsApp / social link previews render it.
+      url: urlFor(product.packImage)
+        .width(1200)
+        .height(630)
+        .fit("fill")
+        .bg("ffffff")
+        .format("jpg")
+        .quality(80)
+        .url(),
       alt: product.packImage.alt,
     },
   })
@@ -64,7 +72,7 @@ async function ProductPageContent({
   params: PageProps<"/medicines/[slug]">["params"]
 }) {
   const { slug } = await params
-  const product = await getProductBySlug(slug)
+  const [product, settings] = await Promise.all([getProductBySlug(slug), getSiteSettings()])
   if (!product) notFound()
 
   const related = withPackImage(
@@ -85,7 +93,10 @@ async function ProductPageContent({
             />
             <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-16">
               <ProductGallery packImage={product.packImage} gallery={product.gallery} />
-              <ProductSummary product={product} />
+              <ProductSummary
+                product={product}
+                whatsappNumber={settings?.whatsapp || company.whatsapp}
+              />
             </div>
           </Container>
         </div>
