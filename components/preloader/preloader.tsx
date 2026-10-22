@@ -3,10 +3,12 @@ import Image from "next/image"
 import { RuralScene } from "@/components/preloader/rural-scene"
 import { company } from "@/lib/site"
 
-// Splash screen on every page load. CSS-only animation; skipped for reduced motion.
+// Home page splash, shown once per browser tab (SplashGate hides it on later
+// visits). CSS-only animation; skipped for reduced motion.
 export function Preloader() {
   return (
     <div
+      data-preloader
       aria-hidden="true"
       className="fixed inset-0 z-[100] flex animate-splash-exit flex-col overflow-hidden bg-linear-to-b from-white to-blue-25 motion-reduce:hidden"
     >

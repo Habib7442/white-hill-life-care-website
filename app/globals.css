@@ -190,6 +190,11 @@
   }
 }
 
+/* Home splash plays once per tab; SplashGate sets data-splash="skip" after. */
+html[data-splash="skip"] [data-preloader] {
+  display: none;
+}
+
 /* Scrolls, but shows no scrollbar (filter chip rows). */
 @utility no-scrollbar {
   scrollbar-width: none;

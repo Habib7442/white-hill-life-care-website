@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { IBM_Plex_Sans, Plus_Jakarta_Sans, Source_Serif_4 } from "next/font/google";
 
 import { NavigationProgress } from "@/components/navigation-progress";
+import { SplashGate } from "@/components/preloader/splash-gate";
 import { SectionScroll } from "@/components/section-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
 import { organizationJsonLd, rootMetadata, websiteJsonLd } from "@/lib/seo";
@@ -29,11 +30,14 @@ export const metadata = rootMetadata;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    // suppressHydrationWarning: SplashGate sets data-splash on <html> before hydration.
     <html
       lang="en-IN"
       className={`${plexSans.variable} ${sourceSerif.variable} ${jakartaSans.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        <SplashGate />
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
         {children}
