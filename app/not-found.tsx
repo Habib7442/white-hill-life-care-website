@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
+import { SiteFooter } from "@/components/site-footer/site-footer"
 import { SiteHeader } from "@/components/site-header/site-header"
 import { Eyebrow } from "@/components/typography/eyebrow"
 import { buttonVariants } from "@/components/ui/button"
@@ -45,6 +46,7 @@ export default function NotFound() {
           </div>
         </Container>
       </main>
+      <SiteFooter />
     </>
   )
 }

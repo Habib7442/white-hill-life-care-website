@@ -5,6 +5,7 @@ import { NavigationProgress } from "@/components/navigation-progress";
 import { SplashGate } from "@/components/preloader/splash-gate";
 import { SectionScroll } from "@/components/section-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
+import { getSiteSettings } from "@/lib/sanity/fetch";
 import { organizationJsonLd, rootMetadata, websiteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -28,7 +29,9 @@ const jakartaSans = Plus_Jakarta_Sans({
 
 export const metadata = rootMetadata;
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const settings = await getSiteSettings();
+
   return (
     // suppressHydrationWarning: SplashGate sets data-splash on <html> before hydration.
     <html
@@ -38,7 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <SplashGate />
-        <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={organizationJsonLd(settings)} />
         <JsonLd data={websiteJsonLd()} />
         {children}
         {/* These read the pathname (URL data), so they stream in after prerender. */}

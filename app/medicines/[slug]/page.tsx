@@ -11,6 +11,7 @@ import { ProductGallery } from "@/components/product-detail/product-gallery"
 import { ProductPageSkeleton } from "@/components/product-detail/product-page-skeleton"
 import { ProductSummary } from "@/components/product-detail/product-summary"
 import { StorageCard } from "@/components/product-detail/storage-card"
+import { SiteFooter } from "@/components/site-footer/site-footer"
 import { SiteHeader } from "@/components/site-header/site-header"
 import { SectionHeading } from "@/components/typography/section-heading"
 import { medicinesDisclaimer, medicinesHref, withPackImage } from "@/lib/products"
@@ -62,6 +63,7 @@ export default function MedicinePage({ params }: PageProps<"/medicines/[slug]">)
           <ProductPageContent params={params} />
         </Suspense>
       </main>
+      <SiteFooter />
     </>
   )
 }

@@ -27,6 +27,12 @@ export const company = {
     width: 640,
     height: 523,
   },
+  /** White version for the navy footer. */
+  logoWhite: {
+    src: "/brand/whitehill-logo-white.webp",
+    width: 640,
+    height: 517,
+  },
   /** WH leaf mark only (no wordmark), used on the splash screen. */
   mark: {
     src: "/brand/whitehill-mark.webp",

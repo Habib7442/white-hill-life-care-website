@@ -130,9 +130,9 @@ Logo, one-line company description, Company links, Medicine links, © line, medi
 | F1 | Sticky header; nav links scroll smoothly to sections | Must |
 | F2 | Mobile menu (hamburger) below 820 px width | Must |
 | F3 | Product cards driven from one data list so new products are easy to add | Must |
-| F4 | Contact form sends enquiry to company email (e.g. Formspree / EmailJS / own backend) | Must |
-| F5 | Form validation (required name + phone or email; valid email format) with success/error message | Must |
-| F6 | Spam protection on form (honeypot or reCAPTCHA / Turnstile) | Must |
+| F4 | Enquiry form opens the company WhatsApp with the details prefilled, after consent (user decision; replaces email delivery) | Must |
+| F5 | Form validation (required name + message; valid email / phone format when given) with a confirmation message | Must |
+| F6 | Spam protection on form — met by design: the customer sends the message from their own WhatsApp | Must |
 | F7 | Click-to-call and click-to-email links on mobile | Should |
 | F8 | WhatsApp chat button | Could |
 | F9 | Product image enlarges on click (lightbox) | Could |
@@ -174,7 +174,7 @@ These guide the copy; the client should have final copy checked by their regulat
 | Content & images | **Sanity** (headless CMS) — products, pack images and contact details |
 | Image delivery | Sanity image CDN (auto WebP/AVIF, resizing via `@sanity/image-url`) |
 | Database | **None** for Phase 1 — Sanity holds all content; no user data is stored |
-| Enquiry form | Formspree / Web3Forms / EmailJS → company email (no backend needed) |
+| Enquiry form | Opens the company WhatsApp with the details prefilled (no form service, no backend) |
 | Hosting | Vercel or Netlify |
 | Rebuilds | Sanity webhook → Vercel/Netlify deploy hook, so publishing in Sanity updates the live site |
 | Domain | Client-provided (to confirm) |
@@ -191,7 +191,7 @@ Sanity webhook ──► Vercel/Netlify rebuild ──► Static site fetches pr
                                                   ▼
                               Pack images served from Sanity CDN (WebP, resized)
 
-Visitor submits enquiry form ──► Form service ──► Company email inbox
+Visitor submits enquiry form ──► WhatsApp opens with the details ──► Visitor presses Send ──► Company WhatsApp
 ```
 
 ### 9.3 Sanity content model
@@ -318,7 +318,7 @@ All images below are uploaded to Sanity (pack images on each `product`, logo on 
 2. Domain name — already purchased?
 3. Are all products made by WHO-GMP certified manufacturers?
 4. Rx status and exact strengths for WeCalix, Cynovera and Haemoverse?
-5. Should enquiries also go to WhatsApp?
+5. ~~Should enquiries also go to WhatsApp?~~ Yes — enquiries go to WhatsApp only (decided).
 6. Any states / cities of current presence to show (e.g. "Serving Assam and the North-East")?
 7. Add CIN / GSTIN to the footer?
 8. More products coming soon — should we show a "Coming soon" note?
@@ -342,6 +342,6 @@ All images below are uploaded to Sanity (pack images on each `product`, logo on 
 
 - All four products displayed with correct composition and pack size as approved by the client.
 - Site uses only the blue-and-white palette defined in Design.md.
-- Enquiry form delivers to the company email and shows a confirmation.
+- Enquiry form opens the company WhatsApp with all details prefilled and shows a confirmation.
 - Works and looks correct on mobile and desktop.
 - No unverified claims, statistics or testimonials anywhere on the site.

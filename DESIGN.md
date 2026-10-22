@@ -143,7 +143,7 @@ Rules: molecules are decorative (hidden from screen readers), never cover text, 
 | 5 | Our Medicines | White | Heading + disclaimer · 2 × 2 product cards |
 | 6 | Quality | `--navy-900` | Heading left · 4 outlined cards right (2 × 2) |
 | 7 | Contact | `--blue-25` | Details left (address, phone, email) · form card right |
-| 8 | Footer | White, top border | Logo + blurb · Company links · Medicine links · © + disclaimer row |
+| 8 | Footer | `--navy-900` (user decision), white logo, `#D6E2F7` text | Logo + blurb · Company links · Medicine links · © + disclaimer row |
 
 ---
 

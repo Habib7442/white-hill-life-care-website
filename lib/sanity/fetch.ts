@@ -39,3 +39,5 @@ export async function getSiteSettings() {
   cacheTag("siteSettings")
   return client.fetch(siteSettingsQuery)
 }
+
+export type SiteSettings = NonNullable<Awaited<ReturnType<typeof getSiteSettings>>>

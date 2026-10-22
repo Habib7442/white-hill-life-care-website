@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 
+import { formatPhone } from "@/lib/contact"
+import type { SiteSettings } from "@/lib/sanity/fetch"
 import { company } from "@/lib/site"
 
 export const productionUrl = "https://whitehilllifecares.com"
@@ -44,7 +46,12 @@ export const rootMetadata: Metadata = {
   },
 }
 
-export function organizationJsonLd() {
+/** Contact fields come from siteSettings; empty ones are left out. */
+export function organizationJsonLd(settings: SiteSettings | null) {
+  const email = settings?.email?.trim()
+  const phone = settings?.phone?.trim()
+  const address = settings?.address?.trim()
+
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -53,8 +60,11 @@ export function organizationJsonLd() {
     url: siteUrl.href,
     logo: new URL(company.logo.src, siteUrl).href,
     description: company.description,
+    ...(email && { email }),
+    ...(phone && { telephone: formatPhone(phone) }),
     address: {
       "@type": "PostalAddress",
+      ...(address && { streetAddress: address.replace(/\s*\n\s*/g, ", ") }),
       addressCountry: "IN",
     },
     areaServed: "IN",
@@ -91,6 +101,23 @@ export const medicinesMetadata: Metadata = {
     card: "summary_large_image",
     title: `${medicinesTitle} | ${company.name}`,
     description: medicinesDescription,
+  },
+}
+
+const privacyTitle = "Privacy Policy"
+const privacyDescription = `How ${company.legalName} uses the details you share through the website enquiry form.`
+
+export const privacyMetadata: Metadata = {
+  title: privacyTitle,
+  description: privacyDescription,
+  alternates: { canonical: "/privacy" },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "/privacy",
+    siteName: company.legalName,
+    title: `${privacyTitle} | ${company.name}`,
+    description: privacyDescription,
   },
 }
 

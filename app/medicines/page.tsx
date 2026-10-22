@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs"
 import { Container } from "@/components/layout/container"
 import { ProductGrid } from "@/components/product-grid"
 import { MedicinesCatalog } from "@/components/sections/medicines-catalog"
+import { SiteFooter } from "@/components/site-footer/site-footer"
 import { SiteHeader } from "@/components/site-header/site-header"
 import { Eyebrow } from "@/components/typography/eyebrow"
 import { medicinesDisclaimer } from "@/lib/products"
@@ -54,6 +55,7 @@ export default async function MedicinesPage() {
           </Container>
         </div>
       </main>
+      <SiteFooter />
     </>
   )
 }

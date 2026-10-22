@@ -39,7 +39,7 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 - "Send an Enquiry" on medicine pages opens WhatsApp with a prefilled message and the page link (added at the user's request; `lib/whatsapp.ts`). Number: `siteSettings.whatsapp`, else `company.whatsapp` in `lib/site.ts`
 - Company details rendered from the Sanity `siteSettings` document
 - Embedded Sanity Studio at `/studio` for **local development only** (`npm run dev`); production builds return 404 (user request). The client edits content in the separate admin panel (`whitehill-lifecare-admin`)
-- Enquiry form sent through Web3Forms, with validation, honeypot spam protection, consent line, and success/error states
+- Enquiry form that opens the company WhatsApp with every field prefilled, after the customer ticks consent (added at the user's request, replacing Web3Forms; `prompts/contact-footer-privacy.md`). Number: `siteSettings.whatsapp`, else `company.whatsapp`
 - Privacy Policy page at `/privacy` (needed because the form collects personal data, DPDP Act 2023)
 - SEO basics: metadata, Open Graph image, `Organization` JSON-LD, `sitemap.xml`, `robots.txt`
 - Click-to-call / click-to-email links
@@ -114,7 +114,6 @@ Use the real docs, not memory:
 - `node_modules/next/dist/docs/` — Next.js routing, Server/Client Components, caching (`cacheComponents` is on), metadata, fonts, images, route handlers
 - `next-sanity`, `sanity`, and `@sanity/image-url` package docs — Studio embedding, client, GROQ, TypeGen, image URLs, webhooks
 - shadcn/ui — use the CLI (`npx shadcn@latest add <component>`) and the generated source in `components/ui/`. This project uses the **`base-nova` style on Base UI** (`@base-ui/react`), not Radix; follow the generated code, not Radix examples.
-- Web3Forms docs — fetch the current docs before building the form; do not assume field names or plan limits from memory.
 
 Project skills in `.claude/skills/` (use when the task fits):
 
@@ -186,7 +185,7 @@ Use:
 - **lucide-react** — icons
 - **Sanity + `next-sanity`** — content (products, pack images, site settings) and embedded Studio
 - **`@sanity/image-url`** — pack image URLs (WebP/AVIF, resized) through `next/image`
-- **Web3Forms** — enquiry form delivery to the company inbox
+- **WhatsApp (`wa.me` links)** — enquiry delivery; the customer sends the prefilled message from their own WhatsApp
 - **Zod** — validating form input
 - **Vercel** — hosting
 
@@ -251,7 +250,7 @@ Section anchors (`#about`, `#focus-areas`, `#medicines`, `#quality`, `#contact`)
 
 Content updates: two signed paths call `/api/revalidate` with `{ _type }`: the Sanity webhook (Studio and any API write; the route waits 3 s for Content Lake consistency) and the admin panel right after each save (`source: "admin"`, no wait). The route expires the tag with `revalidateTag(type, { expire: 0 })`, never `"max"`: with stale-while-revalidate a page rebuilt right after a change can bake in the stale data and cache it as fresh. The Sanity client reads the live API (`useCdn: false`) for the same reason; Next caches the results. See `prompts/instant-content-refresh.md`. Do not use full Vercel deploy hooks unless the user asks.
 
-The enquiry form posts directly to Web3Forms from the browser (Web3Forms' free plan requires browser submissions; its access key is public by design). Do not add a custom email route unless the user asks.
+The enquiry form sends nothing to any server: it builds a `wa.me` link with the details and opens it, and the customer presses Send in WhatsApp. Do not add a form service or a custom email route unless the user asks.
 
 ---
 
@@ -277,9 +276,10 @@ When copy is not given in `PRD.md`, write modest, factual placeholder copy and l
 # 11. Enquiry form
 
 - Fields: Full name (required), Phone, Email, "I am a" (Distributor/Stockist, Pharmacy, Healthcare professional, Other), Message, consent checkbox.
-- Validation (Zod, client-side): name required; **phone or email** required; email format valid when given; Indian phone format tolerant (spaces, `+91`).
-- Spam: Web3Forms honeypot field, visually hidden and excluded from tab order.
-- States: idle → submitting (button disabled) → success message, or error message with the phone/email fallback.
+- Validation (Zod, `lib/enquiry-schema.ts`, client-side): name and message required; phone and email optional (WhatsApp already shows the sender's number); email format valid when given; Indian phone format tolerant (spaces, `+91`); consent required.
+- Delivery: opens `wa.me/<company number>` with the fields in the message (`lib/contact.ts` `enquiryMessage`). The enquiry reaches the client only when the customer presses Send in WhatsApp.
+- Spam: no honeypot needed; a bot cannot send the WhatsApp message.
+- States: idle → invalid (errors) → "WhatsApp is opening" status with "Open WhatsApp again" and "Start a new enquiry".
 - Labels above fields; errors linked with `aria-describedby`; focus moves to the first invalid field.
 - Never log, store, or persist submitted data in the app.
 
@@ -315,7 +315,6 @@ The canonical list lives in `.env.example`. `.gitignore` ignores `.env*`, so add
 | `NEXT_PUBLIC_SANITY_API_VERSION` | Sanity API version date | client + server |
 | `SANITY_API_WRITE_TOKEN` | Local seed script only (`npm run seed`); not needed on Vercel | server only |
 | `SANITY_REVALIDATE_SECRET` | Verifies Sanity webhook signature | server only |
-| `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` | Web3Forms form key (public by design) | client + server |
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for metadata, sitemap, OG | client + server |
 
 Keep this table and `.env.example` in sync.
@@ -345,7 +344,6 @@ Keep this table and `.env.example` in sync.
 - **Unicode `×`** in pack sizes (`10 × 10`), not the letter `x`.
 - **The header is `fixed` and transparent over the hero** (`components/site-header/header-shell.tsx`). Any new page without the hero (e.g. `/privacy`, `/medicines/[slug]`) must render `<SiteHeader solid />` and add `pt-(--header-height)` to its first section. Nav links are `/#section` so they work from every page.
 - **Hydration:** the mobile menu and form are the only client state; do not read `window` during render.
-- **Web3Forms** blocks server-side submissions on the free plan; submit from the browser.
 
 ---
 
@@ -363,7 +361,7 @@ Manual checks to include in test steps when relevant:
 - keyboard-only navigation through the header, menu, and form; visible focus everywhere
 - every nav link scrolls to the correct section; hamburger opens and closes below 820 px
 - products appear in Sanity `order`; a hidden (`visible: false`) product disappears after publish
-- form: empty submit, invalid email, phone-only, email-only, honeypot filled, success, network error
+- form: empty submit, invalid email, invalid phone, no phone/email, consent unticked, valid submit opens WhatsApp with every field
 - no colours outside the palette, no dark mode, no cure claims, no invented numbers
 - Studio loads at `/studio` in `npm run dev` and shows `product` and `siteSettings`; a production build returns 404 there
 
