@@ -25,7 +25,7 @@ When the client saves anything in the admin panel, the live website shows the ch
 
 ## Decisions
 
-1. **Admin pings the website directly** after every successful write (save, delete, duplicate, show/hide, reorder, move, category and settings changes). It sends a signed `POST` to `https://whitehilllifecares.com/api/revalidate` with the same signature format Sanity uses, `{ _type }`. The Sanity webhook stays as a second path (Studio edits still use it).
+1. **Admin pings the website directly** after every successful write (save, delete, duplicate, show/hide, reorder, move, category and settings changes). It sends a signed `POST` to `https://whitehilllifecares.com/api/revalidate` with the same signature format Sanity uses and the body `{ _type, source: "admin" }` (see decision 4: without `source`, the route waits 3 s). The Sanity webhook stays as a second path (Studio edits still use it).
 2. **Website revalidates with `{ expire: 0 }`** instead of `"max"`: no visitor is served the old page after a change; the next request renders fresh (one slower load, ~1 s, then cached again).
 3. **Website reads Sanity's live API (`useCdn: false`)**. Pages are cached by Next and only rebuild after a change, so this adds a handful of requests per edit, not per visit. It prevents re-caching CDN-stale data.
 4. `next-sanity`'s `parseBody` waits 3 s by default (Sanity webhooks can arrive before the change is queryable). The route now parses without that wait and sleeps 3 s itself only for webhook calls; admin calls send `{ _type, source: "admin" }` after the write is committed and visible (`visibility: "sync"`), so they skip it.
