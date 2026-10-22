@@ -1,11 +1,7 @@
 import {
-  Activity,
   BadgeCheck,
-  Bone,
-  Droplet,
   FileText,
   FlaskConical,
-  Flower2,
   HeartPulse,
   Leaf,
   MapPin,
@@ -167,16 +163,3 @@ export const qualityPoints: IconCard[] = [
     icon: Truck,
   },
 ]
-
-// Focus-area tiles come from Sanity categories; this only picks an icon by
-// category slug. Categories added later in the admin get the fallback.
-const focusAreaIcons: Record<string, LucideIcon> = {
-  bone: Bone,
-  nerve: Activity,
-  women: Flower2,
-  iron: Droplet,
-}
-
-export function focusAreaIcon(slug: string): LucideIcon {
-  return focusAreaIcons[slug] ?? Pill
-}

@@ -21,6 +21,7 @@ export function Preloader() {
           width={company.mark.width}
           height={company.mark.height}
           loading="eager"
+          sizes="(min-width: 1024px) 280px, 192px"
           fetchPriority="high"
           className="w-48 animate-splash-pop lg:w-[280px]"
         />

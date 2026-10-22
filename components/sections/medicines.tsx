@@ -21,7 +21,7 @@ export async function Medicines() {
     <Section id={sectionIds.medicines} aria-labelledby="medicines-heading">
       <Container>
         <div className="mb-8 max-w-2xl">
-          <Eyebrow index="02">Our Medicines</Eyebrow>
+          <Eyebrow index="01">Our Medicines</Eyebrow>
           <SectionHeading id="medicines-heading" className="mt-3">
             Our Medicines
           </SectionHeading>

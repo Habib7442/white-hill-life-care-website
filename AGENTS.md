@@ -31,7 +31,7 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 
 ## In scope (Phase 1)
 
-- One page at `/` with anchor sections, in this order: Header, Hero, Therapeutic Focus Areas, Our Medicines, Quality, Contact, Footer (`PRD.md` §4–5)
+- One page at `/` with anchor sections, in this order: Header, Hero, Our Medicines, Quality, Contact, Footer (`PRD.md` §4–5). The Therapeutic Focus Areas section was removed (client rule 10.9)
 - A separate About page at `/about` (added at the user's request, replacing the home About section; `prompts/about-page.md`)
 - Sticky header with smooth-scroll nav and a hamburger menu below 820 px
 - Product cards rendered from Sanity `product` documents; category / dosage-form filters and a debounced search (client-side) on `/medicines`
@@ -248,7 +248,7 @@ Rules:
 | `/sitemap.xml`, `/robots.txt` | GET | Generated via `app/sitemap.ts`, `app/robots.ts` |
 | `/api/revalidate` | POST | Sanity webhook; verifies the signature with `SANITY_REVALIDATE_SECRET`, then revalidates content tags |
 
-Section anchors (`#focus-areas`, `#medicines`, `#quality`, `#contact`) are defined once in `lib/` and reused by the header, footer, and hero buttons. "About Us" links go to `/about`.
+Section anchors (`#medicines`, `#quality`, `#contact`) are defined once in `lib/` and reused by the header, footer, and hero buttons. "About Us" links go to `/about`.
 
 Content updates: two signed paths call `/api/revalidate` with `{ _type }`: the Sanity webhook (Studio and any API write; the route waits 3 s for Content Lake consistency) and the admin panel right after each save (`source: "admin"`, no wait). The route expires the tag with `revalidateTag(type, { expire: 0 })`, never `"max"`: with stale-while-revalidate a page rebuilt right after a change can bake in the stale data and cache it as fresh. The Sanity client reads the live API (`useCdn: false`) for the same reason; Next caches the results. See `prompts/instant-content-refresh.md`. Do not use full Vercel deploy hooks unless the user asks.
 
@@ -268,7 +268,7 @@ These come from `PRD.md` §8 and apply to every word you write on the site:
 6. **WHO-GMP** is claimed only as "WHO-GMP certified manufacturing partners". It is unconfirmed for all products (PRD §5.5); do not extend the claim.
 7. Show the registered name **WhiteHill Lifecares Pvt Ltd**. In any copy, render the company name with `<CompanyName />` (`components/typography/company-name.tsx`) so it is always bold; never type it as plain text. Add CIN/GSTIN only when `siteSettings` has them.
 8. The enquiry form shows a short consent line linking to `/privacy`.
-9. **No therapy areas in general company copy** (client decision). The portfolio is expanding (liver, pancreas, gastric medicines are coming), so hero, about, meta, and footer copy say "medicines for better support of health", never "bone", "women's"/"gynae", "nerve", or "iron". Therapy areas appear only on product data from Sanity.
+9. **No therapy areas in general company copy** (client decision). The portfolio is expanding (liver, pancreas, gastric medicines are coming), so hero, about, meta, and footer copy say "medicines for better support of health", never "bone", "women's"/"gynae", "nerve", or "iron". Therapy areas appear only on product data from Sanity. Category names are **not** shown as card/page tags or as a focus-areas section; they are used only for the `/medicines` filter.
 10. **Imagery shows Indian people** (client decision). Use photos of Indian / South Asian people only; no foreign stock models.
 
 When copy is not given in `PRD.md`, write modest, factual placeholder copy and list it under **Needs your attention** so the client can approve it.

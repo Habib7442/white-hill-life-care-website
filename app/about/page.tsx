@@ -1,6 +1,3 @@
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-
 import { AboutCta } from "@/components/about/about-cta"
 import { AboutHero } from "@/components/about/about-hero"
 import { CompanyFacts } from "@/components/about/company-facts"
@@ -11,9 +8,7 @@ import { SiteFooter } from "@/components/site-footer/site-footer"
 import { SiteHeader } from "@/components/site-header/site-header"
 import { Eyebrow } from "@/components/typography/eyebrow"
 import { SectionHeading } from "@/components/typography/section-heading"
-import { buttonVariants } from "@/components/ui/button"
-import { categoryOptions, medicinesHref } from "@/lib/products"
-import { getProducts, getSiteSettings } from "@/lib/sanity/fetch"
+import { getSiteSettings } from "@/lib/sanity/fetch"
 import { aboutMetadata } from "@/lib/seo"
 import { audiences, company, companyValues, qualityPoints } from "@/lib/site"
 import { sectionIds } from "@/lib/site-nav"
@@ -21,8 +16,7 @@ import { sectionIds } from "@/lib/site-nav"
 export const metadata = aboutMetadata
 
 export default async function AboutPage() {
-  const [settings, products] = await Promise.all([getSiteSettings(), getProducts()])
-  const categories = categoryOptions(products)
+  const settings = await getSiteSettings()
 
   return (
     <>
@@ -126,39 +120,6 @@ export default async function AboutPage() {
             </ol>
           </Container>
         </Section>
-
-        {/* Range: category names come only from Sanity (AGENTS §10.9). */}
-        {categories.length > 0 && (
-          <Section tone="tint" aria-labelledby="range-heading">
-            <Container className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-2xl">
-                <Eyebrow>Our range</Eyebrow>
-                <SectionHeading id="range-heading" className="mt-3">
-                  Our current range
-                </SectionHeading>
-                <p className="mt-4 text-[15px] leading-[1.6] text-ink-muted">
-                  Our medicines are grouped into these areas, and new medicines are being added.
-                </p>
-                <ul className="mt-6 flex flex-wrap gap-2">
-                  {categories.map(({ value, label }) => (
-                    <li key={value}>
-                      <Link
-                        href={`${medicinesHref}?category=${encodeURIComponent(value)}`}
-                        className="inline-flex min-h-11 items-center rounded-full border border-blue-100 bg-white px-5 text-sm font-semibold text-blue-700 transition-colors duration-150 hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-blue-600"
-                      >
-                        {label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <Link href={medicinesHref} className={buttonVariants({ className: "self-start lg:self-auto" })}>
-                View all medicines
-                <ArrowRight aria-hidden="true" strokeWidth={1.8} data-icon="inline-end" />
-              </Link>
-            </Container>
-          </Section>
-        )}
 
         {/* Company details */}
         <Section aria-labelledby="facts-heading">

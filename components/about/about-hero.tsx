@@ -54,6 +54,7 @@ export function AboutHero() {
                 alt=""
                 width={company.mark.width}
                 height={company.mark.height}
+                sizes="58px"
                 className="h-7 w-auto lg:h-9"
               />
             </div>

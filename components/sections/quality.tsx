@@ -17,7 +17,7 @@ export function Quality() {
       <CornerMolecule className="absolute -bottom-10 -left-12 hidden w-60 opacity-15 lg:block" />
       <Container className="relative grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
-          <Eyebrow index="03" onNavy>
+          <Eyebrow index="02" onNavy>
             Quality
           </Eyebrow>
           <SectionHeading id="quality-heading" onNavy className="mt-3">

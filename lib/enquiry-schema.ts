@@ -1,4 +1,5 @@
-import { z } from "zod"
+// zod/mini: same validation as zod with a much smaller client bundle.
+import * as z from "zod/mini"
 
 import { enquiryRoles } from "@/lib/contact"
 
@@ -7,28 +8,42 @@ export const MESSAGE_MAX = 1000
 // Tolerates spaces, dashes, brackets and a +91 / 91 / 0 prefix.
 const indianMobile = /^(?:\+?91|0)?[6-9]\d{9}$/
 
-const optional = z.string().trim().optional().default("")
+const emailSchema = z.email()
 
 export const enquirySchema = z.object({
   name: z
     .string()
-    .trim()
-    .min(2, "Enter your full name.")
-    .max(100, "Name is too long."),
-  phone: optional.refine(
-    (value) => value === "" || indianMobile.test(value.replace(/[\s\-()]/g, "")),
-    "Enter a valid 10-digit mobile number."
-  ),
-  email: optional.refine(
-    (value) => value === "" || z.email().safeParse(value).success,
-    "Enter a valid email address."
-  ),
-  role: z.enum(enquiryRoles).or(z.literal("")).optional().default(""),
+    .check(
+      z.trim(),
+      z.minLength(2, "Enter your full name."),
+      z.maxLength(100, "Name is too long.")
+    ),
+  phone: z
+    .string()
+    .check(
+      z.trim(),
+      z.refine(
+        (value) => value === "" || indianMobile.test(value.replace(/[\s\-()]/g, "")),
+        "Enter a valid 10-digit mobile number."
+      )
+    ),
+  email: z
+    .string()
+    .check(
+      z.trim(),
+      z.refine(
+        (value) => value === "" || z.safeParse(emailSchema, value).success,
+        "Enter a valid email address."
+      )
+    ),
+  role: z.union([z.enum(enquiryRoles), z.literal("")]),
   message: z
     .string()
-    .trim()
-    .min(5, "Tell us briefly what you would like to know.")
-    .max(MESSAGE_MAX, `Keep the message under ${MESSAGE_MAX} characters.`),
+    .check(
+      z.trim(),
+      z.minLength(5, "Tell us briefly what you would like to know."),
+      z.maxLength(MESSAGE_MAX, `Keep the message under ${MESSAGE_MAX} characters.`)
+    ),
   consent: z.literal(true, "Please agree before sending."),
 })
 

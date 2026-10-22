@@ -57,7 +57,7 @@ The site should feel **scientific, clean and trustworthy**: blue and white only,
 1. Header (logo + navigation + "Connect With Us")
 2. Hero
 3. ~~About Us~~ (moved to its own `/about` page, user decision 22 Oct 2026)
-4. Therapeutic Focus Areas
+4. ~~Therapeutic Focus Areas~~ (removed, see §5.3)
 5. Our Medicines (product portfolio)
 6. Quality
 7. Contact (enquiry form + details)
@@ -85,6 +85,9 @@ The site should feel **scientific, clean and trustworthy**: blue and white only,
 - Three value tags: Quality-led formulations · Transparent information · Responsible growth
 
 ### 5.3 Therapeutic Focus Areas
+
+> **Removed (22 Oct 2026).** The client does not want therapy areas named (liver, pancreas and gastric medicines are coming), so there is no focus-areas section and no category tags on product cards or pages.
+
 Four tiles, each linked to its brand:
 
 | Focus area | Brand |

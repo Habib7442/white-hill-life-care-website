@@ -17,7 +17,7 @@ type ProductCardProps = {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { name, mark, slug, composition, description, dosageForm, pack, category, packImage } =
+  const { name, mark, slug, composition, description, dosageForm, pack, packImage } =
     product
   const isRx = isPrescriptionOnly(product.schedule)
   const dimensions = packImage.asset.metadata?.dimensions
@@ -41,15 +41,15 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-5 lg:p-6">
-        <div className="flex flex-wrap gap-2">
-          <Chip>{category.title}</Chip>
-          {isRx && (
+        {/* No category tag: therapy areas aren't shown as labels (AGENTS §10.9). */}
+        {isRx && (
+          <div className="flex flex-wrap gap-2">
             <Chip variant="rx">
               <span aria-hidden="true">Rx</span>
               <span className="sr-only">Prescription only</span>
             </Chip>
-          )}
-        </div>
+          </div>
+        )}
 
         <h3 className="font-heading text-[22px] leading-tight font-bold text-navy-900 lg:text-2xl">
           {/* The link's ::after covers the whole card, so the card is one tab stop. */}

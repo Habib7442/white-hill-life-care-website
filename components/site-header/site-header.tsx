@@ -33,6 +33,8 @@ export function SiteHeader({ solid = false }: SiteHeaderProps) {
             width={company.logo.width}
             height={company.logo.height}
             loading="eager"
+            // Shown 52–60 px tall (~74 px wide); without sizes the 2x candidate is 1920 px.
+            sizes="74px"
             className="h-13 w-auto nav:h-15"
           />
         </a>

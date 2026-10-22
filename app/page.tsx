@@ -1,7 +1,6 @@
 import { Hero } from "@/components/hero/hero";
 import { Preloader } from "@/components/preloader/preloader";
 import { Contact } from "@/components/sections/contact";
-import { FocusAreas } from "@/components/sections/focus-areas";
 import { Medicines } from "@/components/sections/medicines";
 import { Quality } from "@/components/sections/quality";
 import { SiteFooter } from "@/components/site-footer/site-footer";
@@ -15,7 +14,6 @@ export default function Home() {
       <SiteHeader />
       <main id={sectionIds.main} tabIndex={-1} className="outline-none">
         <Hero />
-        <FocusAreas />
         <Medicines />
         <Quality />
         <Contact />

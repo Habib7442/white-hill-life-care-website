@@ -1,7 +1,6 @@
 export const sectionIds = {
   top: "top",
   main: "main",
-  focusAreas: "focus-areas",
   medicines: "medicines",
   quality: "quality",
   contact: "contact",

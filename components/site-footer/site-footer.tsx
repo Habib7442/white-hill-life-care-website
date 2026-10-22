@@ -60,6 +60,7 @@ export async function SiteFooter() {
                 alt={company.legalName}
                 width={company.logoWhite.width}
                 height={company.logoWhite.height}
+                sizes="80px"
                 className="h-16 w-auto"
               />
             </Link>

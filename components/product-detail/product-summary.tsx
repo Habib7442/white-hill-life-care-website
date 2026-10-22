@@ -45,15 +45,14 @@ export function ProductSummary({
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex flex-wrap gap-2">
-        <Chip>{product.category.title}</Chip>
-        {isRx && (
+      {isRx && (
+        <div className="flex flex-wrap gap-2">
           <Chip variant="rx">
             <span aria-hidden="true">Rx</span>
             <span className="sr-only">Prescription only</span>
           </Chip>
-        )}
-      </div>
+        </div>
+      )}
 
       <h1
         id="product-heading"
