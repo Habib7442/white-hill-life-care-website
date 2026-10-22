@@ -82,11 +82,17 @@ const products = [
   {
     slug: "haemoverse",
     name: "Haemoverse",
-    mark: "™",
+    // Confirmed by the client on 22 Oct 2026 (final pack): Schedule H, no ™.
+    mark: "",
     category: "iron",
     composition: "Ferrous Ascorbate & Folic Acid Tablets",
+    unitStatement: "Each film coated tablet contains:",
+    ingredients: [
+      ["Ferrous Ascorbate", "Eq. to elemental iron 100 mg"],
+      ["Folic Acid", "1.5 mg"],
+    ],
     pack: "10 × 10 Tablets",
-    schedule: "otc",
+    schedule: "h",
     order: 4,
     alt: "Haemoverse — Ferrous Ascorbate & Folic Acid tablets, 10 × 10 pack",
   },

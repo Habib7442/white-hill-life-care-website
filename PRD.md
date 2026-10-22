@@ -103,9 +103,9 @@ Each product card shows: pack image, focus-area tag, Rx tag (if applicable), bra
 | **WeCalix™** | Calcium Carbonate, Vitamin D3 & Folic Acid Tablets | 10 × 15 Tablets | No (per pack) | Bone & Calcium |
 | **Cynovera®** | Myo-Inositol, Folic Acid, Vitamin D3 & Essential Micronutrients | 10 × 10 Tablets | No (per pack) | Women's Wellness |
 | **Nersovia-CD3** | Benfotiamine 150 mg, Methylcobalamin 1500 mcg, Alpha Lipoic Acid 200 mg, Chromium Polynicotinate 200 mcg, Folic Acid 1.5 mg, Inositol 100 mg, Pyridoxine HCl 3 mg, Calcium Citrate Maleate 500 mg, Vitamin D3 1000 IU (confirmed by the client on 22 Oct 2026 as printed on the final pack; Schedule H, Alu-Alu; Mfd. by Dr. Edwin Medilabs Pvt. Ltd., Kurali) | 10 × 10 Tablets | **Yes** | Nerve Health |
-| **Haemoverse™** | Ferrous Ascorbate & Folic Acid Tablets | 10 × 10 Tablets | No (per pack) | Iron & Haemoglobin |
+| **Haemoverse** | Ferrous Ascorbate IP eq. to elemental iron 100 mg, Folic Acid IP 1.5 mg (confirmed by the client on 22 Oct 2026 as printed on the final pack; Schedule H, no ™; Mfd. by Dr. Edwin Medilabs Pvt. Ltd., Kurali) | 10 × 10 Tablets | **Yes** | Iron & Haemoglobin |
 
-> ⚠️ Client to confirm: Rx/OTC status, exact strengths for WeCalix, Cynovera and Haemoverse, and final pack artwork for each.
+> ⚠️ Client to confirm: Rx/OTC status and exact strengths for WeCalix and Cynovera, and final pack artwork for each. (Nersovia-CD3 and Haemoverse confirmed 22 Oct 2026.)
 
 Section disclaimer: *Product information is provided for general awareness. Please use any medicine only on the advice of a registered medical practitioner.*
 
