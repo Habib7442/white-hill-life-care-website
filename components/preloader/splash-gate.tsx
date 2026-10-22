@@ -4,7 +4,9 @@
 // set <html data-splash="skip">, which hides the Preloader (app/globals.css).
 // The attribute stays on <html> across client-side navigations, so a remounted
 // Preloader stays hidden too.
-const script = `try{var d=document.documentElement,k="wh-splash-seen";if(sessionStorage.getItem(k)||location.pathname!=="/"){d.dataset.splash="skip"}else{setTimeout(function(){d.dataset.splash="skip"},2900)}sessionStorage.setItem(k,"1")}catch(e){}`
+// If sessionStorage is blocked (it throws), `seen` stays true and the splash is
+// skipped, rather than replaying on every load.
+const script = `(function(){var d=document.documentElement,seen=true;try{var k="wh-splash-seen";seen=!!sessionStorage.getItem(k);sessionStorage.setItem(k,"1")}catch(e){}if(seen||location.pathname!=="/"){d.dataset.splash="skip"}else{setTimeout(function(){d.dataset.splash="skip"},2900)}})()`
 
 /**
  * Inline script that runs during HTML parsing, before the Preloader renders.
