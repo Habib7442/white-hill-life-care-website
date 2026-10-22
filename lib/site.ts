@@ -1,12 +1,23 @@
 import {
+  Activity,
   BadgeCheck,
+  Bone,
+  Droplet,
+  FileText,
+  FlaskConical,
+  Flower2,
   HeartPulse,
   Leaf,
   MapPin,
   Microscope,
   Pill,
   ShieldCheck,
+  Sprout,
   Stethoscope,
+  Store,
+  Tags,
+  Truck,
+  Warehouse,
   type LucideIcon,
 } from "lucide-react"
 
@@ -91,3 +102,81 @@ export const heroHighlights: HeroHighlight[] = [
   { label: "Made for Healthcare Professionals", icon: Stethoscope },
   { label: "Focus on India's Health & Wellness", icon: MapPin },
 ]
+
+export type IconCard = {
+  title: string
+  text: string
+  icon: LucideIcon
+}
+
+export const companyValues: IconCard[] = [
+  {
+    title: "Quality-led formulations",
+    text: "Each medicine is chosen with a clear purpose and made by WHO-GMP certified manufacturing partners.",
+    icon: FlaskConical,
+  },
+  {
+    title: "Transparent information",
+    text: "Composition, pack, storage and manufacturer details are shared openly on the pack and on our website.",
+    icon: FileText,
+  },
+  {
+    title: "Responsible growth",
+    text: "We add medicines to our range one at a time, only when we can supply them properly.",
+    icon: Sprout,
+  },
+]
+
+export const audiences: IconCard[] = [
+  {
+    title: "Distributors & stockists",
+    text: "Product details and a direct line to us for stocking enquiries.",
+    icon: Warehouse,
+  },
+  {
+    title: "Pharmacies",
+    text: "Clear compositions and pack sizes for every medicine we offer.",
+    icon: Store,
+  },
+  {
+    title: "Healthcare professionals",
+    text: "Accurate composition, strengths and Rx status for each product.",
+    icon: Stethoscope,
+  },
+]
+
+export const qualityPoints: IconCard[] = [
+  {
+    title: "Certified manufacturing",
+    text: "Our medicines are made by WHO-GMP certified manufacturing partners, named on each pack.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Considered formulations",
+    text: "Every formulation is chosen with a clear purpose and listed with its full composition.",
+    icon: FlaskConical,
+  },
+  {
+    title: "Clear labelling",
+    text: "Composition, pack size, storage and Rx status are printed on the pack and shown on our website.",
+    icon: Tags,
+  },
+  {
+    title: "Reliable supply",
+    text: "We plan stock with our distributors and stockists so orders can be met on time.",
+    icon: Truck,
+  },
+]
+
+// Focus-area tiles come from Sanity categories; this only picks an icon by
+// category slug. Categories added later in the admin get the fallback.
+const focusAreaIcons: Record<string, LucideIcon> = {
+  bone: Bone,
+  nerve: Activity,
+  women: Flower2,
+  iron: Droplet,
+}
+
+export function focusAreaIcon(slug: string): LucideIcon {
+  return focusAreaIcons[slug] ?? Pill
+}

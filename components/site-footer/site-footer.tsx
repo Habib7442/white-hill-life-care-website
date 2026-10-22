@@ -15,7 +15,9 @@ const FOOTER_MEDICINE_COUNT = 6
 
 const companyLinks = [
   { label: "Home", href: `/#${sectionIds.top}` },
+  { label: "About Us", href: "/about" },
   { label: "Products", href: medicinesHref },
+  { label: "Quality", href: `/#${sectionIds.quality}` },
   { label: "Contact", href: `/#${sectionIds.contact}` },
   { label: "Privacy Policy", href: "/privacy" },
 ]

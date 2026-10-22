@@ -31,7 +31,8 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 
 ## In scope (Phase 1)
 
-- One page at `/` with anchor sections, in this order: Header, Hero, About, Therapeutic Focus Areas, Our Medicines, Quality, Contact, Footer (`PRD.md` §4–5)
+- One page at `/` with anchor sections, in this order: Header, Hero, Therapeutic Focus Areas, Our Medicines, Quality, Contact, Footer (`PRD.md` §4–5)
+- A separate About page at `/about` (added at the user's request, replacing the home About section; `prompts/about-page.md`)
 - Sticky header with smooth-scroll nav and a hamburger menu below 820 px
 - Product cards rendered from Sanity `product` documents; category / dosage-form filters and a debounced search (client-side) on `/medicines`
 - A page per medicine at `/medicines/[slug]` (added at the user's request; `prompts/medicines-catalog-and-detail-pages.md`)
@@ -51,7 +52,7 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 - Blog, news, careers, testimonials, awards, counters/statistics
 - Multi-language support
 - Dark mode
-- Separate `/about`, `/contact` pages (Phase 2)
+- A separate `/contact` page (Phase 2)
 - Lightbox, floating WhatsApp button, Google Map (PRD "Could" items — only when asked)
 - Analytics (decided at launch)
 - Any database other than Sanity
@@ -239,6 +240,7 @@ Rules:
 | Route | Method | Purpose |
 |---|---|---|
 | `/` | GET | The single page |
+| `/about` | GET | About page |
 | `/privacy` | GET | Privacy Policy |
 | `/medicines` | GET | Medicines listing: search, filters, pagination (static; state in `?q=&category=&form=&page=`) |
 | `/medicines/[slug]` | GET | Medicine detail page (prerendered from Sanity slugs; new slugs render on first request) |
@@ -246,7 +248,7 @@ Rules:
 | `/sitemap.xml`, `/robots.txt` | GET | Generated via `app/sitemap.ts`, `app/robots.ts` |
 | `/api/revalidate` | POST | Sanity webhook; verifies the signature with `SANITY_REVALIDATE_SECRET`, then revalidates content tags |
 
-Section anchors (`#about`, `#focus-areas`, `#medicines`, `#quality`, `#contact`) are defined once in `lib/` and reused by the header, footer, and hero buttons.
+Section anchors (`#focus-areas`, `#medicines`, `#quality`, `#contact`) are defined once in `lib/` and reused by the header, footer, and hero buttons. "About Us" links go to `/about`.
 
 Content updates: two signed paths call `/api/revalidate` with `{ _type }`: the Sanity webhook (Studio and any API write; the route waits 3 s for Content Lake consistency) and the admin panel right after each save (`source: "admin"`, no wait). The route expires the tag with `revalidateTag(type, { expire: 0 })`, never `"max"`: with stale-while-revalidate a page rebuilt right after a change can bake in the stale data and cache it as fresh. The Sanity client reads the live API (`useCdn: false`) for the same reason; Next caches the results. See `prompts/instant-content-refresh.md`. Do not use full Vercel deploy hooks unless the user asks.
 

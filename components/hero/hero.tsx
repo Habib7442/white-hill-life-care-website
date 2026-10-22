@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
 import { HeroCategories } from "@/components/hero/hero-categories"
@@ -45,12 +46,12 @@ export function Hero() {
                 Explore Our Medicines
                 <ArrowRight data-icon="inline-end" />
               </a>
-              <a
-                href={`#${sectionIds.about}`}
+              <Link
+                href="/about"
                 className={buttonVariants({ variant: "outline" })}
               >
                 Know More
-              </a>
+              </Link>
             </div>
           </div>
         </Container>

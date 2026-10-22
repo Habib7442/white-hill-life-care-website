@@ -1,7 +1,6 @@
 export const sectionIds = {
   top: "top",
   main: "main",
-  about: "about",
   focusAreas: "focus-areas",
   medicines: "medicines",
   quality: "quality",
@@ -10,15 +9,15 @@ export const sectionIds = {
 
 // Section links point at "/#section" so they also work from other pages
 // (e.g. /medicines/[slug]); on the home page the browser just scrolls.
-// "Products" goes to the full /medicines listing.
+// "About Us" and "Products" are their own pages.
 export type NavLink = {
   label: string
-  href: `/#${string}` | "/medicines"
+  href: `/#${string}` | "/medicines" | "/about"
 }
 
 export const mainNav: NavLink[] = [
   { label: "Home", href: `/#${sectionIds.top}` },
-  { label: "About Us", href: `/#${sectionIds.about}` },
+  { label: "About Us", href: "/about" },
   { label: "Products", href: "/medicines" },
   { label: "Contact", href: `/#${sectionIds.contact}` },
 ]

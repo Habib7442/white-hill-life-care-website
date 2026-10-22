@@ -104,6 +104,23 @@ export const medicinesMetadata: Metadata = {
   },
 }
 
+const aboutTitle = "About us"
+const aboutDescription = `${company.legalName} is a newly established, India-based pharmaceutical marketing company offering medicines for better support of health.`
+
+export const aboutMetadata: Metadata = {
+  title: aboutTitle,
+  description: aboutDescription,
+  alternates: { canonical: "/about" },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "/about",
+    siteName: company.legalName,
+    title: `${aboutTitle} | ${company.name}`,
+    description: aboutDescription,
+  },
+}
+
 const privacyTitle = "Privacy Policy"
 const privacyDescription = `How ${company.legalName} uses the details you share through the website enquiry form.`
 

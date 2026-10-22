@@ -56,7 +56,7 @@ The site should feel **scientific, clean and trustworthy**: blue and white only,
 
 1. Header (logo + navigation + "Connect With Us")
 2. Hero
-3. About Us (Who we are)
+3. ~~About Us~~ (moved to its own `/about` page, user decision 22 Oct 2026)
 4. Therapeutic Focus Areas
 5. Our Medicines (product portfolio)
 6. Quality
@@ -111,7 +111,7 @@ Section disclaimer: *Product information is provided for general awareness. Plea
 
 ### 5.5 Quality
 Four short points: Certified manufacturing · Considered formulations · Clear labelling · Reliable supply.
-Only verifiable claims. The WHO-GMP claim is based on the manufacturer named on the Nersovia-CD3 pack (Bio Altus Pharma Pvt Ltd, Haridwar). **Client to confirm this applies to all products.**
+Only verifiable claims. The WHO-GMP claim was first based on the manufacturer named on the Nersovia-CD3 pack (Bio Altus Pharma Pvt Ltd, Haridwar), which no longer appears on the confirmed packs. **Decided 22 Oct 2026 (user): claim "WHO-GMP certified manufacturing partners" in About and Quality** (that wording only; no product-level claim or badge). Client to keep the manufacturers' certificates on file.
 
 ### 5.6 Contact
 - Enquiry form fields: Full name, Phone, Email, "I am a" (Distributor/Stockist, Pharmacy, Healthcare professional, Other), Message

@@ -17,7 +17,7 @@ export async function Contact() {
     <Section id={sectionIds.contact} tone="tint" aria-labelledby="contact-heading">
       <Container className="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
-          <Eyebrow index="05">Contact</Eyebrow>
+          <Eyebrow index="04">Contact</Eyebrow>
           <SectionHeading id="contact-heading" className="mt-3">
             Get in touch
           </SectionHeading>
