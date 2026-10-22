@@ -38,7 +38,7 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 - `/medicines` listing with search, category / dosage-form filters and pagination (12 per page, state in the URL); the home section previews the first 10 with a "View all medicines" button (added at the user's request; `prompts/medicines-listing-page.md`)
 - "Send an Enquiry" on medicine pages opens WhatsApp with a prefilled message and the page link (added at the user's request; `lib/whatsapp.ts`). Number: `siteSettings.whatsapp`, else `company.whatsapp` in `lib/site.ts`
 - Company details rendered from the Sanity `siteSettings` document
-- Embedded Sanity Studio at `/studio`
+- Embedded Sanity Studio at `/studio` for **local development only** (`npm run dev`); production builds return 404 (user request). The client edits content in the separate admin panel (`whitehill-lifecare-admin`)
 - Enquiry form sent through Web3Forms, with validation, honeypot spam protection, consent line, and success/error states
 - Privacy Policy page at `/privacy` (needed because the form collects personal data, DPDP Act 2023)
 - SEO basics: metadata, Open Graph image, `Organization` JSON-LD, `sitemap.xml`, `robots.txt`
@@ -243,13 +243,13 @@ Rules:
 | `/privacy` | GET | Privacy Policy |
 | `/medicines` | GET | Medicines listing: search, filters, pagination (static; state in `?q=&category=&form=&page=`) |
 | `/medicines/[slug]` | GET | Medicine detail page (prerendered from Sanity slugs; new slugs render on first request) |
-| `/studio` | GET | Embedded Sanity Studio (Sanity login protects it) |
+| `/studio` | GET | Embedded Sanity Studio, local development only; 404 in production builds |
 | `/sitemap.xml`, `/robots.txt` | GET | Generated via `app/sitemap.ts`, `app/robots.ts` |
 | `/api/revalidate` | POST | Sanity webhook; verifies the signature with `SANITY_REVALIDATE_SECRET`, then revalidates content tags |
 
 Section anchors (`#about`, `#focus-areas`, `#medicines`, `#quality`, `#contact`) are defined once in `lib/` and reused by the header, footer, and hero buttons.
 
-Content updates: publishing in Sanity fires a webhook to `/api/revalidate`, which revalidates by tag. Do not use full Vercel deploy hooks unless the user asks.
+Content updates: two signed paths call `/api/revalidate` with `{ _type }`: the Sanity webhook (Studio and any API write; the route waits 3 s for Content Lake consistency) and the admin panel right after each save (`source: "admin"`, no wait). The route expires the tag with `revalidateTag(type, { expire: 0 })`, never `"max"`: with stale-while-revalidate a page rebuilt right after a change can bake in the stale data and cache it as fresh. The Sanity client reads the live API (`useCdn: false`) for the same reason; Next caches the results. See `prompts/instant-content-refresh.md`. Do not use full Vercel deploy hooks unless the user asks.
 
 The enquiry form posts directly to Web3Forms from the browser (Web3Forms' free plan requires browser submissions; its access key is public by design). Do not add a custom email route unless the user asks.
 
@@ -300,7 +300,7 @@ Never run from the browser:
 Rules:
 
 - Only `NEXT_PUBLIC_*` variables may be read in Client Components.
-- The Sanity dataset is **public** (product content is public). Reads use the CDN client without a token. A write token is used only by local seed scripts, never by the app.
+- The Sanity dataset is **public** (product content is public). Reads use the live API (`useCdn: false`, cached by Next) without a token. A write token is used only by local seed scripts, never by the app. The separate admin panel holds its own write token and the revalidate secret, server-side only.
 - `/api/revalidate` rejects requests with a missing or invalid signature with `401`.
 - `next.config.ts` `images.remotePatterns` allows only `cdn.sanity.io`.
 
@@ -365,7 +365,7 @@ Manual checks to include in test steps when relevant:
 - products appear in Sanity `order`; a hidden (`visible: false`) product disappears after publish
 - form: empty submit, invalid email, phone-only, email-only, honeypot filled, success, network error
 - no colours outside the palette, no dark mode, no cure claims, no invented numbers
-- Studio loads at `/studio` and shows `product` and `siteSettings`
+- Studio loads at `/studio` in `npm run dev` and shows `product` and `siteSettings`; a production build returns 404 there
 
 ---
 
