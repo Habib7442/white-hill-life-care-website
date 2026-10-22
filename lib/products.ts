@@ -31,8 +31,11 @@ export function withPackImage<P extends { packImage: { asset: unknown } }>(produ
   return products.filter((p): p is WithPackImage<P> => p.packImage.asset != null)
 }
 
+/** The full medicines listing (search, filters, pagination). */
+export const medicinesHref = "/medicines"
+
 export function productHref(slug: string) {
-  return `/medicines/${slug}`
+  return `${medicinesHref}/${slug}`
 }
 
 // Standard caution printed on Schedule H / H1 packs.

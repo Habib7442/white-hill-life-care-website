@@ -13,7 +13,7 @@ import { ProductSummary } from "@/components/product-detail/product-summary"
 import { StorageCard } from "@/components/product-detail/storage-card"
 import { SiteHeader } from "@/components/site-header/site-header"
 import { SectionHeading } from "@/components/typography/section-heading"
-import { medicinesDisclaimer, withPackImage } from "@/lib/products"
+import { medicinesDisclaimer, medicinesHref, withPackImage } from "@/lib/products"
 import { getProductBySlug, getProductSlugs, getSiteSettings } from "@/lib/sanity/fetch"
 import { urlFor } from "@/lib/sanity/image"
 import { productMetadata } from "@/lib/seo"
@@ -87,7 +87,7 @@ async function ProductPageContent({
             <Breadcrumbs
               items={[
                 { label: "Home", href: "/" },
-                { label: "Our Medicines", href: `/#${sectionIds.medicines}` },
+                { label: "Our Medicines", href: medicinesHref },
                 { label: product.name },
               ]}
             />

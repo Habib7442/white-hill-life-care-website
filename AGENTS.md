@@ -33,8 +33,9 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 
 - One page at `/` with anchor sections, in this order: Header, Hero, About, Therapeutic Focus Areas, Our Medicines, Quality, Contact, Footer (`PRD.md` §4–5)
 - Sticky header with smooth-scroll nav and a hamburger menu below 820 px
-- Product cards rendered from Sanity `product` documents, with category / dosage-form filters and a debounced search (client-side)
+- Product cards rendered from Sanity `product` documents; category / dosage-form filters and a debounced search (client-side) on `/medicines`
 - A page per medicine at `/medicines/[slug]` (added at the user's request; `prompts/medicines-catalog-and-detail-pages.md`)
+- `/medicines` listing with search, category / dosage-form filters and pagination (12 per page, state in the URL); the home section previews the first 10 with a "View all medicines" button (added at the user's request; `prompts/medicines-listing-page.md`)
 - "Send an Enquiry" on medicine pages opens WhatsApp with a prefilled message and the page link (added at the user's request; `lib/whatsapp.ts`). Number: `siteSettings.whatsapp`, else `company.whatsapp` in `lib/site.ts`
 - Company details rendered from the Sanity `siteSettings` document
 - Embedded Sanity Studio at `/studio`
@@ -50,7 +51,7 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 - Blog, news, careers, testimonials, awards, counters/statistics
 - Multi-language support
 - Dark mode
-- Separate `/about`, `/medicines` (listing), `/contact` pages (Phase 2)
+- Separate `/about`, `/contact` pages (Phase 2)
 - Lightbox, floating WhatsApp button, Google Map (PRD "Could" items — only when asked)
 - Analytics (decided at launch)
 - Any database other than Sanity
@@ -240,6 +241,7 @@ Rules:
 |---|---|---|
 | `/` | GET | The single page |
 | `/privacy` | GET | Privacy Policy |
+| `/medicines` | GET | Medicines listing: search, filters, pagination (static; state in `?q=&category=&form=&page=`) |
 | `/medicines/[slug]` | GET | Medicine detail page (prerendered from Sanity slugs; new slugs render on first request) |
 | `/studio` | GET | Embedded Sanity Studio (Sanity login protects it) |
 | `/sitemap.xml`, `/robots.txt` | GET | Generated via `app/sitemap.ts`, `app/robots.ts` |

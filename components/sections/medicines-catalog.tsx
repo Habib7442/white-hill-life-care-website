@@ -1,9 +1,11 @@
 "use client"
 
+import { usePathname, useSearchParams } from "next/navigation"
 import { useMemo, useRef, useState, type ReactNode } from "react"
 
 import { FilterChips } from "@/components/filter-chips"
-import { ProductCard } from "@/components/product-card"
+import { Pagination } from "@/components/pagination"
+import { ProductGrid } from "@/components/product-grid"
 import { SearchInput } from "@/components/search-input"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,7 +18,10 @@ import {
 
 type MedicinesCatalogProps = {
   products: Product[]
+  pageSize: number
 }
+
+type UrlState = { q: string; category: string; form: string; page: number }
 
 function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -29,11 +34,16 @@ function FilterGroup({ title, children }: { title: string; children: ReactNode }
   )
 }
 
-export function MedicinesCatalog({ products }: MedicinesCatalogProps) {
-  const [query, setQuery] = useState("")
-  const [debouncedQuery, setDebouncedQuery] = useState("")
-  const [category, setCategory] = useState(ALL)
-  const [dosageForm, setDosageForm] = useState(ALL)
+/**
+ * Search, category / dosage-form chips and pagination for /medicines. The
+ * state lives in the URL (?q=&category=&form=&page=) so views can be shared,
+ * reloaded and reached with Back. Typing and filters replace the history
+ * entry; changing page pushes one, so Back returns to the previous page.
+ */
+export function MedicinesCatalog({ products, pageSize }: MedicinesCatalogProps) {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const resultsRef = useRef<HTMLParagraphElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
 
   const categories = useMemo(() => categoryOptions(products), [products])
@@ -41,20 +51,70 @@ export function MedicinesCatalog({ products }: MedicinesCatalogProps) {
   const showCategories = categories.length > 1
   const showForms = forms.length > 1
 
+  // Unknown values in the URL fall back to "All".
+  const q = searchParams.get("q") ?? ""
+  const categoryParam = searchParams.get("category")
+  const category = categories.some((c) => c.value === categoryParam) ? categoryParam! : ALL
+  const formParam = searchParams.get("form")
+  const dosageForm = forms.some((f) => f.value === formParam) ? formParam! : ALL
+
+  // The input updates on every keystroke; the URL (and results) once typing pauses.
+  const [query, setQuery] = useState(q)
+  const [syncedQ, setSyncedQ] = useState(q)
+  if (syncedQ !== q) {
+    // Back / Forward changed the URL: show its search text.
+    setSyncedQ(q)
+    setQuery(q)
+  }
+
   const results = useMemo(
-    () => filterProducts(products, { query: debouncedQuery, category, dosageForm }),
-    [products, debouncedQuery, category, dosageForm]
+    () => filterProducts(products, { query: q, category, dosageForm }),
+    [products, q, category, dosageForm]
   )
 
-  const filtering = debouncedQuery.trim() !== "" || category !== ALL || dosageForm !== ALL
+  const pageCount = Math.max(1, Math.ceil(results.length / pageSize))
+  const requestedPage = Number.parseInt(searchParams.get("page") ?? "1", 10)
+  const page = Number.isFinite(requestedPage) ? Math.min(Math.max(requestedPage, 1), pageCount) : 1
+  const start = (page - 1) * pageSize
+  const pageResults = results.slice(start, start + pageSize)
+
+  const filtering = q.trim() !== "" || category !== ALL || dosageForm !== ALL
+
+  function writeUrl(next: Partial<UrlState>, mode: "push" | "replace") {
+    const state: UrlState = { q, category, form: dosageForm, page, ...next }
+    const params = new URLSearchParams()
+    if (state.q.trim()) params.set("q", state.q.trim())
+    if (state.category !== ALL) params.set("category", state.category)
+    if (state.form !== ALL) params.set("form", state.form)
+    if (state.page > 1) params.set("page", String(state.page))
+    const qs = params.toString()
+    const url = qs ? `${pathname}?${qs}` : pathname
+    if (mode === "push") window.history.pushState(null, "", url)
+    else window.history.replaceState(null, "", url)
+  }
+
+  function goToPage(next: number) {
+    writeUrl({ page: next }, "push")
+    // Bring the results into view and move focus there for keyboard and
+    // screen-reader users.
+    resultsRef.current?.scrollIntoView({ block: "start" })
+    resultsRef.current?.focus({ preventScroll: true })
+  }
 
   function clearFilters() {
     setQuery("")
-    setDebouncedQuery("")
-    setCategory(ALL)
-    setDosageForm(ALL)
+    writeUrl({ q: "", category: ALL, form: ALL, page: 1 }, "replace")
     searchRef.current?.focus()
   }
+
+  const countText =
+    results.length === 0
+      ? ""
+      : results.length <= pageSize
+        ? `${results.length} ${results.length === 1 ? "medicine" : "medicines"}${
+            filtering ? ` of ${products.length}` : ""
+          }`
+        : `Showing ${pageResults.length === 1 ? start + 1 : `${start + 1}–${start + pageResults.length}`} of ${results.length} medicines`
 
   return (
     <>
@@ -63,7 +123,7 @@ export function MedicinesCatalog({ products }: MedicinesCatalogProps) {
           ref={searchRef}
           value={query}
           onValueChange={setQuery}
-          onDebouncedChange={setDebouncedQuery}
+          onDebouncedChange={(value) => writeUrl({ q: value, page: 1 }, "replace")}
           label="Search medicines"
           placeholder="Search by name or ingredient"
           className="w-full"
@@ -80,7 +140,7 @@ export function MedicinesCatalog({ products }: MedicinesCatalogProps) {
                   label="Filter by category"
                   options={[{ value: ALL, label: "All" }, ...categories]}
                   value={category}
-                  onChange={setCategory}
+                  onChange={(value) => writeUrl({ category: value, page: 1 }, "replace")}
                 />
               </FilterGroup>
             )}
@@ -90,7 +150,7 @@ export function MedicinesCatalog({ products }: MedicinesCatalogProps) {
                   label="Filter by dosage form"
                   options={[{ value: ALL, label: "All forms" }, ...forms]}
                   value={dosageForm}
-                  onChange={setDosageForm}
+                  onChange={(value) => writeUrl({ form: value, page: 1 }, "replace")}
                 />
               </FilterGroup>
             )}
@@ -98,22 +158,21 @@ export function MedicinesCatalog({ products }: MedicinesCatalogProps) {
         )}
       </div>
 
-      <p aria-live="polite" className="mt-6 min-h-[1lh] text-sm text-ink-muted">
-        {filtering && results.length > 0
-          ? `Showing ${results.length} of ${products.length} ${
-              products.length === 1 ? "medicine" : "medicines"
-            }`
-          : ""}
+      <p
+        ref={resultsRef}
+        id="medicine-results"
+        tabIndex={-1}
+        aria-live="polite"
+        className="mt-6 min-h-[1lh] scroll-mt-[calc(var(--header-height)+1rem)] text-sm text-ink-muted outline-none"
+      >
+        {countText}
       </p>
 
-      {results.length > 0 ? (
-        <ul className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {results.map((product) => (
-            <li key={product._id}>
-              <ProductCard product={product} />
-            </li>
-          ))}
-        </ul>
+      {pageResults.length > 0 ? (
+        <>
+          <ProductGrid products={pageResults} className="mt-4" />
+          <Pagination page={page} pageCount={pageCount} onChange={goToPage} className="mt-10" />
+        </>
       ) : (
         <div className="mt-4 flex flex-col items-start gap-4">
           <p role="status" className="text-[15px] text-ink-muted">

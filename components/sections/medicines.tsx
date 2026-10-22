@@ -1,11 +1,18 @@
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+
 import { Container } from "@/components/layout/container"
 import { Section } from "@/components/layout/section"
-import { MedicinesCatalog } from "@/components/sections/medicines-catalog"
+import { ProductGrid } from "@/components/product-grid"
 import { Eyebrow } from "@/components/typography/eyebrow"
 import { SectionHeading } from "@/components/typography/section-heading"
-import { medicinesDisclaimer } from "@/lib/products"
+import { buttonVariants } from "@/components/ui/button"
+import { medicinesDisclaimer, medicinesHref } from "@/lib/products"
 import { getProducts } from "@/lib/sanity/fetch"
 import { sectionIds } from "@/lib/site-nav"
+
+/** How many medicines the home page previews; the rest are on /medicines. */
+const HOME_PREVIEW_COUNT = 10
 
 export async function Medicines() {
   const products = await getProducts()
@@ -24,7 +31,16 @@ export async function Medicines() {
         </div>
 
         {products.length > 0 ? (
-          <MedicinesCatalog products={products} />
+          <>
+            {/* First 10 in the order set in Sanity / the admin. */}
+            <ProductGrid products={products.slice(0, HOME_PREVIEW_COUNT)} />
+            <div className="mt-10 flex justify-center">
+              <Link href={medicinesHref} className={buttonVariants()}>
+                View all medicines ({products.length})
+                <ArrowRight aria-hidden="true" strokeWidth={1.8} data-icon="inline-end" />
+              </Link>
+            </div>
+          </>
         ) : (
           <p className="text-[15px] text-ink-muted">
             Product information will be available here soon.

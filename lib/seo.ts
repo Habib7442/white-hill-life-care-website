@@ -71,6 +71,29 @@ export function websiteJsonLd() {
   }
 }
 
+const medicinesTitle = "Our Medicines"
+const medicinesDescription = `Browse ${company.name} medicines: composition, pack sizes and dosage forms.`
+
+/** Metadata for the /medicines listing. The site's Open Graph image is inherited. */
+export const medicinesMetadata: Metadata = {
+  title: medicinesTitle,
+  description: medicinesDescription,
+  alternates: { canonical: "/medicines" },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "/medicines",
+    siteName: company.legalName,
+    title: `${medicinesTitle} | ${company.name}`,
+    description: medicinesDescription,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${medicinesTitle} | ${company.name}`,
+    description: medicinesDescription,
+  },
+}
+
 type ProductSeoInput = {
   name: string
   slug: string
