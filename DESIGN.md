@@ -48,6 +48,8 @@ Taken from the WhiteHill logo.
 
 > Product pack colours (pink, orange, red) appear **only inside the pack images**. They are never used in the site UI.
 
+> **Approved exception (product range section only):** the four tiles after the hero use one soft palette: `--tile-blue #EAF2FF`, `--tile-mint #EAF7EF`, `--tile-sand #FBF6EA`, `--tile-slate #EEF2F7`. Titles `--navy-900`, lines `--ink-muted` (≥ 7.8:1). Do not use these colours anywhere else (`prompts/product-range-section.md`).
+
 ---
 
 ## 3. Typography

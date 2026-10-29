@@ -16,6 +16,8 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
+import { sectionIds } from "@/lib/site-nav"
+
 export const company = {
   name: "WhiteHill Lifecares",
   legalName: "WhiteHill Lifecares Pvt Ltd",
@@ -51,6 +53,52 @@ export const heroCapsule = {
   width: 1200,
   height: 900,
 } as const
+
+export type RangeTile = {
+  title: string
+  text: string
+  href: string
+  image: { src: string; width: number; height: number }
+  tone: "blue" | "mint" | "sand" | "slate"
+}
+
+/** Section after the hero (prompts/product-range-section.md). */
+export const productRange = {
+  heading: "Committed to Better Health and Wellness",
+  text: "Medicines chosen with a clear purpose, for distributors, pharmacies and healthcare professionals.",
+  /** Original image generated in Canva for WhiteHill (no third-party licence). */
+  image: { src: "/brand/range/dna-helix.webp", width: 900, height: 1204 },
+  tiles: [
+    {
+      title: "Pharmaceuticals",
+      text: "Quality medicines for better health",
+      href: "/medicines",
+      image: { src: "/brand/range/pharmaceuticals.webp", width: 603, height: 640 },
+      tone: "blue",
+    },
+    {
+      title: "Nutraceuticals",
+      text: "Everyday nutrition for active living",
+      href: "/medicines",
+      image: { src: "/brand/range/nutraceuticals.webp", width: 640, height: 528 },
+      tone: "mint",
+    },
+    {
+      title: "Wellness Products",
+      text: "Care for every stage of life",
+      href: "/medicines",
+      image: { src: "/brand/range/wellness.webp", width: 640, height: 535 },
+      tone: "sand",
+    },
+    {
+      title: "Quality Assured",
+      text: "Carefully sourced, clearly labelled",
+      href: `/#${sectionIds.quality}`,
+      image: { src: "/brand/range/quality.webp", width: 640, height: 486 },
+      tone: "slate",
+    },
+  ] satisfies RangeTile[],
+}
 
 export type HeroTrustItem = {
   label: string

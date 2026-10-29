@@ -18,6 +18,12 @@
   /* Hero intro text (prompts/hero-capsule-redesign.md). */
   --color-slate-800: #1e293b;
   --color-sky-100: #d5e8f7;
+  /* Product range tiles only (prompts/product-range-section.md): one soft
+     palette next to the brand blues. */
+  --color-tile-blue: #eaf2ff;
+  --color-tile-mint: #eaf7ef;
+  --color-tile-sand: #fbf6ea;
+  --color-tile-slate: #eef2f7;
   /* Hover/pressed shade of the primary, not a separate brand colour. */
   --color-blue-700: #1e3a8a;
   /* The one primary blue: buttons, links, focus (prompts/homepage-polish.md). */
