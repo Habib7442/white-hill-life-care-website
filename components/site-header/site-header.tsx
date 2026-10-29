@@ -33,9 +33,9 @@ export function SiteHeader({ solid = false }: SiteHeaderProps) {
             width={company.logo.width}
             height={company.logo.height}
             loading="eager"
-            // Shown 52–60 px tall (~74 px wide); without sizes the 2x candidate is 1920 px.
-            sizes="74px"
-            className="h-13 w-auto nav:h-15"
+            // Shown 40–54 px tall (up to ~66 px wide); 132px always picks a 2x candidate.
+            sizes="132px"
+            className="h-10 w-auto nav:h-[54px]"
           />
         </a>
 
@@ -58,6 +58,7 @@ export function SiteHeader({ solid = false }: SiteHeaderProps) {
           href={headerCta.href}
           className={buttonVariants({
             size: "sm",
+            shape: "rounded",
             className: "hidden nav:inline-flex",
           })}
         >

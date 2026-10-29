@@ -24,7 +24,7 @@ const sourceSerif = Source_Serif_4({
 const jakartaSans = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
-  weight: ["800"],
+  weight: ["600", "800"],
 });
 
 export const metadata = rootMetadata;
@@ -39,7 +39,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       className={`${plexSans.variable} ${sourceSerif.variable} ${jakartaSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      {/* suppressHydrationWarning: browser extensions add attributes to <body> before hydration. */}
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <SplashGate />
         <JsonLd data={organizationJsonLd(settings)} />
         <JsonLd data={websiteJsonLd()} />

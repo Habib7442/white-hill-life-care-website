@@ -79,7 +79,7 @@ export function MobileMenu({ links, cta }: MobileMenuProps) {
           <a
             href={cta.href}
             onClick={close}
-            className={buttonVariants({ className: "mt-5 w-full" })}
+            className={buttonVariants({ shape: "rounded", className: "mt-5 w-full" })}
           >
             {cta.label}
           </a>

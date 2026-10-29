@@ -1,12 +1,11 @@
 import {
+  Atom,
   BadgeCheck,
   FileText,
   FlaskConical,
-  HeartPulse,
-  Leaf,
+  HandHeart,
   MapPin,
-  Microscope,
-  Pill,
+  Package,
   ShieldCheck,
   Sprout,
   Stethoscope,
@@ -16,8 +15,6 @@ import {
   Warehouse,
   type LucideIcon,
 } from "lucide-react"
-
-import { sectionIds } from "@/lib/site-nav"
 
 export const company = {
   name: "WhiteHill Lifecares",
@@ -48,55 +45,59 @@ export const company = {
   },
 } as const
 
-export const heroImages = {
-  desktop: { src: "/brand/hero-bg.webp", width: 1672, height: 941 },
-  mobile: { src: "/brand/hero-bg-mobile.webp", width: 1122, height: 1402 },
+/** Opened capsule on the hero (decorative, transparent background). */
+export const heroCapsule = {
+  src: "/brand/hero-capsule.webp",
+  width: 1200,
+  height: 900,
 } as const
 
-export type HeroCategory = {
-  title: string
-  text: string
-  href: `#${string}`
+export type HeroTrustItem = {
+  label: string
+  /** Shown from 1024px so the row fits on one line; `label` stays for screen readers. */
+  shortLabel?: string
   icon: LucideIcon
 }
 
-export const heroCategories: HeroCategory[] = [
+// Modest, factual points for a newly launched marketing company: no counts or years.
+export const heroTrust: HeroTrustItem[] = [
+  { label: "A growing range of medicines", icon: Package },
   {
-    title: "Pharmaceuticals",
-    text: "Quality medicines for better health",
-    href: `#${sectionIds.medicines}`,
-    icon: Pill,
-  },
-  {
-    title: "Nutraceuticals",
-    text: "Everyday nutrition for active living",
-    href: `#${sectionIds.medicines}`,
-    icon: Leaf,
-  },
-  {
-    title: "Wellness Products",
-    text: "Care for every stage of life",
-    href: `#${sectionIds.medicines}`,
-    icon: HeartPulse,
-  },
-  {
-    title: "Commitment to Quality",
-    text: "Carefully sourced, clearly labelled",
-    href: `#${sectionIds.quality}`,
+    label: "WHO-GMP Certified Manufacturing Partners",
+    shortLabel: "WHO-GMP Certified Partners",
     icon: ShieldCheck,
   },
+  { label: "Distribution across India", icon: MapPin },
 ]
 
 export type HeroHighlight = {
   label: string
+  /** Supporting line under the label. */
+  text: string
   icon: LucideIcon
 }
 
 export const heroHighlights: HeroHighlight[] = [
-  { label: "Scientific Formulations", icon: Microscope },
-  { label: "Quality Manufacturing Partners", icon: BadgeCheck },
-  { label: "Made for Healthcare Professionals", icon: Stethoscope },
-  { label: "Focus on India's Health & Wellness", icon: MapPin },
+  {
+    label: "Scientific Formulations",
+    text: "Each formula chosen with a clear purpose",
+    icon: Atom,
+  },
+  {
+    label: "Quality Manufacturing Partners",
+    text: "Manufacturer named on every pack",
+    icon: BadgeCheck,
+  },
+  {
+    label: "Made for Healthcare Professionals",
+    text: "Full composition and Rx status for every product",
+    icon: Stethoscope,
+  },
+  {
+    label: "Focus on India's Health & Wellness",
+    text: "Marketing and supplying medicines across India",
+    icon: HandHeart,
+  },
 ]
 
 export type IconCard = {

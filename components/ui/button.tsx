@@ -3,15 +3,15 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 
 const buttonStyles = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-full border border-transparent bg-clip-padding text-[15px] font-semibold whitespace-nowrap transition-colors duration-150 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center border border-transparent bg-clip-padding text-[15px] font-semibold whitespace-nowrap transition-[color,background-color,border-color,box-shadow,translate,scale] duration-150 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-blue-600 text-white hover:bg-blue-700",
+        default: "bg-blue-600 text-white hover:bg-blue-700 motion-safe:hover:-translate-y-0.5 hover:shadow-md hover:shadow-blue-600/20 motion-safe:active:scale-[0.98]",
         outline:
-          "border-[1.5px] border-blue-600 bg-white text-blue-600 hover:bg-blue-25 aria-expanded:bg-blue-25",
+          "border-[1.5px] border-blue-600 bg-white text-blue-600 hover:bg-blue-25 aria-expanded:bg-blue-25 motion-safe:hover:-translate-y-0.5 hover:shadow-md hover:shadow-blue-600/20 motion-safe:active:scale-[0.98]",
         secondary:
-          "bg-blue-50 text-blue-700 hover:bg-blue-100 aria-expanded:bg-blue-100",
+          "bg-blue-50 text-blue-700 hover:bg-blue-100 aria-expanded:bg-blue-100 motion-safe:hover:-translate-y-0.5 hover:shadow-md hover:shadow-blue-600/20 motion-safe:active:scale-[0.98]",
         ghost:
           "text-navy-900 hover:bg-blue-50 aria-expanded:bg-blue-50",
         destructive:
@@ -24,10 +24,16 @@ const buttonStyles = cva(
         sm: "min-h-10 gap-1.5 px-5 text-sm has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
         icon: "size-11",
       },
+      // Radius lives here, not in the base, so cn never sees two radius classes.
+      shape: {
+        pill: "rounded-full",
+        rounded: "rounded-md",
+      },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
+      shape: "pill",
     },
   }
 )
@@ -42,12 +48,13 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  shape = "pill",
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonStyles>) {
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonStyles({ variant, size, className }))}
+      className={cn(buttonStyles({ variant, size, shape, className }))}
       {...props}
     />
   )
