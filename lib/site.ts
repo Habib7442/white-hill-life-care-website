@@ -54,19 +54,14 @@ export const heroCapsule = {
 
 export type HeroTrustItem = {
   label: string
-  /** Shown from 1024px so the row fits on one line; `label` stays for screen readers. */
-  shortLabel?: string
   icon: LucideIcon
 }
 
 // Modest, factual points for a newly launched marketing company: no counts or years.
 export const heroTrust: HeroTrustItem[] = [
   { label: "A growing range of medicines", icon: Package },
-  {
-    label: "WHO-GMP Certified Manufacturing Partners",
-    shortLabel: "WHO-GMP Certified Partners",
-    icon: ShieldCheck,
-  },
+  // Approved wording (AGENTS.md §10.6): never shorten it.
+  { label: "WHO-GMP Certified Manufacturing Partners", icon: ShieldCheck },
   { label: "Distribution across India", icon: MapPin },
 ]
 

@@ -98,3 +98,13 @@ No copy changes except the possible shortened WHO-GMP label. "WHO-GMP Certified 
 5. Hover and click the buttons: small lift, press-in.
 6. DevTools → Rendering → "prefers-reduced-motion: reduce": only fades, no float, no tilt.
 7. At 390 px (touch emulation): no tilt, no horizontal scroll.
+
+## Update: full WHO-GMP wording restored (code review)
+
+Review flagged that the desktop-only "WHO-GMP Certified Partners" hid the approved wording from sighted visitors (AGENTS.md §10.6). The short label is removed; "WHO-GMP Certified Manufacturing Partners" shows at every width.
+
+- 1024–1279 px: the trust row wraps to two lines; the text column is capped at 560 px so the capsule keeps its size.
+- 1280 px and up: one line at 13 px, text column sized to its content (`auto`).
+- The 80 px capsule shift is removed: the wider text column already narrows the middle gap, and the shift would bring the capsule within reach of the row.
+
+The tilt also ignores non-mouse pointers (touchscreen laptops pass `(pointer: fine)` but send touch moves).

@@ -46,6 +46,10 @@ export function CapsuleTilt({
     }
 
     function onPointerMove(event: PointerEvent) {
+      // (pointer: fine) only describes the primary pointer; touchscreen
+      // laptops still send touch moves here.
+      if (event.pointerType !== "mouse") return
+
       const box = el!.getBoundingClientRect()
       // -1..1 from the capsule centre, measured across half the viewport.
       const dx = (event.clientX - (box.left + box.width / 2)) / (window.innerWidth / 2)

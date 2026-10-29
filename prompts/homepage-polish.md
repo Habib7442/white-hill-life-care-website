@@ -105,31 +105,30 @@ None new. Static content, no client code added.
 
 ## Compliance check
 
-- No real numbers invented. All figures are bracketed placeholders and never ship to production.
+- No numbers or years anywhere (see the update at the end: placeholders were replaced with final copy).
 - WHO-GMP wording is exactly "WHO-GMP certified manufacturing partners" (rule 6).
-- "Become a distributor": no claims. "Serving patients across [region]" is a placeholder. Client must confirm the wording.
-- "[XX]+ Years": WhiteHill is newly launched. The client may prefer to drop this item.
+- "Become a distributor": no claims. "Distribution across India" / "Marketing and supplying medicines across India" rely on the user's statement that WhiteHill distributes across India; the client should confirm.
 
 ## Acceptance criteria
 
 1. Only `#2563EB` is the primary blue site-wide; no `blue-500` left anywhere.
 2. Logo is 36 px tall on mobile and 44 px on desktop, not stretched, vertically centred with the nav.
 3. At 1024 and 1440 px the hero is a 55/45 grid with no empty gap; capsule fully visible inside the container.
-4. Trust row under the buttons: four items in dev, only WHO-GMP in a production build.
+4. Trust row under the buttons shows the same three items in dev and production: "A growing range of medicines", "WHO-GMP Certified Manufacturing Partners", "Distribution across India". No bracketed placeholders.
 5. Hero secondary CTA reads "Become a distributor" and scrolls to Contact; header CTA has the same 8 px radius and primary colour.
 6. Below 768 px the capsule sits above the headline, ≤ 220 px tall, centred.
-7. Feature strip: one column below 640 px, sublines in dev only.
+7. Feature strip: one column below 640 px; each item shows its final supporting line in dev and production.
 8. No horizontal scroll at 390, 768, 1024, 1440 px. `tsc`, lint, build pass.
 
 ## Checks to run
 
-`npx tsc --noEmit`, `npm run lint`, `npm run build`; screenshots at 390 / 768 / 1024 / 1440 px (dev for placeholders, production for the shipped view), plus a `scrollWidth` check at each width.
+`npx tsc --noEmit`, `npm run lint`, `npm run build`; screenshots at 390 / 768 / 1024 / 1440 px in dev and in a production build (the copy must match), plus a `scrollWidth` check at each width.
 
 ## Manual test steps
 
 1. `npm run dev` → `http://localhost:3000/` at 1440, 1024, 768, 390 px.
-2. Confirm the trust-row and strip placeholders appear in dev.
-3. `npm run build && npm run start` → placeholders gone, WHO-GMP badge only.
+2. Confirm the trust row shows the three final items and each strip item shows its supporting line; no `[...]` text anywhere.
+3. `npm run build && npm run start` → the same trust-row items and strip lines as in dev.
 4. Click "Become a distributor" → scrolls to Contact. Tab through header and hero: focus outlines visible.
 5. Check buttons elsewhere (medicines filters, contact form, about page) are still pills and in the new blue.
 
