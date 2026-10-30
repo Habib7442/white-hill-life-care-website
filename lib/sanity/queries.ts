@@ -21,6 +21,7 @@ const productCardFields = `
   composition,
   description,
   dosageForm,
+  productType,
   pack,
   schedule,
   "category": category->{ _id, title, "slug": slug.current, order },
@@ -39,7 +40,6 @@ export const productSlugsQuery = defineQuery(`
 export const productBySlugQuery = defineQuery(`
   *[${completeProduct} && slug.current == $slug][0] {
     ${productCardFields},
-    productType,
     unitStatement,
     ingredients[]{ _key, ingredient, standard, strength },
     excipients,

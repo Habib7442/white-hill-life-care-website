@@ -16,6 +16,7 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
+import type { RangeMatch } from "@/lib/products"
 import { sectionIds } from "@/lib/site-nav"
 
 export const company = {
@@ -98,6 +99,86 @@ export const productRange = {
       tone: "slate",
     },
   ] satisfies RangeTile[],
+}
+
+export type ExploreTile = {
+  /** Also the "Coming soon" page path: /range/[slug]. */
+  slug: string
+  title: string
+  text: string
+  icon: string
+  /** Which products open this range; see rangeHref() in lib/products.ts. */
+  match: RangeMatch
+}
+
+/**
+ * "Explore our product range" (prompts/explore-range-section.md). A card links
+ * to the filtered /medicines list once a product matches, otherwise to its
+ * "Coming soon" page. The therapy cards activate when the client adds a
+ * category with the listed slug in the admin panel.
+ */
+export const exploreRange = {
+  heading: "Explore Our Product Range",
+  intro:
+    "We are building a focused range of medicines and wellness products. Choose a category to see what is available.",
+  tiles: [
+    {
+      slug: "tablets",
+      title: "Tablets",
+      text: "Solid oral dose",
+      icon: "/brand/explore/tablets-3d.webp",
+      match: { forms: ["Tablets"] },
+    },
+    {
+      slug: "capsules",
+      title: "Capsules",
+      text: "Oral capsules",
+      icon: "/brand/explore/capsules-3d.webp",
+      match: { forms: ["Capsules"] },
+    },
+    {
+      slug: "syrups",
+      title: "Syrups",
+      text: "Liquid formulations",
+      icon: "/brand/explore/syrups-3d.webp",
+      match: { forms: ["Syrup", "Syrups", "Suspension"] },
+    },
+    {
+      slug: "nutraceuticals",
+      title: "Nutraceuticals",
+      text: "Daily supplements",
+      icon: "/brand/explore/nutraceuticals-3d.webp",
+      match: { types: ["nutraceutical"] },
+    },
+    {
+      slug: "pediatric-care",
+      title: "Pediatric Care",
+      text: "Formulations for children",
+      icon: "/brand/explore/pediatric-care-3d.webp",
+      match: { categories: ["pediatric-care", "paediatric-care"] },
+    },
+    {
+      slug: "diabetes-care",
+      title: "Diabetes Care",
+      text: "Blood sugar support",
+      icon: "/brand/explore/diabetes-care-3d.webp",
+      match: { categories: ["diabetes-care"] },
+    },
+    {
+      slug: "gastro-care",
+      title: "Gastro Care",
+      text: "Digestive support",
+      icon: "/brand/explore/gastro-care-3d.webp",
+      match: { categories: ["gastro-care"] },
+    },
+    {
+      slug: "personal-care",
+      title: "Personal Care",
+      text: "Skin and hygiene care",
+      icon: "/brand/explore/personal-care-3d.webp",
+      match: { categories: ["personal-care"] },
+    },
+  ] satisfies ExploreTile[],
 }
 
 export type HeroTrustItem = {

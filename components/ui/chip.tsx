@@ -9,6 +9,7 @@ const chipVariants = cva(
       variant: {
         default: "bg-blue-50 text-blue-700",
         rx: "bg-navy-900 text-white",
+        nutraceutical: "bg-nutra text-white",
       },
     },
     defaultVariants: {

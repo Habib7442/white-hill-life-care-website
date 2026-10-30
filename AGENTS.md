@@ -242,8 +242,9 @@ Rules:
 | `/` | GET | The single page |
 | `/about` | GET | About page |
 | `/privacy` | GET | Privacy Policy |
-| `/medicines` | GET | Medicines listing: search, filters, pagination (static; state in `?q=&category=&form=&page=`) |
+| `/medicines` | GET | Medicines listing: search, filters, pagination (static; state in `?q=&category=&form=&type=&page=`) |
 | `/medicines/[slug]` | GET | Medicine detail page (prerendered from Sanity slugs; new slugs render on first request) |
+| `/range/[slug]` | GET | "Coming soon" page for a home "Explore our product range" card with no products yet (`noindex`, not in the sitemap; `prompts/explore-range-section.md`) |
 | `/studio` | GET | Embedded Sanity Studio, local development only; 404 in production builds |
 | `/sitemap.xml`, `/robots.txt` | GET | Generated via `app/sitemap.ts`, `app/robots.ts` |
 | `/api/revalidate` | POST | Sanity webhook; verifies the signature with `SANITY_REVALIDATE_SECRET`, then revalidates content tags |
@@ -268,7 +269,7 @@ These come from `PRD.md` §8 and apply to every word you write on the site:
 6. **WHO-GMP** is claimed only as "WHO-GMP certified manufacturing partners". It is unconfirmed for all products (PRD §5.5); do not extend the claim.
 7. Show the registered name **WhiteHill Lifecares Pvt Ltd**. In any copy, render the company name with `<CompanyName />` (`components/typography/company-name.tsx`) so it is always bold; never type it as plain text. Add CIN/GSTIN only when `siteSettings` has them.
 8. The enquiry form shows a short consent line linking to `/privacy`.
-9. **No therapy areas in general company copy** (client decision). The portfolio is expanding (liver, pancreas, gastric medicines are coming), so hero, about, meta, and footer copy say "medicines for better support of health", never "bone", "women's"/"gynae", "nerve", or "iron". Therapy areas appear only on product data from Sanity. Category names are **not** shown as card/page tags or as a focus-areas section; they are used only for the `/medicines` filter.
+9. **No therapy areas in general company copy** (client decision). The portfolio is expanding (liver, pancreas, gastric medicines are coming), so hero, about, meta, and footer copy say "medicines for better support of health", never "bone", "women's"/"gynae", "nerve", or "iron". Therapy areas appear only on product data from Sanity. Category names are **not** shown as card/page tags or as a focus-areas section; they are used only for the `/medicines` filter. **User-approved exception (client to confirm):** the home "Explore Our Product Range" section shows the cards Pediatric Care, Diabetes Care and Gastro Care, which open their "Coming soon" page until products exist (`prompts/explore-range-section.md`).
 10. **Imagery shows Indian people** (client decision). Use photos of Indian / South Asian people only; no foreign stock models.
 
 When copy is not given in `PRD.md`, write modest, factual placeholder copy and list it under **Needs your attention** so the client can approve it.

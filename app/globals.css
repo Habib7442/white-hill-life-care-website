@@ -24,6 +24,10 @@
   --color-tile-mint: #eaf7ef;
   --color-tile-sand: #fbf6ea;
   --color-tile-slate: #eef2f7;
+  /* "Explore our product range" cards (prompts/explore-range-section.md). */
+  --color-mist: #eaeef9;
+  /* "Nutraceutical" badge on product cards only (user request; white text 5:1). */
+  --color-nutra: #15803d;
   /* Hover/pressed shade of the primary, not a separate brand colour. */
   --color-blue-700: #1e3a8a;
   /* The one primary blue: buttons, links, focus (prompts/homepage-polish.md). */

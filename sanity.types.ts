@@ -308,7 +308,7 @@ export type AllSanitySchemaTypes =
 
 // Source: lib/sanity/queries.ts
 // Variable: productsQuery
-// Query: *[  _type == "product" && visible == true  && defined(name) && defined(slug.current) && defined(composition)  && defined(category->title)  && defined(packImage.asset) && defined(packImage.alt)] | order(order asc) {   _id,  name,  mark,  "slug": slug.current,  composition,  description,  dosageForm,  pack,  schedule,  "category": category->{ _id, title, "slug": slug.current, order },  "ingredientNames": ingredients[].ingredient,  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } } }
+// Query: *[  _type == "product" && visible == true  && defined(name) && defined(slug.current) && defined(composition)  && defined(category->title)  && defined(packImage.asset) && defined(packImage.alt)] | order(order asc) {   _id,  name,  mark,  "slug": slug.current,  composition,  description,  dosageForm,  productType,  pack,  schedule,  "category": category->{ _id, title, "slug": slug.current, order },  "ingredientNames": ingredients[].ingredient,  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } } }
 export type ProductsQueryResult = Array<{
   _id: string;
   name: string;
@@ -326,6 +326,7 @@ export type ProductsQueryResult = Array<{
     | "Suspension"
     | "Syrup"
     | "Tablets";
+  productType: "nutraceutical" | "pharmaceutical" | "wellness";
   pack: string;
   schedule: "h" | "h1" | "otc";
   category: {
@@ -360,7 +361,7 @@ export type ProductSlugsQueryResult = Array<{
 
 // Source: lib/sanity/queries.ts
 // Variable: productBySlugQuery
-// Query: *[  _type == "product" && visible == true  && defined(name) && defined(slug.current) && defined(composition)  && defined(category->title)  && defined(packImage.asset) && defined(packImage.alt) && slug.current == $slug][0] {      _id,  name,  mark,  "slug": slug.current,  composition,  description,  dosageForm,  pack,  schedule,  "category": category->{ _id, title, "slug": slug.current, order },  "ingredientNames": ingredients[].ingredient,  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },    productType,    unitStatement,    ingredients[]{ _key, ingredient, standard, strength },    excipients,    colour,    supports,    directions,    packType,    storage,    shelfLife,    manufacturer,    gallery[defined(asset) && defined(alt)]{ _key, alt, caption, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },    "leafletUrl": leaflet.asset->url,    seo,    "related": *[  _type == "product" && visible == true  && defined(name) && defined(slug.current) && defined(composition)  && defined(category->title)  && defined(packImage.asset) && defined(packImage.alt) && _id in ^.relatedProducts[]._ref]      | order(order asc) {   _id,  name,  mark,  "slug": slug.current,  composition,  description,  dosageForm,  pack,  schedule,  "category": category->{ _id, title, "slug": slug.current, order },  "ingredientNames": ingredients[].ingredient,  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } } },    "sameCategory": *[  _type == "product" && visible == true  && defined(name) && defined(slug.current) && defined(composition)  && defined(category->title)  && defined(packImage.asset) && defined(packImage.alt) && category._ref == ^.category._ref && _id != ^._id]      | order(order asc) [0...3] {   _id,  name,  mark,  "slug": slug.current,  composition,  description,  dosageForm,  pack,  schedule,  "category": category->{ _id, title, "slug": slug.current, order },  "ingredientNames": ingredients[].ingredient,  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } } }  }
+// Query: *[  _type == "product" && visible == true  && defined(name) && defined(slug.current) && defined(composition)  && defined(category->title)  && defined(packImage.asset) && defined(packImage.alt) && slug.current == $slug][0] {      _id,  name,  mark,  "slug": slug.current,  composition,  description,  dosageForm,  productType,  pack,  schedule,  "category": category->{ _id, title, "slug": slug.current, order },  "ingredientNames": ingredients[].ingredient,  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },    unitStatement,    ingredients[]{ _key, ingredient, standard, strength },    excipients,    colour,    supports,    directions,    packType,    storage,    shelfLife,    manufacturer,    gallery[defined(asset) && defined(alt)]{ _key, alt, caption, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },    "leafletUrl": leaflet.asset->url,    seo,    "related": *[  _type == "product" && visible == true  && defined(name) && defined(slug.current) && defined(composition)  && defined(category->title)  && defined(packImage.asset) && defined(packImage.alt) && _id in ^.relatedProducts[]._ref]      | order(order asc) {   _id,  name,  mark,  "slug": slug.current,  composition,  description,  dosageForm,  productType,  pack,  schedule,  "category": category->{ _id, title, "slug": slug.current, order },  "ingredientNames": ingredients[].ingredient,  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } } },    "sameCategory": *[  _type == "product" && visible == true  && defined(name) && defined(slug.current) && defined(composition)  && defined(category->title)  && defined(packImage.asset) && defined(packImage.alt) && category._ref == ^.category._ref && _id != ^._id]      | order(order asc) [0...3] {   _id,  name,  mark,  "slug": slug.current,  composition,  description,  dosageForm,  productType,  pack,  schedule,  "category": category->{ _id, title, "slug": slug.current, order },  "ingredientNames": ingredients[].ingredient,  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } } }  }
 export type ProductBySlugQueryResult = {
   _id: string;
   name: string;
@@ -378,6 +379,7 @@ export type ProductBySlugQueryResult = {
     | "Suspension"
     | "Syrup"
     | "Tablets";
+  productType: "nutraceutical" | "pharmaceutical" | "wellness";
   pack: string;
   schedule: "h" | "h1" | "otc";
   category: {
@@ -401,7 +403,6 @@ export type ProductBySlugQueryResult = {
       } | null;
     } | null;
   };
-  productType: "nutraceutical" | "pharmaceutical" | "wellness";
   unitStatement: string | null;
   ingredients: Array<{
     _key: string;
@@ -468,6 +469,7 @@ export type ProductBySlugQueryResult = {
       | "Suspension"
       | "Syrup"
       | "Tablets";
+    productType: "nutraceutical" | "pharmaceutical" | "wellness";
     pack: string;
     schedule: "h" | "h1" | "otc";
     category: {
@@ -509,6 +511,7 @@ export type ProductBySlugQueryResult = {
       | "Suspension"
       | "Syrup"
       | "Tablets";
+    productType: "nutraceutical" | "pharmaceutical" | "wellness";
     pack: string;
     schedule: "h" | "h1" | "otc";
     category: {
@@ -553,9 +556,9 @@ export type SiteSettingsQueryResult = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[\n  _type == "product" && visible == true\n  && defined(name) && defined(slug.current) && defined(composition)\n  && defined(category->title)\n  && defined(packImage.asset) && defined(packImage.alt)\n] | order(order asc) { \n  _id,\n  name,\n  mark,\n  "slug": slug.current,\n  composition,\n  description,\n  dosageForm,\n  pack,\n  schedule,\n  "category": category->{ _id, title, "slug": slug.current, order },\n  "ingredientNames": ingredients[].ingredient,\n  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n }\n': ProductsQueryResult;
+    '\n  *[\n  _type == "product" && visible == true\n  && defined(name) && defined(slug.current) && defined(composition)\n  && defined(category->title)\n  && defined(packImage.asset) && defined(packImage.alt)\n] | order(order asc) { \n  _id,\n  name,\n  mark,\n  "slug": slug.current,\n  composition,\n  description,\n  dosageForm,\n  productType,\n  pack,\n  schedule,\n  "category": category->{ _id, title, "slug": slug.current, order },\n  "ingredientNames": ingredients[].ingredient,\n  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n }\n': ProductsQueryResult;
     '\n  *[\n  _type == "product" && visible == true\n  && defined(name) && defined(slug.current) && defined(composition)\n  && defined(category->title)\n  && defined(packImage.asset) && defined(packImage.alt)\n] { "slug": slug.current }\n': ProductSlugsQueryResult;
-    '\n  *[\n  _type == "product" && visible == true\n  && defined(name) && defined(slug.current) && defined(composition)\n  && defined(category->title)\n  && defined(packImage.asset) && defined(packImage.alt)\n && slug.current == $slug][0] {\n    \n  _id,\n  name,\n  mark,\n  "slug": slug.current,\n  composition,\n  description,\n  dosageForm,\n  pack,\n  schedule,\n  "category": category->{ _id, title, "slug": slug.current, order },\n  "ingredientNames": ingredients[].ingredient,\n  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n,\n    productType,\n    unitStatement,\n    ingredients[]{ _key, ingredient, standard, strength },\n    excipients,\n    colour,\n    supports,\n    directions,\n    packType,\n    storage,\n    shelfLife,\n    manufacturer,\n    gallery[defined(asset) && defined(alt)]{ _key, alt, caption, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },\n    "leafletUrl": leaflet.asset->url,\n    seo,\n    "related": *[\n  _type == "product" && visible == true\n  && defined(name) && defined(slug.current) && defined(composition)\n  && defined(category->title)\n  && defined(packImage.asset) && defined(packImage.alt)\n && _id in ^.relatedProducts[]._ref]\n      | order(order asc) { \n  _id,\n  name,\n  mark,\n  "slug": slug.current,\n  composition,\n  description,\n  dosageForm,\n  pack,\n  schedule,\n  "category": category->{ _id, title, "slug": slug.current, order },\n  "ingredientNames": ingredients[].ingredient,\n  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n },\n    "sameCategory": *[\n  _type == "product" && visible == true\n  && defined(name) && defined(slug.current) && defined(composition)\n  && defined(category->title)\n  && defined(packImage.asset) && defined(packImage.alt)\n && category._ref == ^.category._ref && _id != ^._id]\n      | order(order asc) [0...3] { \n  _id,\n  name,\n  mark,\n  "slug": slug.current,\n  composition,\n  description,\n  dosageForm,\n  pack,\n  schedule,\n  "category": category->{ _id, title, "slug": slug.current, order },\n  "ingredientNames": ingredients[].ingredient,\n  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n }\n  }\n': ProductBySlugQueryResult;
+    '\n  *[\n  _type == "product" && visible == true\n  && defined(name) && defined(slug.current) && defined(composition)\n  && defined(category->title)\n  && defined(packImage.asset) && defined(packImage.alt)\n && slug.current == $slug][0] {\n    \n  _id,\n  name,\n  mark,\n  "slug": slug.current,\n  composition,\n  description,\n  dosageForm,\n  productType,\n  pack,\n  schedule,\n  "category": category->{ _id, title, "slug": slug.current, order },\n  "ingredientNames": ingredients[].ingredient,\n  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n,\n    unitStatement,\n    ingredients[]{ _key, ingredient, standard, strength },\n    excipients,\n    colour,\n    supports,\n    directions,\n    packType,\n    storage,\n    shelfLife,\n    manufacturer,\n    gallery[defined(asset) && defined(alt)]{ _key, alt, caption, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } },\n    "leafletUrl": leaflet.asset->url,\n    seo,\n    "related": *[\n  _type == "product" && visible == true\n  && defined(name) && defined(slug.current) && defined(composition)\n  && defined(category->title)\n  && defined(packImage.asset) && defined(packImage.alt)\n && _id in ^.relatedProducts[]._ref]\n      | order(order asc) { \n  _id,\n  name,\n  mark,\n  "slug": slug.current,\n  composition,\n  description,\n  dosageForm,\n  productType,\n  pack,\n  schedule,\n  "category": category->{ _id, title, "slug": slug.current, order },\n  "ingredientNames": ingredients[].ingredient,\n  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n },\n    "sameCategory": *[\n  _type == "product" && visible == true\n  && defined(name) && defined(slug.current) && defined(composition)\n  && defined(category->title)\n  && defined(packImage.asset) && defined(packImage.alt)\n && category._ref == ^.category._ref && _id != ^._id]\n      | order(order asc) [0...3] { \n  _id,\n  name,\n  mark,\n  "slug": slug.current,\n  composition,\n  description,\n  dosageForm,\n  productType,\n  pack,\n  schedule,\n  "category": category->{ _id, title, "slug": slug.current, order },\n  "ingredientNames": ingredients[].ingredient,\n  packImage { alt, asset->{ _id, url, metadata { lqip, dimensions { width, height } } } }\n }\n  }\n': ProductBySlugQueryResult;
     '\n  *[_type == "siteSettings" && _id == "siteSettings"][0] {\n    companyName, address, phone, email, whatsapp, cin, gstin, drugLicence, fssaiLicence\n  }\n': SiteSettingsQueryResult;
   }
 }

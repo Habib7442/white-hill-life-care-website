@@ -55,6 +55,7 @@ export type ProductFilters = {
   query: string
   category: string
   dosageForm: string
+  productType: string
 }
 
 export type FilterOption = { value: string; label: string }
@@ -77,7 +78,7 @@ function searchText(product: Product) {
   )
 }
 
-/** Every search term must match; category and dosage form match exactly. */
+/** Every search term must match; category, dosage form and type match exactly. */
 export function filterProducts(products: Product[], filters: ProductFilters) {
   const terms = normalise(filters.query).split(/\s+/).filter(Boolean)
 
@@ -86,6 +87,9 @@ export function filterProducts(products: Product[], filters: ProductFilters) {
       return false
     }
     if (filters.dosageForm !== ALL && product.dosageForm !== filters.dosageForm) {
+      return false
+    }
+    if (filters.productType !== ALL && product.productType !== filters.productType) {
       return false
     }
     if (terms.length === 0) return true
@@ -110,4 +114,47 @@ export function dosageFormOptions(products: Product[]): FilterOption[] {
     value: form,
     label: form,
   }))
+}
+
+/** Product types present in the products, in label order. */
+export function productTypeOptions(products: Product[]): FilterOption[] {
+  const present = new Set<string>(products.map((product) => product.productType))
+  return Object.entries(productTypeLabels)
+    .filter(([value]) => present.has(value))
+    .map(([value, label]) => ({ value, label }))
+}
+
+/** What an "Explore our product range" card matches (lib/site.ts `exploreRange`). */
+export type RangeMatch = {
+  forms?: string[]
+  types?: string[]
+  categories?: string[]
+}
+
+/**
+ * The filtered /medicines link for a range, or null while no visible product
+ * matches it (the card then links to its "Coming soon" page).
+ */
+export function rangeHref(match: RangeMatch, products: Product[]) {
+  const form = match.forms?.find((f) => products.some((p) => p.dosageForm === f))
+  if (form) return `${medicinesHref}?form=${encodeURIComponent(form)}`
+
+  const type = match.types?.find((t) => products.some((p) => p.productType === t))
+  if (type) return `${medicinesHref}?type=${encodeURIComponent(type)}`
+
+  const category = match.categories?.find((c) => products.some((p) => p.category.slug === c))
+  if (category) return `${medicinesHref}?category=${encodeURIComponent(category)}`
+
+  return null
+}
+
+/**
+ * The card badge, from fields every product already has: Schedule H/H1 is
+ * "Rx" (wins over type), otherwise a nutraceutical gets "Nutraceutical".
+ * Anything else (e.g. an OTC pharmaceutical) has no badge.
+ */
+export function productBadge(product: Pick<Product, "schedule" | "productType">) {
+  if (isPrescriptionOnly(product.schedule)) return "rx" as const
+  if (product.productType === "nutraceutical") return "nutraceutical" as const
+  return null
 }

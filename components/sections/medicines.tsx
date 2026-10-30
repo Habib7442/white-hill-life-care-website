@@ -5,8 +5,6 @@ import { Container } from "@/components/layout/container"
 import { Section } from "@/components/layout/section"
 import { ProductGrid } from "@/components/product-grid"
 import { Reveal } from "@/components/reveal"
-import { Eyebrow } from "@/components/typography/eyebrow"
-import { SectionHeading } from "@/components/typography/section-heading"
 import { buttonVariants } from "@/components/ui/button"
 import { medicinesDisclaimer, medicinesHref } from "@/lib/products"
 import { getProducts } from "@/lib/sanity/fetch"
@@ -22,10 +20,12 @@ export async function Medicines() {
     <Section id={sectionIds.medicines} aria-labelledby="medicines-heading">
       <Container>
         <Reveal className="mb-8 max-w-2xl">
-          <Eyebrow index="01">Our Medicines</Eyebrow>
-          <SectionHeading id="medicines-heading" className="mt-3">
+          <h2
+            id="medicines-heading"
+            className="font-display text-[30px] leading-[1.15] font-semibold tracking-[-0.01em] text-black lg:text-[44px]"
+          >
             Our Medicines
-          </SectionHeading>
+          </h2>
           <p className="mt-4 text-[15px] leading-[1.6] text-ink-muted">
             {medicinesDisclaimer}
           </p>
@@ -36,8 +36,11 @@ export async function Medicines() {
             {/* First 10 in the order set in Sanity / the admin. */}
             <ProductGrid products={products.slice(0, HOME_PREVIEW_COUNT)} />
             <div className="mt-10 flex justify-center">
-              <Link href={medicinesHref} className={buttonVariants()}>
-                View all medicines ({products.length})
+              <Link
+                href={medicinesHref}
+                className={buttonVariants({ className: "bg-navy-900 hover:bg-blue-700" })}
+              >
+                View all medicines
                 <ArrowRight aria-hidden="true" strokeWidth={1.8} data-icon="inline-end" />
               </Link>
             </div>

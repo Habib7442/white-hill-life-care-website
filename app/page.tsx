@@ -1,6 +1,7 @@
 import { Hero } from "@/components/hero/hero";
 import { Preloader } from "@/components/preloader/preloader";
-import { Contact } from "@/components/sections/contact";
+import { Contact } from "@/components/sections/contact"
+import { ExploreRange } from "@/components/sections/explore-range";
 import { Medicines } from "@/components/sections/medicines"
 import { ProductRange } from "@/components/sections/product-range";
 import { Quality } from "@/components/sections/quality";
@@ -16,6 +17,7 @@ export default function Home() {
       <main id={sectionIds.main} tabIndex={-1} className="outline-none">
         <Hero />
         <ProductRange />
+        <ExploreRange />
         <Medicines />
         <Quality />
         <Contact />

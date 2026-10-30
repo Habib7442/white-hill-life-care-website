@@ -13,6 +13,7 @@ import {
   categoryOptions,
   dosageFormOptions,
   filterProducts,
+  productTypeOptions,
   type Product,
 } from "@/lib/products"
 
@@ -21,7 +22,7 @@ type MedicinesCatalogProps = {
   pageSize: number
 }
 
-type UrlState = { q: string; category: string; form: string; page: number }
+type UrlState = { q: string; category: string; form: string; type: string; page: number }
 
 function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -35,8 +36,8 @@ function FilterGroup({ title, children }: { title: string; children: ReactNode }
 }
 
 /**
- * Search, category / dosage-form chips and pagination for /medicines. The
- * state lives in the URL (?q=&category=&form=&page=) so views can be shared,
+ * Search, category / dosage-form / type chips and pagination for /medicines.
+ * The state lives in the URL (?q=&category=&form=&type=&page=) so views can be shared,
  * reloaded and reached with Back. Typing and filters replace the history
  * entry; changing page pushes one, so Back returns to the previous page.
  */
@@ -48,8 +49,10 @@ export function MedicinesCatalog({ products, pageSize }: MedicinesCatalogProps) 
 
   const categories = useMemo(() => categoryOptions(products), [products])
   const forms = useMemo(() => dosageFormOptions(products), [products])
+  const types = useMemo(() => productTypeOptions(products), [products])
   const showCategories = categories.length > 1
   const showForms = forms.length > 1
+  const showTypes = types.length > 1
 
   // Unknown values in the URL fall back to "All".
   const q = searchParams.get("q") ?? ""
@@ -57,6 +60,8 @@ export function MedicinesCatalog({ products, pageSize }: MedicinesCatalogProps) 
   const category = categories.some((c) => c.value === categoryParam) ? categoryParam! : ALL
   const formParam = searchParams.get("form")
   const dosageForm = forms.some((f) => f.value === formParam) ? formParam! : ALL
+  const typeParam = searchParams.get("type")
+  const productType = types.some((t) => t.value === typeParam) ? typeParam! : ALL
 
   // The input updates on every keystroke; the URL (and results) once typing pauses.
   const [query, setQuery] = useState(q)
@@ -68,8 +73,8 @@ export function MedicinesCatalog({ products, pageSize }: MedicinesCatalogProps) 
   }
 
   const results = useMemo(
-    () => filterProducts(products, { query: q, category, dosageForm }),
-    [products, q, category, dosageForm]
+    () => filterProducts(products, { query: q, category, dosageForm, productType }),
+    [products, q, category, dosageForm, productType]
   )
 
   const pageCount = Math.max(1, Math.ceil(results.length / pageSize))
@@ -78,14 +83,16 @@ export function MedicinesCatalog({ products, pageSize }: MedicinesCatalogProps) 
   const start = (page - 1) * pageSize
   const pageResults = results.slice(start, start + pageSize)
 
-  const filtering = q.trim() !== "" || category !== ALL || dosageForm !== ALL
+  const filtering =
+    q.trim() !== "" || category !== ALL || dosageForm !== ALL || productType !== ALL
 
   function writeUrl(next: Partial<UrlState>, mode: "push" | "replace") {
-    const state: UrlState = { q, category, form: dosageForm, page, ...next }
+    const state: UrlState = { q, category, form: dosageForm, type: productType, page, ...next }
     const params = new URLSearchParams()
     if (state.q.trim()) params.set("q", state.q.trim())
     if (state.category !== ALL) params.set("category", state.category)
     if (state.form !== ALL) params.set("form", state.form)
+    if (state.type !== ALL) params.set("type", state.type)
     if (state.page > 1) params.set("page", String(state.page))
     const qs = params.toString()
     const url = qs ? `${pathname}?${qs}` : pathname
@@ -103,7 +110,7 @@ export function MedicinesCatalog({ products, pageSize }: MedicinesCatalogProps) 
 
   function clearFilters() {
     setQuery("")
-    writeUrl({ q: "", category: ALL, form: ALL, page: 1 }, "replace")
+    writeUrl({ q: "", category: ALL, form: ALL, type: ALL, page: 1 }, "replace")
     searchRef.current?.focus()
   }
 
@@ -132,7 +139,7 @@ export function MedicinesCatalog({ products, pageSize }: MedicinesCatalogProps) 
             option it does nothing and makes the catalogue look unfinished.
             Options come from the products, so rows appear as products are
             published. */}
-        {(showCategories || showForms) && (
+        {(showCategories || showForms || showTypes) && (
           <div className="flex flex-col gap-5">
             {showCategories && (
               <FilterGroup title="Category">
@@ -151,6 +158,16 @@ export function MedicinesCatalog({ products, pageSize }: MedicinesCatalogProps) 
                   options={[{ value: ALL, label: "All forms" }, ...forms]}
                   value={dosageForm}
                   onChange={(value) => writeUrl({ form: value, page: 1 }, "replace")}
+                />
+              </FilterGroup>
+            )}
+            {showTypes && (
+              <FilterGroup title="Type">
+                <FilterChips
+                  label="Filter by type"
+                  options={[{ value: ALL, label: "All types" }, ...types]}
+                  value={productType}
+                  onChange={(value) => writeUrl({ type: value, page: 1 }, "replace")}
                 />
               </FilterGroup>
             )}

@@ -50,6 +50,8 @@ Taken from the WhiteHill logo.
 
 > **Approved exception (product range section only):** the four tiles after the hero use one soft palette: `--tile-blue #EAF2FF`, `--tile-mint #EAF7EF`, `--tile-sand #FBF6EA`, `--tile-slate #EEF2F7`. Titles `--navy-900`, lines `--ink-muted` (≥ 7.8:1). Do not use these colours anywhere else (`prompts/product-range-section.md`).
 
+> **Approved exception (product cards only):** the "Nutraceutical" badge is green `--nutra #15803D` with white text (5.0:1), next to the navy "Rx" badge (user request). Not used anywhere else.
+
 ---
 
 ## 3. Typography
