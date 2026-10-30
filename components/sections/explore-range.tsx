@@ -17,7 +17,7 @@ export async function ExploreRange() {
   return (
     <section aria-labelledby="explore-heading" className="bg-white py-16 lg:py-20">
       <Container>
-        <Reveal className="mx-auto max-w-[40rem] text-center">
+        <Reveal className="max-w-[40rem]">
           <h2
             id="explore-heading"
             className="font-display text-[30px] leading-[1.15] font-semibold tracking-[-0.01em] text-black lg:text-[44px]"
