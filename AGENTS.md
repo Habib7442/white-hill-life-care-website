@@ -140,7 +140,7 @@ You do not design the UI. `DESIGN.md` defines the system; screenshots or canvas 
 
 Hard rules from `DESIGN.md`:
 
-- **Colours:** only the `DESIGN.md` §2 palette. Define them once as CSS variables in `app/globals.css` and map shadcn theme variables (`--primary`, `--border`, `--ring`, …) onto them. No Tailwind default colours (`zinc`, `gray`, `slate`, …) and no hex values in components.
+- **Colours:** only the `DESIGN.md` §2 palette. Define them once as CSS variables in `app/globals.css` and map shadcn theme variables (`--primary`, `--border`, `--ring`, …) onto them. No Tailwind default colours (`zinc`, `gray`, `slate`, …) and no hex values in components. `globals.css` clears Tailwind's colours (`--color-*: initial`), so `text-black`, `text-slate-800` and `bg-sky-100` are the project's own tokens from the client's hero palette (`DESIGN.md` §2), not Tailwind defaults. Display headings on the redesigned homepage sections are **black by user decision**; keep them black (`DESIGN.md` §3).
 - **Light theme only.** Remove the shadcn `.dark` block and `prefers-color-scheme: dark` rules. No dark mode.
 - **Fonts** via `next/font/google`: Plus Jakarta Sans 800 (hero H1 only), Source Serif 4 (H2/H3), IBM Plex Sans (body, eyebrows, buttons, labels). Remove Geist.
 - **Product pack colours** (pink, orange, red) exist only inside pack images, never in UI.
@@ -242,7 +242,7 @@ Rules:
 | `/` | GET | The single page |
 | `/about` | GET | About page |
 | `/privacy` | GET | Privacy Policy |
-| `/medicines` | GET | Medicines listing: search, filters, pagination (static; state in `?q=&category=&form=&type=&page=`) |
+| `/medicines` | GET | Medicines listing: search, filters, pagination (static; state in `?q=&category=&form=&type=&range=&page=`; `range` is a home "Explore our product range" card and lists every product it matches) |
 | `/medicines/[slug]` | GET | Medicine detail page (prerendered from Sanity slugs; new slugs render on first request) |
 | `/range/[slug]` | GET | "Coming soon" page for a home "Explore our product range" card with no products yet (`noindex`, not in the sitemap; `prompts/explore-range-section.md`) |
 | `/studio` | GET | Embedded Sanity Studio, local development only; 404 in production builds |

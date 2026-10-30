@@ -56,6 +56,8 @@ export type ProductFilters = {
   category: string
   dosageForm: string
   productType: string
+  /** A home "Explore our product range" card; null for no range filter. */
+  range: RangeMatch | null
 }
 
 export type FilterOption = { value: string; label: string }
@@ -92,6 +94,7 @@ export function filterProducts(products: Product[], filters: ProductFilters) {
     if (filters.productType !== ALL && product.productType !== filters.productType) {
       return false
     }
+    if (filters.range && !matchesRange(product, filters.range)) return false
     if (terms.length === 0) return true
     const text = searchText(product)
     return terms.every((term) => text.includes(term))
@@ -131,21 +134,27 @@ export type RangeMatch = {
   categories?: string[]
 }
 
+/** A range as the /medicines catalog filters by it (`?range=<slug>`). */
+export type RangeFilter = { slug: string; title: string; match: RangeMatch }
+
+/** True when the product has any of the range's forms, types or categories. */
+export function matchesRange(product: Product, match: RangeMatch) {
+  return (
+    (match.forms?.includes(product.dosageForm) ?? false) ||
+    (match.types?.includes(product.productType) ?? false) ||
+    (match.categories?.includes(product.category.slug) ?? false)
+  )
+}
+
 /**
- * The filtered /medicines link for a range, or null while no visible product
- * matches it (the card then links to its "Coming soon" page).
+ * The /medicines link for a range, listing every matching product (all of
+ * its forms, types and categories), or null while no visible product matches
+ * (the card then links to its "Coming soon" page).
  */
-export function rangeHref(match: RangeMatch, products: Product[]) {
-  const form = match.forms?.find((f) => products.some((p) => p.dosageForm === f))
-  if (form) return `${medicinesHref}?form=${encodeURIComponent(form)}`
-
-  const type = match.types?.find((t) => products.some((p) => p.productType === t))
-  if (type) return `${medicinesHref}?type=${encodeURIComponent(type)}`
-
-  const category = match.categories?.find((c) => products.some((p) => p.category.slug === c))
-  if (category) return `${medicinesHref}?category=${encodeURIComponent(category)}`
-
-  return null
+export function rangeHref(range: Pick<RangeFilter, "slug" | "match">, products: Product[]) {
+  return products.some((product) => matchesRange(product, range.match))
+    ? `${medicinesHref}?range=${encodeURIComponent(range.slug)}`
+    : null
 }
 
 /**

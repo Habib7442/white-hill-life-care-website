@@ -30,7 +30,7 @@ Taken from the WhiteHill logo.
 |---|---|---|
 | `--navy-900` | `#172C6B` | Headings, Quality band background, Rx tag |
 | `--blue-700` | `#1E3A8A` | Button hover, link hover |
-| `--blue-600` | `#1D4ED8` | Primary buttons, eyebrow labels, links, icons |
+| `--blue-600` | `#2563EB` | The one primary blue: buttons, eyebrow labels, links, icons, focus (unified in `prompts/homepage-polish.md`) |
 | `--blue-300` | `#9CC3FB` | Molecule highlights, eyebrow on navy |
 | `--blue-200` | `#BCD5FB` | Light molecule atoms, secondary bonds |
 | `--blue-100` | `#DBE6F8` | Card borders |
@@ -41,8 +41,11 @@ Taken from the WhiteHill logo.
 | `--text`     | `#13234A` | Body text (dark navy, not black) |
 | `--text-muted` | `#3A4A6E` | Paragraphs, descriptions |
 | `--text-faint` | `#56648A` | Footer small print |
+| `--black` | `#000000` | Display headings on the redesigned homepage sections, the `/range` pages and product-card names (from the client's hero palette) |
+| `--slate-800` | `#1E293B` | Intro paragraphs in the hero, Explore range section and `/range` pages (from the client's hero palette) |
+| `--sky-100` | `#D5E8F7` | End of the hero's white-to-sky gradient (from the client's hero palette) |
 
-**Contrast checks:** `#3A4A6E` on white ≈ 9:1 ✔, `#1D4ED8` on white ≈ 6.7:1 ✔, white on `#1D4ED8` ✔, `#D6E2F7` on `#172C6B` ✔.
+**Contrast checks:** `#3A4A6E` on white ≈ 9:1 ✔, `#2563EB` on white ≈ 5.2:1 ✔ (≥ 4.5 on `--blue-25` / `--blue-50`, large text only on `--blue-100`), white on `#2563EB` ≈ 5.2:1 ✔, `#000000` and `#1E293B` on white and on `#D5E8F7` ≥ 12:1 ✔, `#D6E2F7` on `#172C6B` ✔.
 
 **Section rhythm:** alternate white and `--blue-25`, with one navy band (Quality) for contrast.
 
@@ -65,6 +68,8 @@ Taken from the WhiteHill logo.
 | Body large | IBM Plex Sans | 400 | 17–18 px / 1.65 | 16 px |
 | Body | IBM Plex Sans | 400 | 15 px / 1.6 | 15 px |
 | Button | IBM Plex Sans | 600 | 15 px | 15 px |
+
+> **Redesigned homepage sections (client references, user decision):** the hero H1, the "Explore Our Product Range" and "Our Medicines" H2s, the product range panel and range-card titles, product-card names and the `/range` page H1 use **Plus Jakarta Sans 600 in `--black` (#000000)**, not the serif/navy styles above. The user confirmed black is intended ("keep it black"); do not swap these to navy in reviews. Intro text in those sections is `--slate-800`. Older sections (Quality, Contact, About, detail pages) keep the serif/navy styles.
 
 - **Why a serif for headings:** matches the serif "WhiteHill" wordmark in the logo and feels established and trustworthy.
 - **Why IBM Plex Sans for body:** technical, scientific feel; very readable.

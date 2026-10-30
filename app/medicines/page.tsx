@@ -10,11 +10,15 @@ import { Eyebrow } from "@/components/typography/eyebrow"
 import { medicinesDisclaimer } from "@/lib/products"
 import { getProducts } from "@/lib/sanity/fetch"
 import { medicinesMetadata } from "@/lib/seo"
+import { exploreRange } from "@/lib/site"
 import { sectionIds } from "@/lib/site-nav"
 
 export const metadata = medicinesMetadata
 
 const PAGE_SIZE = 12
+
+// The home range cards link here as ?range=<slug>; the catalog needs their rules.
+const ranges = exploreRange.tiles.map(({ slug, title, match }) => ({ slug, title, match }))
 
 export default async function MedicinesPage() {
   const products = await getProducts()
@@ -47,7 +51,7 @@ export default async function MedicinesPage() {
                   </>
                 }
               >
-                <MedicinesCatalog products={products} pageSize={PAGE_SIZE} />
+                <MedicinesCatalog products={products} pageSize={PAGE_SIZE} ranges={ranges} />
               </Suspense>
             ) : (
               <p className="text-[15px] text-ink-muted">Product information will be available here soon.</p>

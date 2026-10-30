@@ -11,7 +11,7 @@ import { SiteHeader } from "@/components/site-header/site-header"
 import { buttonVariants } from "@/components/ui/button"
 import { medicinesHref, rangeHref } from "@/lib/products"
 import { getProducts } from "@/lib/sanity/fetch"
-import { exploreRange } from "@/lib/site"
+import { company, exploreRange } from "@/lib/site"
 import { sectionIds } from "@/lib/site-nav"
 
 function findTile(slug: string) {
@@ -28,9 +28,15 @@ export async function generateMetadata({
   const tile = findTile((await params).slug)
   if (!tile) return { title: "Page not found", robots: { index: false, follow: true } }
 
+  // Same check as RangeContent, so the title matches the page in both states.
+  const available = rangeHref(tile, await getProducts()) !== null
+  const range = tile.title.toLowerCase()
+
   return {
-    title: `${tile.title}: coming soon`,
-    description: `The ${tile.title.toLowerCase()} range from WhiteHill Lifecares is in preparation.`,
+    title: available ? `${tile.title}: now available` : `${tile.title}: coming soon`,
+    description: available
+      ? `The ${range} range from ${company.legalName} is now listed with our medicines.`
+      : `The ${range} range from ${company.legalName} is in preparation.`,
     // Thin placeholder page: kept out of search results and the sitemap.
     robots: { index: false, follow: true },
   }
@@ -56,7 +62,7 @@ async function RangeContent({ params }: { params: PageProps<"/range/[slug]">["pa
   if (!tile) notFound()
 
   // An old link can land here after products were added: point to them instead.
-  const productsHref = rangeHref(tile.match, await getProducts())
+  const productsHref = rangeHref(tile, await getProducts())
 
   return (
     <section aria-labelledby="range-heading" className="bg-white pt-(--header-height)">
@@ -70,7 +76,7 @@ async function RangeContent({ params }: { params: PageProps<"/range/[slug]">["pa
         />
 
         <div className="mx-auto mt-12 flex max-w-[36rem] flex-col items-center text-center lg:mt-16">
-          <div className="flex size-32 items-center justify-center rounded-card bg-mist lg:size-40">
+          <div className="flex size-32 items-center justify-center rounded-card bg-blue-50 lg:size-40">
             <div className="relative size-20 lg:size-24">
               <Image src={tile.icon} alt="" fill sizes="96px" className="object-contain" />
             </div>

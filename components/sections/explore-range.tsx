@@ -38,8 +38,8 @@ export async function ExploreRange() {
                 className="reveal-item"
               >
                 <Link
-                  href={rangeHref(match, products) ?? `/range/${slug}`}
-                  className="group relative flex h-full flex-col rounded-card-sm bg-mist p-4 transition-[translate,box-shadow] duration-200 ease-out hover:shadow-lg hover:shadow-navy-900/8 motion-safe:hover:-translate-y-1 sm:p-5"
+                  href={rangeHref({ slug, match }, products) ?? `/range/${slug}`}
+                  className="group relative flex h-full flex-col rounded-card-sm bg-blue-50 p-4 transition-[translate,box-shadow] duration-200 ease-out hover:shadow-lg hover:shadow-navy-900/8 motion-safe:hover:-translate-y-1 sm:p-5"
                 >
                   <div className="relative mx-auto size-16 sm:size-[88px]">
                     <Image

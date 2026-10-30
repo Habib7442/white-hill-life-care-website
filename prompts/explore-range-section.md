@@ -60,7 +60,7 @@ Icons (`Downloads/explore-products-white-hills`): eight 512 × 512 transparent P
    | Gastro Care | Digestive support | Reflux Inhibitors | Drug-action / treatment wording |
    | Personal Care | Skin and hygiene care | Somatic Skin Gels | No such products yet; neutral wording |
 
-4. **Colours:** card background `#EAEEF9` added as token `--color-mist` (a blue tint, on palette). Following the reference's near-black text: H2 and titles `text-black`, lines `text-ink-muted`, intro `text-slate-800` (existing tokens). Arrow button white with a `text-black` Lucide `ArrowUpRight` (1.8 stroke).
+4. **Colours:** card background `blue-50` (`#E8F0FE`), the palette tint closest to the reference's `#EAEEF9` (review: no off-palette `--color-mist` token). Following the reference's near-black text: H2 and titles `text-black`, lines `text-ink-muted`, intro `text-slate-800` (existing tokens). Arrow button white with a `text-black` Lucide `ArrowUpRight` (1.8 stroke).
 5. **Icons** converted to WebP (256 px, alpha), lazy-loaded, decorative `alt=""` (the title names the tile). Flat multicolour icons are images, so the palette rule doesn't apply to them (same as pack artwork).
 6. **Placement:** between the product range bento and Our Medicines. White background.
 
@@ -71,7 +71,7 @@ Icons (`Downloads/explore-products-white-hills`): eight 512 × 512 transparent P
 | ≥ 1024 px | 4 columns, gap 16 px |
 | < 1024 px | 2 columns, gap 12 px (16 px from `sm`) |
 
-- Card: `rounded-card-sm` (18 px), `bg-mist`, padding 20 px (16 px on phones), icon box 88 × 88 centred at the top (64 × 64 on phones), then title (Plus Jakarta Sans 600, 20 px desktop / 16 px phone) and line (14 px / 13 px) bottom-left, 40 px white round arrow button bottom-right (36 px on phones).
+- Card: `rounded-card-sm` (18 px), `bg-blue-50`, padding 20 px (16 px on phones), icon box 88 × 88 centred at the top (64 × 64 on phones), then title (Plus Jakarta Sans 600, 20 px desktop / 16 px phone) and line (14 px / 13 px) bottom-left, 40 px white round arrow button bottom-right (36 px on phones).
 - Heading: Plus Jakarta Sans 600, 44 px desktop / 30 px phone, centred; intro 17 px / 15 px, max 40 rem, centred.
 - **Active card (link):** hover lifts 4 px with a soft shadow, icon scales 1.04, arrow button turns `blue-600` with a white arrow. Visible focus outline. Reduced motion: no lift/scale, colour change only.
 - **Coming soon card (not a link):** same layout, icon at 55 % opacity, the arrow button is replaced by a small "Coming soon" pill (white, `text-ink-muted`, 12 px). No hover effect.
@@ -82,7 +82,6 @@ Icons (`Downloads/explore-products-white-hills`): eight 512 × 512 transparent P
 | File | Change |
 |---|---|
 | `public/brand/explore/*.webp` | 8 icons (tablets, capsules, syrups, nutraceuticals, pediatric, diabetes, gastro, personal-care) |
-| `app/globals.css` | `--color-mist: #eaeef9` |
 | `lib/site.ts` | `exploreRange` (heading, intro, 8 tiles with `match` rules and icon) |
 | `lib/products.ts` | `productType` in filters; `productTypeOptions()`; `exploreTileHref()` (first matching form / category / type present, else `null`) |
 | `components/sections/explore-range.tsx` | New async Server Component |
@@ -103,22 +102,22 @@ None new. Read-only use of already-fetched public product data; no client code a
 ## Acceptance criteria
 
 1. Section sits between the bento and Our Medicines and matches the reference layout at 1440 px.
-2. Tablets, Syrups and Nutraceuticals are links (today); the other five show "Coming soon" and aren't focusable.
-3. Each link opens `/medicines` with the right filter applied and the matching products listed.
-4. Adding a product with a new form or category activates the matching tile without a code change.
+2. All eight cards are links and receive keyboard focus. Cards with products (today Tablets, Syrups, Nutraceuticals) open `/medicines?range=<slug>`; the other five (Capsules, Pediatric, Diabetes, Gastro, Personal Care) open their `/range/<slug>` "Coming soon" page. No card shows a "Coming soon" tag.
+3. `/medicines?range=<slug>` lists every product matching any of the card's forms, types or categories, shows "Showing the {Range} range" with a "Show all medicines" button, and falls back to all medicines for an unknown or empty range.
+4. Adding a product with a new form or category switches the matching card from its "Coming soon" page to the filtered list without a code change; an old `/range/<slug>` link then shows "Now available" with matching title and description.
 5. `/medicines?type=nutraceutical` lists only the 2 nutraceuticals; the Type chips work with the other filters and the URL.
 6. Works at 360 / 768 / 1024 / 1440 px, no horizontal scroll; `tsc`, lint, build pass.
 
 ## Checks to run
 
-`npx tsc --noEmit`, `npm run lint`, `npm run build`; screenshots + `scrollWidth` at 390 / 768 / 1024 / 1440 px; click-through of the three active tiles.
+`npx tsc --noEmit`, `npm run lint`, `npm run build`; screenshots + `scrollWidth` at 390 / 768 / 1024 / 1440 px; click-through of all eight cards (three to `/medicines?range=…`, five to `/range/…`).
 
 ## Manual test steps
 
 1. `npm run dev`, open `/`, scroll past the bento: heading, intro and 8 cards fade in.
-2. Hover Tablets: lift, icon grows, arrow turns blue. Click: `/medicines?form=Tablets` lists 4 tablets.
-3. Syrups → `/medicines?form=Suspension` (Haemoverse Suspension). Nutraceuticals → `/medicines?type=nutraceutical` (2 products).
-4. Tab through the section: only the three active cards receive focus.
+2. Hover Tablets: lift, icon grows, arrow turns blue. Click: `/medicines?range=tablets` lists 4 tablets with "Showing the Tablets range".
+3. Syrups → `/medicines?range=syrups` (Haemoverse Suspension). Nutraceuticals → `/medicines?range=nutraceuticals` (2 products). "Show all medicines" clears the range.
+4. Tab through the section: all eight cards receive focus with a visible outline. Capsules, Pediatric Care, Diabetes Care, Gastro Care and Personal Care open their "Coming soon" page.
 5. On `/medicines`, use the new Type chips with search and the other filters; reload and Back keep the state.
 6. Resize to 1024, 768, 390 px: 4 → 2 columns, text not clipped.
 
@@ -144,3 +143,7 @@ Additional files: `app/range/[slug]/page.tsx` (new). `AGENTS.md` §9 route table
 ## Update: new 3D card images (user request)
 
 The flat icons are replaced by the user's eight 3D renders (1254 × 1254 transparent PNGs), trimmed to their content and fitted into 320 × 320 WebP so all eight read the same size (11–32 KB each). Saved as `public/brand/explore/<slug>-3d.webp`: new names on purpose, because `/_next/image` (locally and on Vercel's CDN) caches by URL and would keep serving the old icons under the old names. The Flaticon licence note no longer applies to these images.
+
+## Update: range links include every match (code review)
+
+Review: linking a card to the first matching form/category (e.g. `?form=Suspension`) would hide Syrup products under the same "Syrups" card, and one of the two Pediatric category slugs. Cards now link to `/medicines?range=<slug>`; the catalog filters by the card's whole rule (any of its forms, types or categories), on top of search and the chips. A line "Showing the {Range} range" with a "Show all medicines" button makes the filter visible and clearable. Unknown ranges, or ranges with no products, fall back to all medicines. `/medicines` passes the card rules (`exploreRange` slug, title, match) to the catalog as a prop; helpers `matchesRange()` and `rangeHref()` live in `lib/products.ts`.
