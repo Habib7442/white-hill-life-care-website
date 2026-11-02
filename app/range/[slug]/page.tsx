@@ -11,15 +11,35 @@ import { SiteHeader } from "@/components/site-header/site-header"
 import { buttonVariants } from "@/components/ui/button"
 import { medicinesHref, rangeHref } from "@/lib/products"
 import { getProducts } from "@/lib/sanity/fetch"
-import { company, exploreRange } from "@/lib/site"
+import { company, exploreRange, productRange } from "@/lib/site"
 import { sectionIds } from "@/lib/site-nav"
 
 function findTile(slug: string) {
-  return exploreRange.tiles.find((tile) => tile.slug === slug)
+  const fromExplore = exploreRange.tiles.find((tile) => tile.slug === slug)
+  if (fromExplore) return fromExplore
+
+  const fromProductRange = productRange.tiles.find(
+    (tile) => tile.slug === slug || (tile.productType && tile.productType === slug)
+  )
+  if (fromProductRange) {
+    return {
+      slug: fromProductRange.slug ?? slug,
+      title: fromProductRange.title,
+      text: fromProductRange.text,
+      icon: fromProductRange.image.src,
+      match: { types: fromProductRange.productType ? [fromProductRange.productType] : [] },
+    }
+  }
+
+  return undefined
 }
 
 export function generateStaticParams() {
-  return exploreRange.tiles.map(({ slug }) => ({ slug }))
+  const exploreSlugs = exploreRange.tiles.map(({ slug }) => ({ slug }))
+  const rangeSlugs = productRange.tiles
+    .filter((t) => t.slug)
+    .map(({ slug }) => ({ slug: slug! }))
+  return [...exploreSlugs, ...rangeSlugs]
 }
 
 export async function generateMetadata({

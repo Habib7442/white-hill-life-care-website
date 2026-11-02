@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
 import { Reveal } from "@/components/reveal"
+import { getProducts } from "@/lib/sanity/fetch"
 import { productRange, type RangeTile } from "@/lib/site"
 
 const toneClasses: Record<RangeTile["tone"], string> = {
@@ -16,7 +17,19 @@ const toneClasses: Record<RangeTile["tone"], string> = {
 
 // Feature panel plus four product-range tiles, right after the hero.
 // Panel and tiles share radius (rounded-card), padding (p-6) and gap (gap-4).
-export function ProductRange() {
+export async function ProductRange() {
+  const products = await getProducts()
+
+  function getTileHref(tile: RangeTile): string {
+    if (tile.productType) {
+      const hasProducts = products.some((p) => p.productType === tile.productType)
+      if (hasProducts) {
+        return `/medicines?type=${encodeURIComponent(tile.productType)}`
+      }
+      return `/range/${tile.slug ?? tile.productType}`
+    }
+    return tile.href ?? "/medicines"
+  }
   return (
     <section aria-labelledby="range-heading" className="bg-white py-16 lg:py-20">
       <Container>
@@ -66,31 +79,35 @@ export function ProductRange() {
             </div>
           </div>
 
-          {productRange.tiles.map(({ title, text, href, image, tone }, index) => (
-            <a
-              key={title}
-              href={href}
-              style={{ "--i": index + 1 } as CSSProperties}
-              className={`reveal-item group flex items-start justify-between gap-4 rounded-card p-6 transition-[translate,box-shadow] duration-200 ease-out hover:shadow-lg hover:shadow-navy-900/8 motion-safe:hover:-translate-y-1 sm:flex-col-reverse sm:items-stretch ${toneClasses[tone]}`}
-            >
-              <div className="min-w-0 self-center sm:self-auto">
-                <h3 className="font-display text-[17px] leading-snug font-semibold text-navy-900">
-                  {title}
-                </h3>
-                <p className="mt-1 text-sm leading-snug text-ink-muted">{text}</p>
-              </div>
-              {/* Identical box on every tile so the four images read the same size. */}
-              <div className="relative size-[120px] shrink-0 sm:size-[140px] sm:self-end lg:size-[150px]">
-                <Image
-                  src={image.src}
-                  alt=""
-                  fill
-                  sizes="(min-width: 1024px) 150px, (min-width: 640px) 140px, 120px"
-                  className="object-contain transition-transform duration-200 ease-out motion-safe:group-hover:scale-[1.04]"
-                />
-              </div>
-            </a>
-          ))}
+          {productRange.tiles.map((tile, index) => {
+            const { title, text, image, tone } = tile
+            const href = getTileHref(tile)
+            return (
+              <Link
+                key={title}
+                href={href}
+                style={{ "--i": index + 1 } as CSSProperties}
+                className={`reveal-item group flex items-start justify-between gap-4 rounded-card p-6 transition-[translate,box-shadow] duration-200 ease-out hover:shadow-lg hover:shadow-navy-900/8 motion-safe:hover:-translate-y-1 sm:flex-col-reverse sm:items-stretch ${toneClasses[tone]}`}
+              >
+                <div className="min-w-0 self-center sm:self-auto">
+                  <h3 className="font-display text-[17px] leading-snug font-semibold text-navy-900">
+                    {title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-snug text-ink-muted">{text}</p>
+                </div>
+                {/* Identical box on every tile so the four images read the same size. */}
+                <div className="relative size-[120px] shrink-0 sm:size-[140px] sm:self-end lg:size-[150px]">
+                  <Image
+                    src={image.src}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 150px, (min-width: 640px) 140px, 120px"
+                    className="object-contain transition-transform duration-200 ease-out motion-safe:group-hover:scale-[1.04]"
+                  />
+                </div>
+              </Link>
+            )
+          })}
         </Reveal>
       </Container>
     </section>

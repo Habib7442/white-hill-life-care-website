@@ -119,12 +119,12 @@ export function dosageFormOptions(products: Product[]): FilterOption[] {
   }))
 }
 
-/** Product types present in the products, in label order. */
-export function productTypeOptions(products: Product[]): FilterOption[] {
-  const present = new Set<string>(products.map((product) => product.productType))
-  return Object.entries(productTypeLabels)
-    .filter(([value]) => present.has(value))
-    .map(([value, label]) => ({ value, label }))
+/** Product types, in label order. */
+export function productTypeOptions(products?: Product[]): FilterOption[] {
+  return Object.entries(productTypeLabels).map(([value, label]) => ({
+    value,
+    label,
+  }))
 }
 
 /** What an "Explore our product range" card matches (lib/site.ts `exploreRange`). */
@@ -152,6 +152,17 @@ export function matchesRange(product: Product, match: RangeMatch) {
  * (the card then links to its "Coming soon" page).
  */
 export function rangeHref(range: Pick<RangeFilter, "slug" | "match">, products: Product[]) {
+  if (
+    range.match.types &&
+    range.match.types.length === 1 &&
+    !range.match.forms &&
+    !range.match.categories
+  ) {
+    const type = range.match.types[0]
+    return products.some((product) => product.productType === type)
+      ? `${medicinesHref}?type=${encodeURIComponent(type)}`
+      : null
+  }
   return products.some((product) => matchesRange(product, range.match))
     ? `${medicinesHref}?range=${encodeURIComponent(range.slug)}`
     : null

@@ -58,7 +58,9 @@ export const heroCapsule = {
 export type RangeTile = {
   title: string
   text: string
-  href: string
+  href?: string
+  slug?: string
+  productType?: "pharmaceutical" | "nutraceutical" | "wellness"
   image: { src: string; width: number; height: number }
   tone: "blue" | "mint" | "sand" | "slate"
 }
@@ -73,21 +75,24 @@ export const productRange = {
     {
       title: "Pharmaceuticals",
       text: "Quality medicines for better health",
-      href: "/medicines",
+      slug: "pharmaceuticals",
+      productType: "pharmaceutical",
       image: { src: "/brand/range/pharmaceuticals.webp", width: 603, height: 640 },
       tone: "blue",
     },
     {
       title: "Nutraceuticals",
       text: "Everyday nutrition for active living",
-      href: "/medicines",
+      slug: "nutraceuticals",
+      productType: "nutraceutical",
       image: { src: "/brand/range/nutraceuticals.webp", width: 640, height: 528 },
       tone: "mint",
     },
     {
       title: "Wellness Products",
       text: "Care for every stage of life",
-      href: "/medicines",
+      slug: "wellness",
+      productType: "wellness",
       image: { src: "/brand/range/wellness.webp", width: 640, height: 535 },
       tone: "sand",
     },
