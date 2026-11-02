@@ -19,7 +19,7 @@ export function Quality() {
     >
       <MoleculeField />
       <Container className="relative">
-        <Reveal className="mx-auto max-w-[40rem] text-center">
+        <Reveal className="max-w-[40rem] text-left">
           <p className="inline-flex rounded-full bg-white/15 px-3.5 py-1 text-xs font-semibold tracking-[0.12em] text-white uppercase">
             {qualitySection.eyebrow}
           </p>

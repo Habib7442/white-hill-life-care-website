@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const line = isRx ? composition : description || composition
 
   return (
-    <article className="group relative flex h-full flex-col rounded-card-sm bg-blue-25 p-5 transition-[translate,box-shadow] duration-200 ease-out hover:shadow-lg hover:shadow-navy-900/8 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-blue-600 motion-safe:hover:-translate-y-1">
+    <article className="group relative flex h-full flex-col rounded-card border border-blue-100/70 bg-[#f8fafd] p-5 shadow-xs transition-[translate,box-shadow] duration-200 ease-out hover:shadow-md hover:shadow-navy-900/5 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-blue-600 motion-safe:hover:-translate-y-1">
       {/* Same box on every card: pack photos are transparent PNGs that sit on
           the card colour, centred, with equal top and bottom padding, never
           cropped. */}

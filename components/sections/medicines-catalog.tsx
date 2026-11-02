@@ -1,13 +1,13 @@
 "use client"
 
 import { usePathname, useSearchParams } from "next/navigation"
-import { useMemo, useRef, useState, type ReactNode } from "react"
+import { useMemo, useRef, useState } from "react"
 
-import { FilterChips } from "@/components/filter-chips"
 import { Pagination } from "@/components/pagination"
 import { ProductGrid } from "@/components/product-grid"
 import { SearchInput } from "@/components/search-input"
 import { Button } from "@/components/ui/button"
+import { FilterDropdown } from "@/components/ui/filter-dropdown"
 import {
   ALL,
   categoryOptions,
@@ -35,22 +35,9 @@ type UrlState = {
   page: number
 }
 
-function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div className="flex flex-col gap-2">
-      <p aria-hidden="true" className="text-xs font-semibold tracking-[0.14em] text-ink-faint uppercase">
-        {title}
-      </p>
-      {children}
-    </div>
-  )
-}
-
 /**
- * Search, category / dosage-form / type chips and pagination for /medicines.
- * The state lives in the URL (?q=&category=&form=&type=&range=&page=) so views can be shared,
- * reloaded and reached with Back. Typing and filters replace the history
- * entry; changing page pushes one, so Back returns to the previous page.
+ * Figma-styled catalog header, search, category / dosage-form / type dropdowns, and pagination for /medicines.
+ * The state lives in the URL (?q=&category=&form=&type=&range=&page=).
  */
 export function MedicinesCatalog({ products, pageSize, ranges }: MedicinesCatalogProps) {
   const searchParams = useSearchParams()
@@ -61,9 +48,6 @@ export function MedicinesCatalog({ products, pageSize, ranges }: MedicinesCatalo
   const categories = useMemo(() => categoryOptions(products), [products])
   const forms = useMemo(() => dosageFormOptions(products), [products])
   const types = useMemo(() => productTypeOptions(products), [products])
-  const showCategories = categories.length > 1
-  const showForms = forms.length > 1
-  const showTypes = types.length > 1
 
   // Unknown values in the URL fall back to "All".
   const q = searchParams.get("q") ?? ""
@@ -73,18 +57,15 @@ export function MedicinesCatalog({ products, pageSize, ranges }: MedicinesCatalo
   const dosageForm = forms.some((f) => f.value === formParam) ? formParam! : ALL
   const typeParam = searchParams.get("type")
   const productType = types.some((t) => t.value === typeParam) ? typeParam! : ALL
-  // A range from the home cards; unknown or empty ranges fall back to all.
   const rangeParam = searchParams.get("range")
   const activeRange =
     ranges.find(
       (r) => r.slug === rangeParam && products.some((p) => matchesRange(p, r.match))
     ) ?? null
 
-  // The input updates on every keystroke; the URL (and results) once typing pauses.
   const [query, setQuery] = useState(q)
   const [syncedQ, setSyncedQ] = useState(q)
   if (syncedQ !== q) {
-    // Back / Forward changed the URL: show its search text.
     setSyncedQ(q)
     setQuery(q)
   }
@@ -139,8 +120,6 @@ export function MedicinesCatalog({ products, pageSize, ranges }: MedicinesCatalo
 
   function goToPage(next: number) {
     writeUrl({ page: next }, "push")
-    // Bring the results into view and move focus there for keyboard and
-    // screen-reader users.
     resultsRef.current?.scrollIntoView({ block: "start" })
     resultsRef.current?.focus({ preventScroll: true })
   }
@@ -151,106 +130,125 @@ export function MedicinesCatalog({ products, pageSize, ranges }: MedicinesCatalo
     searchRef.current?.focus()
   }
 
-  const countText =
+  const countDisplay =
     results.length === 0
-      ? ""
-      : results.length <= pageSize
-        ? `${results.length} ${results.length === 1 ? "medicine" : "medicines"}${
-            filtering ? ` of ${products.length}` : ""
-          }`
-        : `Showing ${pageResults.length === 1 ? start + 1 : `${start + 1}–${start + pageResults.length}`} of ${results.length} medicines`
+      ? "0 Medicines"
+      : `${results.length} ${results.length === 1 ? "Medicine" : "Medicines"}`
 
   return (
-    <>
-      <div className="flex flex-col gap-4">
-        <SearchInput
-          ref={searchRef}
-          value={query}
-          onValueChange={setQuery}
-          onDebouncedChange={(value) => writeUrl({ q: value, page: 1 }, "replace")}
-          label="Search medicines"
-          placeholder="Search by name or ingredient"
-          className="w-full"
-        />
-        {/* A filter row appears only once it has 2+ real choices; with one
-            option it does nothing and makes the catalogue look unfinished.
-            Options come from the products, so rows appear as products are
-            published. */}
-        {activeRange && (
-          <div className="flex flex-wrap items-center gap-3 text-sm text-ink-muted">
-            <span>
-              Showing the <span className="font-semibold text-ink">{activeRange.title}</span> range
-            </span>
+    <div className="mt-6 flex flex-col gap-6">
+      {/* Header and Controls Row (Figma matching) */}
+      <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+        <div>
+          <h2 className="font-heading text-3xl font-bold tracking-tight text-black sm:text-4xl">
+            Explore our medicines
+          </h2>
+          <p className="mt-1 text-sm font-medium text-slate-500">
+            {countDisplay}
+            {filtering && results.length > 0 && (
+              <span className="ml-2 text-xs text-blue-600">
+                (filtered from {products.length})
+              </span>
+            )}
+          </p>
+        </div>
+
+        {/* Search & Dropdown Filters (Figma matching) */}
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+          {/* Search Input */}
+          <div className="w-full sm:w-56 md:w-64">
+            <SearchInput
+              ref={searchRef}
+              value={query}
+              onValueChange={setQuery}
+              onDebouncedChange={(value) => writeUrl({ q: value, page: 1 }, "replace")}
+              label="Search medicines"
+              placeholder="Search medicines..."
+              className="w-full"
+            />
+          </div>
+
+          {/* Category Dropdown */}
+          <FilterDropdown
+            value={category}
+            options={[{ value: ALL, label: "All" }, ...categories]}
+            onChange={(val) => writeUrl({ category: val, page: 1 }, "replace")}
+            align="left"
+            aria-label="Filter by category"
+          />
+
+          {/* Dosage Form Dropdown */}
+          <FilterDropdown
+            value={dosageForm}
+            options={[{ value: ALL, label: "All Forms" }, ...forms]}
+            onChange={(val) => writeUrl({ form: val, page: 1 }, "replace")}
+            align="right"
+            aria-label="Filter by dosage form"
+          />
+
+          {/* Type Dropdown */}
+          <FilterDropdown
+            value={productType}
+            options={[{ value: ALL, label: "All Types" }, ...types]}
+            onChange={(val) => writeUrl({ type: val, page: 1 }, "replace")}
+            align="right"
+            aria-label="Filter by type"
+          />
+
+          {filtering && (
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
-              onClick={() => writeUrl({ range: ALL, page: 1 }, "replace")}
+              onClick={clearFilters}
+              className="text-xs text-blue-600 hover:text-blue-700"
             >
-              Show all medicines
+              Reset
             </Button>
-          </div>
-        )}
-        {(showCategories || showForms || showTypes) && (
-          <div className="flex flex-col gap-5">
-            {showCategories && (
-              <FilterGroup title="Category">
-                <FilterChips
-                  label="Filter by category"
-                  options={[{ value: ALL, label: "All" }, ...categories]}
-                  value={category}
-                  onChange={(value) => writeUrl({ category: value, page: 1 }, "replace")}
-                />
-              </FilterGroup>
-            )}
-            {showForms && (
-              <FilterGroup title="Dosage form">
-                <FilterChips
-                  label="Filter by dosage form"
-                  options={[{ value: ALL, label: "All forms" }, ...forms]}
-                  value={dosageForm}
-                  onChange={(value) => writeUrl({ form: value, page: 1 }, "replace")}
-                />
-              </FilterGroup>
-            )}
-            {showTypes && (
-              <FilterGroup title="Type">
-                <FilterChips
-                  label="Filter by type"
-                  options={[{ value: ALL, label: "All types" }, ...types]}
-                  value={productType}
-                  onChange={(value) => writeUrl({ type: value, page: 1 }, "replace")}
-                />
-              </FilterGroup>
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </div>
+
+      {activeRange && (
+        <div className="flex flex-wrap items-center gap-3 rounded-lg border border-blue-100 bg-blue-25 px-4 py-2.5 text-sm text-ink-muted">
+          <span>
+            Showing the <strong className="font-semibold text-ink">{activeRange.title}</strong> range
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => writeUrl({ range: ALL, page: 1 }, "replace")}
+          >
+            Show all medicines
+          </Button>
+        </div>
+      )}
 
       <p
         ref={resultsRef}
         id="medicine-results"
         tabIndex={-1}
         aria-live="polite"
-        className="mt-6 min-h-[1lh] scroll-mt-[calc(var(--header-height)+1rem)] text-sm text-ink-muted outline-none"
+        className="sr-only outline-none"
       >
-        {countText}
+        {countDisplay}
       </p>
 
+      {/* Grid and Pagination */}
       {pageResults.length > 0 ? (
         <>
-          <ProductGrid products={pageResults} className="mt-4" />
+          <ProductGrid products={pageResults} className="mt-2" />
           <Pagination page={page} pageCount={pageCount} onChange={goToPage} className="mt-10" />
         </>
       ) : (
-        <div className="mt-4 flex flex-col items-start gap-4">
-          <p role="status" className="text-[15px] text-ink-muted">
-            No medicines match your search.
+        <div className="my-12 flex flex-col items-center justify-center gap-4 text-center">
+          <p role="status" className="text-base text-ink-muted">
+            No medicines match your search or selected filters.
           </p>
           <Button variant="outline" size="sm" onClick={clearFilters}>
-            Clear filters
+            Clear all filters
           </Button>
         </div>
       )}
-    </>
+    </div>
   )
 }

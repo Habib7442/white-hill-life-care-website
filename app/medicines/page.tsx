@@ -2,11 +2,11 @@ import { Suspense } from "react"
 
 import { Breadcrumbs } from "@/components/breadcrumbs"
 import { Container } from "@/components/layout/container"
+import { MedicinesHero } from "@/components/medicines/medicines-hero"
 import { ProductGrid } from "@/components/product-grid"
 import { MedicinesCatalog } from "@/components/sections/medicines-catalog"
 import { SiteFooter } from "@/components/site-footer/site-footer"
 import { SiteHeader } from "@/components/site-header/site-header"
-import { Eyebrow } from "@/components/typography/eyebrow"
 import { medicinesDisclaimer } from "@/lib/products"
 import { getProducts } from "@/lib/sanity/fetch"
 import { medicinesMetadata } from "@/lib/seo"
@@ -28,16 +28,14 @@ export default async function MedicinesPage() {
       <SiteHeader solid />
       <main id={sectionIds.main} tabIndex={-1} className="outline-none">
         <div className="bg-white pt-(--header-height)">
+          <MedicinesHero />
+
           <Container className="pt-8 pb-16 lg:pb-24">
             <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Our Medicines" }]} />
 
-            <div className="mt-6 mb-8 max-w-2xl">
-              <Eyebrow>Our Medicines</Eyebrow>
-              <h1 className="mt-3 font-heading text-[30px] leading-[1.15] font-bold text-navy-900 lg:text-[40px]">
-                Our Medicines
-              </h1>
-              <p className="mt-4 text-[15px] leading-[1.6] text-ink-muted">{medicinesDisclaimer}</p>
-            </div>
+            <p className="mt-4 max-w-2xl text-xs leading-relaxed text-ink-muted sm:text-sm">
+              {medicinesDisclaimer}
+            </p>
 
             {products.length > 0 ? (
               // The catalog reads the URL (search, filters, page), so it renders
