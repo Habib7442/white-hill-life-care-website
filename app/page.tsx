@@ -2,6 +2,7 @@ import { Hero } from "@/components/hero/hero";
 import { Preloader } from "@/components/preloader/preloader";
 import { Contact } from "@/components/sections/contact"
 import { ExploreRange } from "@/components/sections/explore-range";
+import { HealthCtaBanner } from "@/components/sections/health-cta-banner";
 import { Medicines } from "@/components/sections/medicines"
 import { ProductRange } from "@/components/sections/product-range";
 import { Quality } from "@/components/sections/quality";
@@ -21,8 +22,10 @@ export default function Home() {
         <Medicines />
         <Quality />
         <Contact />
+        <HealthCtaBanner />
       </main>
       <SiteFooter />
     </>
   );
 }
+

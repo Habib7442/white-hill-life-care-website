@@ -266,25 +266,57 @@ export const audiences: IconCard[] = [
   },
 ]
 
-export const qualityPoints: IconCard[] = [
+export type QualityPoint = IconCard & {
+  /** Pill label on the home card. */
+  label: string
+  /** Shorter text for the home card; /about shows `text`. */
+  short: string
+  /** The highlighted home card (blue, with a photo). */
+  featured?: {
+    title: string
+    image: { src: string; width: number; height: number }
+  }
+}
+
+/** Home "Our Commitment to Quality" (prompts/quality-section-redesign.md). */
+export const qualitySection = {
+  eyebrow: "Quality",
+  heading: "Our Commitment to Quality",
+  intro: "Simple standards we hold every medicine to, so you know exactly what you are getting.",
+}
+
+export const qualityPoints: QualityPoint[] = [
   {
     title: "Certified manufacturing",
+    label: "Certified Manufacturing",
     text: "Our medicines are made by WHO-GMP certified manufacturing partners, named on each pack.",
+    short: "Our medicines are made by WHO-GMP certified manufacturing partners",
     icon: ShieldCheck,
   },
   {
     title: "Considered formulations",
+    label: "Considered Formulations",
     text: "Every formulation is chosen with a clear purpose and listed with its full composition.",
+    short: "Every formulation is chosen with a clear purpose",
     icon: FlaskConical,
   },
   {
     title: "Clear labelling",
+    label: "Clear Labelling",
     text: "Composition, pack size, storage and Rx status are printed on the pack and shown on our website.",
+    short:
+      "Composition, pack size, storage and Rx status are printed on the pack and shown on our website.",
     icon: Tags,
+    featured: {
+      title: "Clear & Transparent Product Information",
+      image: { src: "/brand/quality/clear-labelling.webp", width: 960, height: 540 },
+    },
   },
   {
     title: "Reliable supply",
+    label: "Reliable Supply",
     text: "We plan stock with our distributors and stockists so orders can be met on time.",
+    short: "We plan stock with our distributors and stockists",
     icon: Truck,
   },
 ]

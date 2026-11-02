@@ -6,6 +6,7 @@ import { cn } from "cn"
 type RevealProps = {
   children: ReactNode
   className?: string
+  style?: React.CSSProperties
   /** Children carry `reveal-item` (and `[--i:n]`) themselves; otherwise the wrapper animates. */
   stagger?: boolean
 }
@@ -13,7 +14,7 @@ type RevealProps = {
 // Fades its content up once when it scrolls into view (CSS in app/globals.css).
 // Content is visible in the server HTML; it is only hidden after mount, and only
 // while still below the fold, so nothing disappears without JavaScript.
-export function Reveal({ children, className, stagger = false }: RevealProps) {
+export function Reveal({ children, className, style, stagger = false }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -36,8 +37,9 @@ export function Reveal({ children, className, stagger = false }: RevealProps) {
   }, [])
 
   return (
-    <div ref={ref} className={cn(!stagger && "reveal-item", className)}>
+    <div ref={ref} style={style} className={cn(!stagger && "reveal-item", className)}>
       {children}
     </div>
   )
 }
+

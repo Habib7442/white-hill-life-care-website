@@ -183,6 +183,7 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
             name="name"
             autoComplete="name"
             maxLength={100}
+            placeholder="Enter Full Name"
             aria-required="true"
             aria-invalid={errors.name ? true : undefined}
             aria-describedby={describedBy("name")}
@@ -197,7 +198,7 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
               type="tel"
               inputMode="tel"
               autoComplete="tel"
-              placeholder="+91 98765 43210"
+              placeholder="+91"
               aria-invalid={errors.phone ? true : undefined}
               aria-describedby={describedBy("phone", "enquiry-contact-hint")}
             />
@@ -213,7 +214,7 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
               aria-describedby={describedBy("email", "enquiry-contact-hint")}
             />
           </Field>
-          <p id="enquiry-contact-hint" className="-mt-3 text-[13px] text-ink-muted sm:col-span-2">
+          <p id="enquiry-contact-hint" className="-mt-2 text-xs text-ink-muted sm:col-span-2">
             Optional. Add these if you would like us to reply by phone or email as well.
           </p>
         </div>
@@ -226,7 +227,7 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
             aria-invalid={errors.role ? true : undefined}
             aria-describedby={describedBy("role")}
           >
-            <NativeSelectOption value="">Select one</NativeSelectOption>
+            <NativeSelectOption value="">Choose One</NativeSelectOption>
             {enquiryRoles.map((role) => (
               <NativeSelectOption key={role} value={role}>
                 {role}
@@ -247,7 +248,7 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
             aria-invalid={errors.message ? true : undefined}
             aria-describedby={describedBy("message", "enquiry-message-count")}
           />
-          <p id="enquiry-message-count" className="mt-1.5 text-right text-[13px] text-ink-muted">
+          <p id="enquiry-message-count" className="mt-1 text-right text-xs text-ink-muted">
             {messageLength}/{MESSAGE_MAX}
           </p>
         </Field>
@@ -268,7 +269,7 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
             </span>
             <label
               htmlFor="enquiry-consent"
-              className="cursor-pointer text-sm leading-[1.6] text-ink-muted"
+              className="cursor-pointer text-xs sm:text-[13px] leading-[1.6] text-ink-muted"
             >
               {consentLabel}{" "}
               <Link
@@ -283,10 +284,13 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
           <FieldError id="enquiry-consent-error" message={errors.consent} />
         </div>
 
-        <div>
-          <Button type="submit" className="w-full sm:w-auto">
-            <MessageCircle aria-hidden="true" strokeWidth={1.8} data-icon="inline-start" />
-            Send on WhatsApp
+        <div className="flex justify-end pt-1">
+          <Button
+            type="submit"
+            className="w-full min-h-11 rounded-full bg-navy-900 px-7 font-medium text-white transition-colors hover:bg-blue-700 sm:w-auto"
+          >
+            Send on Whatsapp
+            <MessageCircle aria-hidden="true" strokeWidth={1.8} data-icon="inline-end" className="size-4.5" />
           </Button>
         </div>
       </form>

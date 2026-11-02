@@ -69,7 +69,7 @@ Taken from the WhiteHill logo.
 | Body | IBM Plex Sans | 400 | 15 px / 1.6 | 15 px |
 | Button | IBM Plex Sans | 600 | 15 px | 15 px |
 
-> **Redesigned homepage sections (client references, user decision):** the hero H1, the "Explore Our Product Range" and "Our Medicines" H2s, the product range panel and range-card titles, product-card names and the `/range` page H1 use **Plus Jakarta Sans 600 in `--black` (#000000)**, not the serif/navy styles above. The user confirmed black is intended ("keep it black"); do not swap these to navy in reviews. Intro text in those sections is `--slate-800`. Older sections (Quality, Contact, About, detail pages) keep the serif/navy styles.
+> **Redesigned homepage sections (client references, user decision):** the hero H1, the "Explore Our Product Range" and "Our Medicines" H2s, the product range panel and range-card titles, product-card names and the `/range` page H1 use **Plus Jakarta Sans 600 in `--black` (#000000)**, not the serif/navy styles above. The user confirmed black is intended ("keep it black"); do not swap these to navy in reviews. Intro text in those sections is `--slate-800`. The redesigned Quality H2 uses the same Plus Jakarta 600 in white (it sits on navy). Older sections (Contact, About, detail pages) keep the serif/navy styles.
 
 - **Why a serif for headings:** matches the serif "WhiteHill" wordmark in the logo and feels established and trustworthy.
 - **Why IBM Plex Sans for body:** technical, scientific feel; very readable.
@@ -150,7 +150,7 @@ Rules: molecules are decorative (hidden from screen readers), never cover text, 
 | 3 | About | White | Heading left · two paragraphs + 3 value tags right |
 | 4 | Focus areas | `--blue-25` | Heading · 4 tiles in a row |
 | 5 | Our Medicines | White | Heading + disclaimer · 2 × 2 product cards |
-| 6 | Quality | `--navy-900` | Heading left · 4 outlined cards right (2 × 2) |
+| 6 | Quality | `--navy-900` + inline SVG molecule field | Centred pill eyebrow + heading · 4 numbered cards (4 / 2 / 1 columns); card 03 featured in `--blue-600` with a photo (`prompts/quality-section-redesign.md`) |
 | 7 | Contact | `--blue-25` | Details left (address, phone, email) · form card right |
 | 8 | Footer | `--navy-900` (user decision), white logo, `#D6E2F7` text | Logo + blurb · Company links · Medicine links · © + disclaimer row |
 
