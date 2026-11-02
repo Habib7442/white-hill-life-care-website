@@ -12,7 +12,7 @@ export function HealthCtaBanner() {
   }
 
   return (
-    <Section tone="white" className="pt-0 pb-16 sm:pb-20 lg:pb-24">
+    <Section tone="white" className="pt-8 sm:pt-12 pb-16 sm:pb-20 lg:pt-0 lg:pb-24">
       <Container>
         <Reveal
           className="relative overflow-hidden rounded-hero border border-blue-200/60 shadow-sm"
@@ -21,7 +21,7 @@ export function HealthCtaBanner() {
           <div className="w-full" style={gradientStyle}>
             <div className="grid items-center gap-6 lg:grid-cols-12">
               {/* Left Content */}
-              <div className="relative z-10 p-6 sm:p-10 lg:col-span-7 lg:py-16 lg:pl-14 lg:pr-4">
+              <div className="relative z-10 px-6 pt-10 pb-4 sm:p-10 sm:pt-12 lg:col-span-7 lg:py-16 lg:pl-14 lg:pr-4">
                 <h2 className="font-heading text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-[44px] lg:leading-[1.15]">
                   Care for Your Health, Effortlessly
                 </h2>
