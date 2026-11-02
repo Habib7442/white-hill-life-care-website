@@ -1,66 +1,53 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
 
-import { AboutMolecule } from "@/components/about/about-molecule"
-import { Breadcrumbs } from "@/components/breadcrumbs"
-import { Container } from "@/components/layout/container"
-import { CompanyName } from "@/components/typography/company-name"
-import { Eyebrow } from "@/components/typography/eyebrow"
-import { buttonVariants } from "@/components/ui/button"
+import { Reveal } from "@/components/reveal"
 import { medicinesHref } from "@/lib/products"
-import { company } from "@/lib/site"
 import { sectionIds } from "@/lib/site-nav"
 
 export function AboutHero() {
   return (
-    <section aria-labelledby="about-heading" className="bg-blue-25 pt-(--header-height)">
-      <Container className="pt-8 pb-16 lg:pb-24">
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About us" }]} />
+    <section aria-label="About WhiteHill Lifecares" className="relative w-full overflow-hidden">
+      <div className="relative flex min-h-[380px] w-full items-center justify-center overflow-hidden sm:min-h-[440px] lg:min-h-[500px]">
+        {/* Full-bleed Crystal-Clear Icy Blue Glass Honeycomb Wave Artwork */}
+        <Image
+          src="/brand/about-hero.webp"
+          alt="Icy blue glass honeycomb wave with molecular networks"
+          fill
+          priority
+          quality={95}
+          sizes="100vw"
+          className="object-cover object-center select-none"
+        />
 
-        <div className="mt-8 grid items-center gap-10 lg:mt-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <Eyebrow>About us</Eyebrow>
-            <h1
-              id="about-heading"
-              className="mt-3 font-heading text-[30px] leading-[1.15] font-bold text-navy-900 lg:text-[44px]"
+        {/* Soft atmospheric overlay */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-white/10 backdrop-blur-[0.5px]"
+        />
+
+        {/* Centered Headline & Action Buttons (Figma matching) */}
+        <Reveal className="relative z-10 mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:py-24">
+          <h1 className="font-heading text-4xl font-bold tracking-tight text-[#13234a] sm:text-5xl lg:text-[56px] lg:leading-[1.1]">
+            About Us
+          </h1>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3.5 sm:mt-8">
+            <Link
+              href={medicinesHref}
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-blue-700 sm:text-base"
             >
-              Medicines for better support of health, with the facts in plain view
-            </h1>
-            <p className="mt-5 text-base leading-[1.65] text-ink-muted lg:text-[17px]">
-              <CompanyName legal /> is a newly established, India-based pharmaceutical marketing
-              company. We work with distributors, stockists, pharmacies and healthcare
-              professionals to make a focused range of medicines available.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href={medicinesHref} className={buttonVariants()}>
-                Explore our medicines
-                <ArrowRight aria-hidden="true" strokeWidth={1.8} data-icon="inline-end" />
-              </Link>
-              <Link
-                href={`/#${sectionIds.contact}`}
-                className={buttonVariants({ variant: "outline" })}
-              >
-                Contact us
-              </Link>
-            </div>
+              Explore our medicines
+            </Link>
+            <Link
+              href={`/#${sectionIds.contact}`}
+              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-blue-600/70 bg-white/40 px-6 py-2.5 text-sm font-medium text-blue-600 shadow-xs transition-colors hover:bg-white sm:text-base"
+            >
+              Contact us
+            </Link>
           </div>
-
-          <div className="relative overflow-hidden rounded-hero border border-blue-100 bg-white dot-grid">
-            <AboutMolecule className="mx-auto h-65 w-auto p-6 sm:h-80 lg:h-105" />
-            <div className="absolute bottom-4 left-4 flex items-center rounded-card-sm border border-blue-100 bg-white px-4 py-3 lg:bottom-6 lg:left-6">
-              <Image
-                src={company.mark.src}
-                alt=""
-                width={company.mark.width}
-                height={company.mark.height}
-                sizes="58px"
-                className="h-7 w-auto lg:h-9"
-              />
-            </div>
-          </div>
-        </div>
-      </Container>
+        </Reveal>
+      </div>
     </section>
   )
 }

@@ -239,12 +239,12 @@ export const companyValues: IconCard[] = [
   {
     title: "Quality-led formulations",
     text: "Each medicine is chosen with a clear purpose and made by WHO-GMP certified manufacturing partners.",
-    icon: FlaskConical,
+    icon: BadgeCheck,
   },
   {
     title: "Transparent information",
-    text: "Composition, pack, storage and manufacturer details are shared openly on the pack and on our website.",
-    icon: FileText,
+    text: "Composition, pack, storage and manufacturer details shared openly on the pack and on our website.",
+    icon: Truck,
   },
   {
     title: "Responsible growth",
