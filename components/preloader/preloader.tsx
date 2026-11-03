@@ -1,42 +1,38 @@
 import Image from "next/image"
 
-import { RuralScene } from "@/components/preloader/rural-scene"
-import { company } from "@/lib/site"
+import { PreloaderSpinner } from "@/components/preloader/spinner"
 
-// Home page splash, shown once per browser tab (SplashGate hides it on later
-// visits). CSS-only animation; skipped for reduced motion.
+/**
+ * Modern Blue Medical Preloader (splash screen).
+ * Renders the full-screen edge-to-edge WhiteHill Healthcare & Wellness composition
+ * exactly matching the user's reference mockup, with a live rotating glowing spinner.
+ */
 export function Preloader() {
   return (
-    <div
+    <aside
       data-preloader
       aria-hidden="true"
-      className="fixed inset-0 z-[100] flex animate-splash-exit flex-col overflow-hidden bg-linear-to-b from-white to-blue-25 motion-reduce:hidden"
+      className="fixed inset-0 z-[100] flex animate-splash-exit items-center justify-center overflow-hidden bg-[#EDF6FD] motion-reduce:hidden"
     >
-      <div className="absolute inset-x-0 top-0 h-1/2 dot-grid mask-b-from-0%" />
-
-      <div className="relative flex flex-1 flex-col items-center justify-center px-6 pb-[22vh] text-center">
+      {/* Full-bleed edge-to-edge visual matching the user's design reference exactly */}
+      <div className="relative h-full w-full">
         <Image
-          src={company.mark.src}
-          alt=""
-          width={company.mark.width}
-          height={company.mark.height}
-          loading="eager"
-          sizes="(min-width: 1024px) 280px, 192px"
-          fetchPriority="high"
-          className="w-48 animate-splash-pop lg:w-[280px]"
+          src="/brand/preloader-poster-clean.webp"
+          alt="WhiteHill Lifecares - Healthcare & Wellness"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
         />
-        <p className="mt-5 animate-splash-rise font-heading text-[26px] leading-tight font-semibold text-navy-900 [animation-delay:0.1s] lg:text-4xl">
-          {company.legalName}
-        </p>
-        <p className="mt-2.5 animate-splash-rise text-xs font-semibold tracking-[0.14em] text-blue-600 uppercase [animation-delay:0.2s] lg:text-[13px]">
-          {company.tagline}
-        </p>
-        <div className="mt-6 h-0.5 w-40 overflow-hidden rounded-full bg-blue-100">
-          <div className="h-full origin-left animate-splash-progress rounded-full bg-blue-600" />
+
+        {/* Live rotating glowing circular spinner */}
+        <div className="pointer-events-none absolute top-[47.2%] left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <PreloaderSpinner
+            size={48}
+            className="drop-shadow-[0_0_12px_rgba(56,189,248,0.85)] sm:size-14 md:size-16"
+          />
         </div>
       </div>
-
-      <RuralScene className="absolute inset-x-0 bottom-0 h-[28vh] max-h-[260px] w-full animate-splash-scene" />
-    </div>
+    </aside>
   )
 }

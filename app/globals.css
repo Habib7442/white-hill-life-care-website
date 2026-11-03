@@ -69,7 +69,7 @@
 
   @keyframes splash-exit {
     0%,
-    76% {
+    84% {
       opacity: 1;
       visibility: visible;
       transform: scale(1);
@@ -388,3 +388,4 @@ html[data-splash="skip"] [data-preloader] {
     }
   }
 }
+
