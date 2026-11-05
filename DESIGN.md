@@ -151,7 +151,7 @@ Rules: molecules are decorative (hidden from screen readers), never cover text, 
 | 4 | Focus areas | `--blue-25` | Heading · 4 tiles in a row |
 | 5 | Our Medicines | White | Heading + disclaimer · 2 × 2 product cards |
 | 6 | Quality | `--navy-900` + inline SVG molecule field | Centred pill eyebrow + heading · 4 numbered cards (4 / 2 / 1 columns); card 03 featured in `--blue-600` with a photo (`prompts/quality-section-redesign.md`) |
-| 7 | Contact | `--blue-25` | Details left (address, phone, email) · form card right |
+| 7 | Contact (own page, `/contact`) | `--blue-25` | Details left (address, phone, email) · form card right |
 | 8 | Footer | `--navy-900` (user decision), white logo, `#D6E2F7` text | Logo + blurb · Company links · Medicine links · © + disclaimer row |
 
 ---

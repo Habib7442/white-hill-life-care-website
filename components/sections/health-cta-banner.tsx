@@ -12,7 +12,7 @@ export function HealthCtaBanner() {
   }
 
   return (
-    <Section tone="white" className="pt-8 sm:pt-12 pb-16 sm:pb-20 lg:pt-0 lg:pb-24">
+    <Section tone="white" className="pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24">
       <Container>
         <Reveal
           className="relative overflow-hidden rounded-hero border border-blue-200/60 shadow-sm"
@@ -26,8 +26,7 @@ export function HealthCtaBanner() {
                   Care for Your Health, Effortlessly
                 </h2>
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-800/90 sm:text-lg">
-                  Explore trusted medicines and wellness essentials with assured quality and reliable
-                  supply.
+                  Explore our medicines and wellness products, with clear information on every pack.
                 </p>
                 <div className="mt-8">
                   <Link

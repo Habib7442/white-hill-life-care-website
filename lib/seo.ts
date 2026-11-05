@@ -121,6 +121,23 @@ export const aboutMetadata: Metadata = {
   },
 }
 
+const contactTitle = "Contact Us"
+const contactDescription = `Contact ${company.legalName} for product details and stocking enquiries.`
+
+export const contactMetadata: Metadata = {
+  title: contactTitle,
+  description: contactDescription,
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "/contact",
+    siteName: company.legalName,
+    title: `${contactTitle} | ${company.name}`,
+    description: contactDescription,
+  },
+}
+
 const privacyTitle = "Privacy Policy"
 const privacyDescription = `How ${company.legalName} uses the details you share through the website enquiry form.`
 

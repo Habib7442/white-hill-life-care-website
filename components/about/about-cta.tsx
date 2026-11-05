@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Container } from "@/components/layout/container"
 import { Reveal } from "@/components/reveal"
 import { contactWhatsappMessage } from "@/lib/contact"
-import { sectionIds } from "@/lib/site-nav"
+import { contactHref } from "@/lib/site-nav"
 import { whatsappHref } from "@/lib/whatsapp"
 
 export function AboutCta({ whatsappNumber }: { whatsappNumber: string }) {
@@ -41,7 +41,7 @@ export function AboutCta({ whatsappNumber }: { whatsappNumber: string }) {
 
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-4">
               <Link
-                href={`/#${sectionIds.contact}`}
+                href={contactHref}
                 className="inline-flex min-h-12 w-full sm:w-auto items-center justify-center rounded-xl bg-blue-600 px-7 py-3 text-[15px] font-medium text-white shadow-md transition-[background-color,transform] duration-150 hover:bg-blue-700 motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
               >
                 Send an enquiry

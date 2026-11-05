@@ -6,14 +6,13 @@ import { Reveal } from "@/components/reveal"
 import { CompanyName } from "@/components/typography/company-name"
 import { getSiteSettings } from "@/lib/sanity/fetch"
 import { company } from "@/lib/site"
-import { sectionIds } from "@/lib/site-nav"
 
 export async function Contact() {
   const settings = await getSiteSettings()
   const whatsappNumber = settings?.whatsapp?.trim() || company.whatsapp
 
   return (
-    <Section id={sectionIds.contact} tone="tint" aria-labelledby="contact-heading">
+    <Section tone="tint" aria-labelledby="contact-heading">
       <Container>
         <Reveal className="rounded-hero border border-blue-100 bg-white p-3.5 shadow-xs sm:p-5 lg:p-6">
           <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">

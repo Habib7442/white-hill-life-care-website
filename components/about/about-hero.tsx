@@ -3,7 +3,7 @@ import Link from "next/link"
 
 import { Reveal } from "@/components/reveal"
 import { medicinesHref } from "@/lib/products"
-import { sectionIds } from "@/lib/site-nav"
+import { contactHref } from "@/lib/site-nav"
 
 export function AboutHero() {
   return (
@@ -40,7 +40,7 @@ export function AboutHero() {
               Explore our medicines
             </Link>
             <Link
-              href={`/#${sectionIds.contact}`}
+              href={contactHref}
               className="inline-flex min-h-11 items-center justify-center rounded-lg border border-blue-600/70 bg-white/40 px-6 py-2.5 text-sm font-medium text-blue-600 shadow-xs transition-colors hover:bg-white sm:text-base"
             >
               Contact us

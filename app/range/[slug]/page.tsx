@@ -12,7 +12,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { medicinesHref, rangeHref } from "@/lib/products"
 import { getProducts } from "@/lib/sanity/fetch"
 import { company, exploreRange, productRange } from "@/lib/site"
-import { sectionIds } from "@/lib/site-nav"
+import { contactHref, sectionIds } from "@/lib/site-nav"
 
 function findTile(slug: string) {
   const fromExplore = exploreRange.tiles.find((tile) => tile.slug === slug)
@@ -125,7 +125,7 @@ async function RangeContent({ params }: { params: PageProps<"/range/[slug]">["pa
               {productsHref ? `View ${tile.title.toLowerCase()}` : "View available medicines"}
             </Link>
             <Link
-              href={`/#${sectionIds.contact}`}
+              href={contactHref}
               className={buttonVariants({ variant: "outline", shape: "rounded" })}
             >
               Send an enquiry

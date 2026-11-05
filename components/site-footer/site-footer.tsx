@@ -9,7 +9,7 @@ import { contactWhatsappMessage, formatPhone, telHref } from "@/lib/contact"
 import { medicinesDisclaimer, medicinesHref, productHref } from "@/lib/products"
 import { getProducts, getSiteSettings } from "@/lib/sanity/fetch"
 import { company } from "@/lib/site"
-import { sectionIds } from "@/lib/site-nav"
+import { contactHref, sectionIds } from "@/lib/site-nav"
 import { whatsappHref } from "@/lib/whatsapp"
 
 /** How many medicines the footer lists before "View all medicines". */
@@ -20,7 +20,7 @@ const companyLinks = [
   { label: "About Us", href: "/about" },
   { label: "Products", href: medicinesHref },
   { label: "Quality", href: `/#${sectionIds.quality}` },
-  { label: "Contact", href: `/#${sectionIds.contact}` },
+  { label: "Contact", href: contactHref },
   { label: "Privacy Policy", href: "/privacy" },
 ]
 

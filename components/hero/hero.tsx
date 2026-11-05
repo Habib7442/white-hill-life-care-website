@@ -1,11 +1,12 @@
 import Image from "next/image"
+import Link from "next/link"
 
 import { CapsuleTilt } from "@/components/hero/capsule-tilt"
 import { HeroHighlights } from "@/components/hero/hero-highlights"
 import { Container } from "@/components/layout/container"
 import { buttonVariants } from "@/components/ui/button"
 import { heroCapsule, heroTrust } from "@/lib/site"
-import { sectionIds } from "@/lib/site-nav"
+import { contactHref, sectionIds } from "@/lib/site-nav"
 
 export function Hero() {
   return (
@@ -37,8 +38,8 @@ export function Hero() {
             >
               Explore our medicines
             </a>
-            <a
-              href={`#${sectionIds.contact}`}
+            <Link
+              href={contactHref}
               className={buttonVariants({
                 variant: "outline",
                 shape: "rounded",
@@ -46,7 +47,7 @@ export function Hero() {
               })}
             >
               Become a distributor
-            </a>
+            </Link>
           </div>
 
           <ul className="hero-rise mt-8 flex flex-wrap gap-x-6 gap-y-2.5 text-sm text-ink-muted [--i:3] lg:gap-x-4 lg:text-[13px] xl:flex-nowrap">
