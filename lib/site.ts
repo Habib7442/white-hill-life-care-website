@@ -24,7 +24,7 @@ export const company = {
   legalName: "WhiteHill Lifecares Pvt Ltd",
   shortName: "WhiteHill",
   /** As printed under the logo on the packs. */
-  tagline: "Healthcare & Wellness",
+  tagline: "Pharmaceutical Marketing Company",
   description:
     "WhiteHill Lifecares is an India-based pharmaceutical marketing company offering quality-led medicines for better support of health.",
   /** Enquiry WhatsApp number (client-supplied). Sanity siteSettings.whatsapp overrides it when set. */

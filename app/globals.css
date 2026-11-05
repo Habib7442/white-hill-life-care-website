@@ -64,7 +64,6 @@
   --animate-splash-exit: splash-exit 2.8s ease-in-out both;
   --animate-splash-pop: splash-pop 0.6s ease-out both;
   --animate-splash-rise: splash-rise 0.6s ease-out both;
-  --animate-splash-scene: splash-scene 0.8s ease-out both;
   --animate-splash-progress: splash-progress 2.2s ease-in-out both;
 
   @keyframes splash-exit {
@@ -96,17 +95,6 @@
     from {
       opacity: 0;
       transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes splash-scene {
-    from {
-      opacity: 0;
-      transform: translateY(16px);
     }
     to {
       opacity: 1;
@@ -327,6 +315,26 @@
 /* Home splash plays once per tab; SplashGate sets data-splash="skip" after. */
 html[data-splash="skip"] [data-preloader] {
   display: none;
+}
+
+/* Height of the splash art's sky, above the building's roof. The roof sits at a
+   fixed share of the art's height from the bottom, and object-cover scales the
+   art to the window's width (or its height, in a narrower window). */
+[data-preloader] {
+  --splash-sky: min(calc(100svh - 26vw), 53.7svh);
+  --splash-unit: min(var(--splash-sky), 66vw);
+}
+
+@media (orientation: portrait) {
+  [data-preloader] {
+    --splash-sky: min(calc(100svh - 43.8vw), 79.7svh);
+  }
+}
+
+@media (orientation: portrait) and (max-width: 640px) {
+  [data-preloader] {
+    --splash-sky: min(calc(100svh - 112vw), 49.6svh);
+  }
 }
 
 /* Scrolls, but shows no scrollbar (filter chip rows). */

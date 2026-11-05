@@ -1,65 +1,73 @@
-import Image from "next/image"
+import Image, { getImageProps } from "next/image"
 
-import { HospitalScene } from "@/components/preloader/hospital-scene"
-import { PreloaderSpinner } from "@/components/preloader/spinner"
-import { SplashBackground } from "@/components/preloader/splash-background"
 import { company } from "@/lib/site"
 
+// Pre-sized in scripts/prepare-splash-art.py and served as they are: the splash
+// only lasts 2.8 s, too short to wait for the on-demand image optimizer.
+const art = {
+  landscape: { src: "/brand/splash-scene.webp", width: 1672, height: 941 },
+  /** Tablets upright: phone art would leave too little sky above the roof. */
+  portrait: { src: "/brand/splash-scene-portrait.webp", width: 996, height: 2150 },
+  phone: { src: "/brand/splash-scene-phone.webp", width: 941, height: 2090 },
+}
+
 /**
- * Modern Blue Medical Preloader (splash screen).
- * Coded architecture with clear visual hierarchy:
- * 1. Clean sky background with subtle flowing wave ribbons (no dot grids).
- * 2. Unobstructed header stack (Logo mark, Legal name, Tagline, and Live spinner).
- * 3. Hospital scene grounded at the bottom, placed strictly after the loading bar
- *    with a soft feather top edge dissolve so it never collides or feels cut.
+ * Home splash screen (prompts/preloader-reference-redesign.md). The brand stack
+ * sits in the art's sky and scales with it (--splash-unit in app/globals.css),
+ * so it stays clear of the building at any window shape.
  */
 export function Preloader() {
+  const { props: image } = getImageProps({
+    ...art.landscape,
+    alt: "",
+    unoptimized: true,
+    fetchPriority: "high",
+  })
+
   return (
     <aside
       data-preloader
       aria-hidden="true"
-      className="fixed inset-0 z-[100] flex animate-splash-exit flex-col justify-between overflow-hidden bg-[#EBF5FD] motion-reduce:hidden"
+      className="fixed inset-0 z-[100] animate-splash-exit overflow-hidden bg-blue-25 motion-reduce:hidden"
     >
-      {/* Background soft sky gradient and elegant flowing wave ribbons */}
-      <SplashBackground />
+      <picture>
+        <source media="(orientation: portrait) and (max-width: 640px)" srcSet={art.phone.src} />
+        <source media="(orientation: portrait)" srcSet={art.portrait.src} />
+        <img
+          {...image}
+          alt=""
+          style={undefined}
+          className="absolute inset-0 size-full object-cover object-bottom"
+        />
+      </picture>
 
-      {/* Top Section: Branding & Spinner Stack (Placed on clean, unobstructed sky) */}
-      <div className="relative z-20 flex shrink-0 flex-col items-center justify-center px-4 pt-6 text-center sm:pt-8 md:pt-10">
-        {/* WH 3D Leaf Monogram Mark */}
+      <div className="relative flex h-(--splash-sky) flex-col items-center justify-center px-4 text-center">
         <Image
           src={company.mark.src}
           alt=""
           width={company.mark.width}
           height={company.mark.height}
-          loading="eager"
-          sizes="(min-width: 1024px) 220px, 150px"
+          unoptimized
           fetchPriority="high"
-          className="w-28 animate-splash-pop drop-shadow-[0_10px_20px_rgba(37,99,235,0.15)] sm:w-36 md:w-40 lg:w-44"
+          className="h-[calc(var(--splash-unit)*0.38)] w-auto animate-splash-pop"
         />
 
-        {/* Company Legal Name in Serif Typography */}
-        <p className="mt-2.5 animate-splash-rise font-heading text-lg font-bold tracking-tight text-navy-900 [animation-delay:0.1s] sm:mt-3 sm:text-2xl md:text-3xl">
+        <p className="mt-[calc(var(--splash-unit)*0.03)] animate-splash-rise font-heading text-[length:calc(var(--splash-unit)*0.105)] leading-tight font-bold tracking-tight whitespace-nowrap text-navy-900 [animation-delay:0.1s]">
           {company.legalName}
         </p>
 
-        {/* Tagline framed by fine horizontal rules: — HEALTHCARE & WELLNESS — */}
-        <div className="mt-1.5 flex items-center justify-center gap-2.5 animate-splash-rise [animation-delay:0.18s] sm:mt-2 sm:gap-3.5">
-          <span className="h-px w-8 bg-linear-to-r from-transparent to-blue-600/70 sm:w-12" />
-          <p className="text-[10px] font-semibold tracking-[0.22em] text-blue-600 uppercase sm:text-xs">
+        <div className="mt-[calc(var(--splash-unit)*0.025)] flex animate-splash-rise items-center gap-[calc(var(--splash-unit)*0.03)] [animation-delay:0.18s]">
+          <span className="h-px w-[calc(var(--splash-unit)*0.08)] bg-blue-600/70 max-[359px]:hidden" />
+          <p className="text-[length:max(10px,calc(var(--splash-unit)*0.036))] font-semibold tracking-[0.22em] whitespace-nowrap text-blue-600 uppercase [@media(orientation:portrait)_and_(max-width:640px)]:text-blue-700">
             {company.tagline}
           </p>
-          <span className="h-px w-8 bg-linear-to-l from-transparent to-blue-600/70 sm:w-12" />
+          <span className="h-px w-[calc(var(--splash-unit)*0.08)] bg-blue-600/70 max-[359px]:hidden" />
         </div>
 
-        {/* Circular Glowing Spinner placed directly below the tagline */}
-        <div className="mt-3 animate-splash-rise [animation-delay:0.25s] sm:mt-4">
-          <PreloaderSpinner size={38} />
+        {/* Loading bar: fills over the splash's life, just before it fades out. */}
+        <div className="mt-[calc(var(--splash-unit)*0.03)] h-1 w-[calc(var(--splash-unit)*0.62)] animate-splash-rise overflow-hidden rounded-full bg-blue-200 [animation-delay:0.25s] [@media(orientation:portrait)_and_(max-width:640px)]:bg-white/70">
+          <div className="h-full origin-left animate-splash-progress rounded-full bg-blue-600" />
         </div>
-      </div>
-
-      {/* Bottom Section: Modern Blue Medical Hospital Scene (Placed below header, edge-to-edge) */}
-      <div className="relative z-10 flex min-h-0 w-full flex-1 items-end justify-center animate-splash-scene overflow-hidden">
-        <HospitalScene className="h-full w-full max-h-[50vh] sm:max-h-[54vh] lg:max-h-[58vh]" />
       </div>
     </aside>
   )
