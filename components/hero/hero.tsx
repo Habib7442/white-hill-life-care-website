@@ -5,8 +5,8 @@ import { CapsuleTilt } from "@/components/hero/capsule-tilt"
 import { HeroHighlights } from "@/components/hero/hero-highlights"
 import { Container } from "@/components/layout/container"
 import { buttonVariants } from "@/components/ui/button"
-import { heroCapsule, heroTrust } from "@/lib/site"
-import { contactHref, sectionIds } from "@/lib/site-nav"
+import { company, heroCapsule, heroTrust } from "@/lib/site"
+import { sectionIds } from "@/lib/site-nav"
 
 export function Hero() {
   return (
@@ -29,20 +29,24 @@ export function Hero() {
           className="pointer-events-none absolute inset-0 bg-linear-to-t from-white/70 via-white/40 to-transparent lg:bg-linear-to-r"
         />
 
-        <Container className="relative grid items-center gap-4 pt-(--header-height) md:gap-8 lg:min-h-[600px] lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[auto_minmax(0,1fr)] xl:gap-12">
+        <Container className="relative grid items-center gap-4 pt-(--header-height) md:gap-8 lg:min-h-[640px] lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[auto_minmax(0,1fr)] xl:gap-12">
           <div className="pb-10 md:pt-14 lg:pt-6 lg:pb-12">
             <h1
               id="hero-heading"
-              className="hero-slide font-display text-[34px] leading-[1.2] font-semibold tracking-[-0.02em] text-black min-[400px]:text-[40px] sm:text-[52px] lg:text-[56px] xl:text-[64px]"
+              className="hero-slide font-display text-[length:min(calc((100vw_-_48px)/8.8),52px)] leading-[1.15] font-semibold tracking-[-0.02em] text-black sm:text-[52px] lg:text-[56px] xl:text-[64px]"
             >
-              Quality Medicines.
-              <br />{" "}
-              Healthier Lives.
+              {company.name}
+              <br /> Pvt Ltd
             </h1>
 
-            <p className="hero-rise mt-6 max-w-[34rem] [--i:1] text-base leading-[1.65] text-slate-800 lg:text-[17px]">
-              Making quality-focused pharmaceutical products accessible to
-              healthcare professionals, pharmacies and distributors.
+            <p className="hero-rise mt-3 [--i:1] font-display text-xl font-semibold text-blue-700 lg:text-2xl">
+              Towards a Healthier India
+            </p>
+
+            <p className="hero-rise mt-4 max-w-[34rem] [--i:1] text-base leading-[1.65] text-slate-800 lg:text-[17px]">
+              An Indian pharmaceutical company bringing quality medicines and wellness products to
+              healthcare professionals, pharmacies and distributors across India. We focus on
+              consistent quality, clear product information and responsible healthcare practices.
             </p>
 
             <div className="hero-rise mt-8 flex flex-col gap-2.5 [--i:2] sm:flex-row sm:gap-4">
@@ -53,14 +57,14 @@ export function Hero() {
                 Explore our medicines
               </a>
               <Link
-                href={contactHref}
+                href="/about"
                 className={buttonVariants({
                   variant: "outline",
                   shape: "rounded",
                   className: "bg-white/45 hover:bg-white",
                 })}
               >
-                Become a distributor
+                Know more
               </Link>
             </div>
 
