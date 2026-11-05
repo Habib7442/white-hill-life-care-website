@@ -42,10 +42,11 @@ export function ProductCard({ product }: ProductCardProps) {
           cropped. */}
       <div className="relative h-[180px] md:h-[240px]">
         <Image
-          src={urlFor(packImage).width(800).fit("max").auto("format").url()}
+          src={urlFor(packImage).width(640).fit("max").auto("format").url()}
           alt={packImage.alt}
           fill
-          sizes="(min-width: 1240px) 360px, (min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
+          // Square packs in a box 240 px tall (180 px on phones), so height limits them.
+          sizes="(min-width: 768px) 240px, 180px"
           placeholder={lqip ? "blur" : "empty"}
           blurDataURL={lqip ?? undefined}
           className="object-contain py-4 transition-transform duration-200 ease-out motion-safe:group-hover:scale-[1.03]"

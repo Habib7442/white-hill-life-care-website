@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 import { Container } from "@/components/layout/container"
 import { HeaderShell } from "@/components/site-header/header-shell"
@@ -23,7 +24,7 @@ export function SiteHeader({ solid = false }: SiteHeaderProps) {
       </a>
 
       <Container className="relative flex h-(--header-height) items-center justify-between gap-6">
-        <a
+        <Link
           href={`/#${sectionIds.top}`}
           className="flex shrink-0 items-center rounded-tag"
         >
@@ -37,24 +38,24 @@ export function SiteHeader({ solid = false }: SiteHeaderProps) {
             sizes="132px"
             className="h-10 w-auto nav:h-[54px]"
           />
-        </a>
+        </Link>
 
         <nav aria-label="Main" className="hidden nav:block">
           <ul className="flex items-center gap-1 lg:gap-3">
             {mainNav.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   className="inline-flex min-h-11 items-center rounded-tag px-3 text-[15px] font-medium text-ink-muted transition-colors duration-150 hover:text-blue-600"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </nav>
 
-        <a
+        <Link
           href={headerCta.href}
           className={buttonVariants({
             size: "sm",
@@ -63,7 +64,7 @@ export function SiteHeader({ solid = false }: SiteHeaderProps) {
           })}
         >
           {headerCta.label}
-        </a>
+        </Link>
 
         <MobileMenu links={mainNav} cta={headerCta} />
       </Container>

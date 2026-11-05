@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useId, useRef, useState } from "react"
+import Link from "next/link"
 import { Menu, X } from "lucide-react"
 
 import { buttonVariants } from "@/components/ui/button"
@@ -66,23 +67,23 @@ export function MobileMenu({ links, cta }: MobileMenuProps) {
           <ul className="flex flex-col">
             {links.map((link) => (
               <li key={link.href} className="border-b border-line">
-                <a
+                <Link
                   href={link.href}
                   onClick={close}
                   className="flex min-h-12 items-center text-base font-medium text-ink transition-colors duration-150 hover:text-blue-600"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
-          <a
+          <Link
             href={cta.href}
             onClick={close}
             className={buttonVariants({ shape: "rounded", className: "mt-5 w-full" })}
           >
             {cta.label}
-          </a>
+          </Link>
         </nav>
       </div>
     </div>
