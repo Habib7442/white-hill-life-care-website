@@ -28,7 +28,7 @@ export function AboutHero() {
 
         {/* Centered Headline & Action Buttons (Figma matching) */}
         <Reveal className="relative z-10 mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:py-24">
-          <h1 className="font-heading text-4xl font-bold tracking-tight text-[#13234a] sm:text-5xl lg:text-[56px] lg:leading-[1.1]">
+          <h1 className="font-heading text-[44px] leading-[1.1] font-bold tracking-tight text-[#13234a] sm:text-[56px] lg:text-[64px]">
             About Us
           </h1>
 

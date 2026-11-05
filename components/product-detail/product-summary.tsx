@@ -40,7 +40,7 @@ export function ProductSummary({ product }: { product: ProductDetail }) {
 
       <h1
         id="product-heading"
-        className="font-heading text-[30px] leading-[1.15] font-bold text-navy-900 lg:text-[40px]"
+        className="font-heading text-[34px] leading-[1.15] font-bold text-navy-900 sm:text-[40px] lg:text-[48px]"
       >
         {product.name}
         {product.mark && <sup className="ml-1 text-[0.5em]">{product.mark}</sup>}

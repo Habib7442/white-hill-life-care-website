@@ -26,7 +26,7 @@ export default function NotFound() {
         <Container className="flex flex-col items-center py-20 text-center lg:py-28">
           <NotFoundMolecule />
           <Eyebrow className="mt-8">Error 404</Eyebrow>
-          <h1 className="mt-3 font-heading text-[30px] leading-[1.15] font-bold text-navy-900 lg:text-[40px]">
+          <h1 className="mt-3 font-heading text-[38px] leading-[1.15] font-bold text-navy-900 sm:text-[44px] lg:text-[52px]">
             Page not found
           </h1>
           <p className="mt-4 max-w-md text-base leading-[1.65] text-ink-muted">

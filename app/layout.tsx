@@ -36,6 +36,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     // suppressHydrationWarning: SplashGate sets data-splash on <html> before hydration.
     <html
       lang="en-IN"
+      data-scroll-behavior="smooth"
       className={`${plexSans.variable} ${sourceSerif.variable} ${jakartaSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >

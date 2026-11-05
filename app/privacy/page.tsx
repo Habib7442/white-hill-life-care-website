@@ -40,7 +40,7 @@ export default async function PrivacyPage() {
             <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]} />
 
             <article className="mt-6 max-w-[720px]">
-              <h1 className="font-heading text-[30px] leading-[1.15] font-bold text-navy-900 lg:text-[40px]">
+              <h1 className="font-heading text-[38px] leading-[1.15] font-bold text-navy-900 sm:text-[44px] lg:text-[52px]">
                 Privacy Policy
               </h1>
               <p className="mt-3 text-sm text-ink-faint">Last updated: {LAST_UPDATED}</p>

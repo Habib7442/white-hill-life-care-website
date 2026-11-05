@@ -16,7 +16,7 @@ export default function ContactPage() {
         <div className="bg-white pt-(--header-height)">
           <Container className="pt-8 pb-10 lg:pb-12">
             <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
-            <h1 className="mt-8 font-display text-[34px] leading-[1.15] font-semibold text-black lg:text-[44px]">
+            <h1 className="mt-8 font-display text-[40px] leading-[1.15] font-semibold text-black sm:text-[48px] lg:text-[56px]">
               Contact Us
             </h1>
             <p className="mt-4 max-w-[40rem] text-base leading-[1.65] text-slate-800 lg:text-[17px]">

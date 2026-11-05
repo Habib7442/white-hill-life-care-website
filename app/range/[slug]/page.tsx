@@ -107,7 +107,7 @@ async function RangeContent({ params }: { params: PageProps<"/range/[slug]">["pa
           </p>
           <h1
             id="range-heading"
-            className="mt-3 font-display text-[34px] leading-[1.15] font-semibold text-black lg:text-[44px]"
+            className="mt-3 font-display text-[40px] leading-[1.15] font-semibold text-black sm:text-[48px] lg:text-[56px]"
           >
             {tile.title}
           </h1>

@@ -31,7 +31,7 @@ export function MedicinesHero() {
 
         {/* Centered Headline & Description */}
         <Reveal className="relative z-10 mx-auto max-w-3xl px-6 py-16 text-center sm:px-10 lg:py-24">
-          <h1 className="font-heading text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl lg:text-[50px] lg:leading-[1.15]">
+          <h1 className="font-heading text-[36px] leading-[1.15] font-bold tracking-tight text-navy-900 sm:text-[48px] lg:text-[60px]">
             Advancing Healthcare. Enhancing Lives.
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm font-medium leading-relaxed text-slate-800 sm:text-base lg:text-[17px]">

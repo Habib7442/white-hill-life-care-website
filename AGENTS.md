@@ -347,7 +347,7 @@ Keep this table and `.env.example` in sync.
 - **Logo filenames contain spaces.** Rename them to kebab-case (e.g. `whitehill-logo.png`, `whitehill-logo-dark-bg.png`) before referencing them, and update every reference.
 - **Trademark marks** (`™`, `®`) come from the `mark` field; render them as superscript after the name, never typed into `name`.
 - **Unicode `×`** in pack sizes (`10 × 10`), not the letter `x`.
-- **The header is `fixed` and transparent over the hero** (`components/site-header/header-shell.tsx`). Any new page without the hero (e.g. `/privacy`, `/medicines/[slug]`) must render `<SiteHeader solid />` and add `pt-(--header-height)` to its first section. Nav links are `/#section` so they work from every page. Internal page links use `<Link>`, not `<a>`, which would reload the whole page; only the skip link stays `<a>`.
+- **The header is `fixed` and transparent over the hero** (`components/site-header/header-shell.tsx`). Any new page without the hero (e.g. `/privacy`, `/medicines/[slug]`) must render `<SiteHeader solid />` and add `pt-(--header-height)` to its first section. Nav links are `/#section` so they work from every page. Internal page links use `<Link>`, not `<a>`, which would reload the whole page; only the skip link stays `<a>`. Do not put `scroll-padding-top` on `html`: these pages start behind the fixed header, so `<Link>` would scroll to the footer. Use `scroll-margin-top` (`app/globals.css`).
 - **Hydration:** the mobile menu and form are the only client state; do not read `window` during render.
 
 ---

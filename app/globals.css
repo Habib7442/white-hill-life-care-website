@@ -353,7 +353,18 @@ html[data-splash="skip"] [data-preloader] {
   html {
     @apply font-sans;
     scroll-behavior: smooth;
-    scroll-padding-top: var(--header-height);
+  }
+
+  /* Keeps # targets and keyboard focus clear of the fixed header. Not
+     scroll-padding-top on html: pages start behind the header, so next/link would
+     treat them as out of view and scroll to the footer. */
+  [id],
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    scroll-margin-top: var(--header-height);
   }
 
   body {
