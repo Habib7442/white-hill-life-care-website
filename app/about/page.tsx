@@ -44,7 +44,7 @@ export default async function AboutPage() {
         <AboutQuality />
 
 
-        <AboutCta whatsappNumber={settings?.whatsapp?.trim() || company.whatsapp} />
+        <AboutCta email={settings?.email?.trim() || company.email} />
       </main>
       <SiteFooter />
     </>

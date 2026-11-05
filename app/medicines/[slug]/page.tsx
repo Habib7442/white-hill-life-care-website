@@ -15,10 +15,9 @@ import { SiteFooter } from "@/components/site-footer/site-footer"
 import { SiteHeader } from "@/components/site-header/site-header"
 import { SectionHeading } from "@/components/typography/section-heading"
 import { medicinesDisclaimer, medicinesHref, withPackImage } from "@/lib/products"
-import { getProductBySlug, getProductSlugs, getSiteSettings } from "@/lib/sanity/fetch"
+import { getProductBySlug, getProductSlugs } from "@/lib/sanity/fetch"
 import { urlFor } from "@/lib/sanity/image"
 import { productMetadata } from "@/lib/seo"
-import { company } from "@/lib/site"
 import { sectionIds } from "@/lib/site-nav"
 
 export async function generateStaticParams() {
@@ -74,7 +73,7 @@ async function ProductPageContent({
   params: PageProps<"/medicines/[slug]">["params"]
 }) {
   const { slug } = await params
-  const [product, settings] = await Promise.all([getProductBySlug(slug), getSiteSettings()])
+  const product = await getProductBySlug(slug)
   if (!product) notFound()
 
   const related = withPackImage(
@@ -95,10 +94,7 @@ async function ProductPageContent({
             />
             <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-16">
               <ProductGallery packImage={product.packImage} gallery={product.gallery} />
-              <ProductSummary
-                product={product}
-                whatsappNumber={settings?.whatsapp || company.whatsapp}
-              />
+              <ProductSummary product={product} />
             </div>
           </Container>
         </div>

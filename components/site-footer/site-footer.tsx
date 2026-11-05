@@ -1,16 +1,14 @@
 import Image from "next/image"
 import Link from "next/link"
 import { cacheLife } from "next/cache"
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react"
+import { Mail, MapPin } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
 import { CompanyName } from "@/components/typography/company-name"
-import { contactWhatsappMessage, formatPhone, telHref } from "@/lib/contact"
 import { medicinesDisclaimer, medicinesHref, productHref } from "@/lib/products"
 import { getProducts, getSiteSettings } from "@/lib/sanity/fetch"
 import { company } from "@/lib/site"
 import { contactHref, sectionIds } from "@/lib/site-nav"
-import { whatsappHref } from "@/lib/whatsapp"
 
 /** How many medicines the footer lists before "View all medicines". */
 const FOOTER_MEDICINE_COUNT = 6
@@ -44,9 +42,7 @@ export async function SiteFooter() {
   const address =
     settings?.address?.trim() ||
     "Sumi Nath, Silpukuri, Near GMC,\nPub Sarania, Chandmari,\nGuwahati, Kamrup Metropolitan,\nAssam - 781003"
-  const phone = settings?.phone?.trim() || company.whatsapp
-  const email = settings?.email?.trim() || "whitehilllifecarespvtltd@gmail.com"
-  const whatsappNumber = settings?.whatsapp?.trim() || company.whatsapp
+  const email = settings?.email?.trim() || company.email
 
   const registrations = [
     ["CIN", settings?.cin],
@@ -77,19 +73,6 @@ export async function SiteFooter() {
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-on-navy">
               {company.description}
             </p>
-            {whatsappNumber && (
-              <div className="mt-5">
-                <a
-                  href={whatsappHref(whatsappNumber, contactWhatsappMessage)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-blue-700/80 bg-blue-800/40 px-3.5 py-1.5 text-xs font-medium text-white transition-colors duration-150 hover:bg-blue-800/70 focus-visible:outline-2 focus-visible:outline-blue-300"
-                >
-                  <MessageCircle aria-hidden="true" strokeWidth={1.8} className="size-3.5 text-emerald-400" />
-                  <span>Chat on WhatsApp</span>
-                </a>
-              </div>
-            )}
           </div>
 
           {/* Column 2: Company Navigation (2 cols) */}
@@ -128,18 +111,6 @@ export async function SiteFooter() {
                   <address className="text-xs leading-relaxed text-ink-on-navy whitespace-pre-line not-italic sm:text-[13px]">
                     {address}
                   </address>
-                </li>
-              )}
-              {phone && (
-                <li className="flex items-center gap-2.5">
-                  <Phone
-                    aria-hidden="true"
-                    strokeWidth={1.8}
-                    className="size-4 shrink-0 text-blue-300"
-                  />
-                  <a href={telHref(phone)} className={linkClasses}>
-                    {formatPhone(phone)}
-                  </a>
                 </li>
               )}
               {email && (

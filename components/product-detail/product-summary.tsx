@@ -1,4 +1,5 @@
-import { CircleCheck, Download, MessageCircle } from "lucide-react"
+import Link from "next/link"
+import { CircleCheck, Download, Mail } from "lucide-react"
 
 import { buttonVariants } from "@/components/ui/button"
 import { Chip } from "@/components/ui/chip"
@@ -6,31 +7,14 @@ import {
   isPrescriptionOnly,
   prescriptionAudience,
   prescriptionCaution,
-  productHref,
   productTypeLabels,
   scheduleLabels,
 } from "@/lib/products"
-import { siteUrl } from "@/lib/seo"
-import { productEnquiryMessage, whatsappHref } from "@/lib/whatsapp"
+import { medicineEnquiryHref } from "@/lib/contact"
 
 import type { ProductDetail } from "./types"
 
-export function ProductSummary({
-  product,
-  whatsappNumber,
-}: {
-  product: ProductDetail
-  whatsappNumber: string
-}) {
-  const enquiryHref = whatsappHref(
-    whatsappNumber,
-    productEnquiryMessage({
-      name: product.name,
-      mark: product.mark,
-      pack: product.pack,
-      url: new URL(productHref(product.slug), siteUrl).href,
-    })
-  )
+export function ProductSummary({ product }: { product: ProductDetail }) {
   const isRx = isPrescriptionOnly(product.schedule)
   const supports = product.supports?.filter(Boolean) ?? []
 
@@ -107,11 +91,10 @@ export function ProductSummary({
       )}
 
       <div className="flex flex-wrap gap-3">
-        <a href={enquiryHref} target="_blank" rel="noopener noreferrer" className={buttonVariants()}>
-          <MessageCircle aria-hidden="true" strokeWidth={1.8} data-icon="inline-start" />
+        <Link href={medicineEnquiryHref(product)} className={buttonVariants()}>
+          <Mail aria-hidden="true" strokeWidth={1.8} data-icon="inline-start" />
           Send an Enquiry
-          <span className="sr-only"> on WhatsApp (opens in a new tab)</span>
-        </a>
+        </Link>
         {product.leafletUrl && (
           <a
             href={`${product.leafletUrl}?dl=`}

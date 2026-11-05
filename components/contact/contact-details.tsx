@@ -1,26 +1,21 @@
 import type { ReactNode } from "react"
-import { Clock, Mail, MapPin, MessageCircle, Phone, type LucideIcon } from "lucide-react"
+import { Clock, Mail, MapPin, type LucideIcon } from "lucide-react"
 
-import { contactWhatsappMessage, formatPhone, telHref } from "@/lib/contact"
 import type { SiteSettings } from "@/lib/sanity/fetch"
 import { company } from "@/lib/site"
-import { whatsappHref } from "@/lib/whatsapp"
 
 const linkClasses =
   "inline-flex min-h-8 items-center font-medium text-white text-sm break-all transition-opacity duration-150 hover:underline hover:opacity-95 focus-visible:outline-2 focus-visible:outline-white"
 
 type ContactDetailsProps = {
   settings: SiteSettings | null
-  whatsappNumber: string | null
 }
 
-export function ContactDetails({ settings, whatsappNumber }: ContactDetailsProps) {
+export function ContactDetails({ settings }: ContactDetailsProps) {
   const address =
     settings?.address?.trim() ||
     "Sumi Nath, Silpukuri, Near GMC,\nPub Sarania, Chandmari,\nGuwahati, Kamrup Metropolitan,\nAssam - 781003"
-  const phone = settings?.phone?.trim() || company.whatsapp
-  const email = settings?.email?.trim() || "whitehilllifecarespvtltd@gmail.com"
-  const whatsapp = whatsappNumber || company.whatsapp
+  const email = settings?.email?.trim() || company.email
 
   return (
     <div className="relative flex h-full flex-col justify-between overflow-hidden">
@@ -65,7 +60,7 @@ export function ContactDetails({ settings, whatsappNumber }: ContactDetailsProps
           Get in touch
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-white/90">
-          Contact us via WhatsApp, call or email.
+          Contact us by email.
         </p>
 
         <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-medium text-white/95 backdrop-blur-xs">
@@ -83,29 +78,10 @@ export function ContactDetails({ settings, whatsappNumber }: ContactDetailsProps
             </address>
           </DetailRow>
         )}
-        {phone && (
-          <DetailRow icon={Phone} label="Phone">
-            <a href={telHref(phone)} className={linkClasses}>
-              {formatPhone(phone)}
-            </a>
-          </DetailRow>
-        )}
         {email && (
           <DetailRow icon={Mail} label="Email">
             <a href={`mailto:${email}`} className={linkClasses}>
               {email}
-            </a>
-          </DetailRow>
-        )}
-        {whatsapp && (
-          <DetailRow icon={MessageCircle} label="WhatsApp Direct">
-            <a
-              href={whatsappHref(whatsapp, contactWhatsappMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={linkClasses}
-            >
-              Chat on WhatsApp ({formatPhone(whatsapp)})
             </a>
           </DetailRow>
         )}

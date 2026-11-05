@@ -5,14 +5,14 @@ import { Container } from "@/components/layout/container"
 import { SiteFooter } from "@/components/site-footer/site-footer"
 import { SiteHeader } from "@/components/site-header/site-header"
 import { CompanyName } from "@/components/typography/company-name"
-import { formatPhone, telHref } from "@/lib/contact"
 import { getSiteSettings } from "@/lib/sanity/fetch"
 import { privacyMetadata } from "@/lib/seo"
+import { company } from "@/lib/site"
 import { sectionIds } from "@/lib/site-nav"
 
 export const metadata = privacyMetadata
 
-const LAST_UPDATED = "22 October 2026"
+const LAST_UPDATED = "5 November 2026"
 
 const linkClasses =
   "font-medium break-all text-blue-600 underline underline-offset-2 transition-colors duration-150 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-blue-600"
@@ -20,29 +20,14 @@ const linkClasses =
 export default async function PrivacyPage() {
   const settings = await getSiteSettings()
   const address = settings?.address?.trim()
-  const phone = settings?.phone?.trim()
-  const email = settings?.email?.trim()
+  const email = settings?.email?.trim() || company.email
 
   const contactLinks = (
     <>
-      {email && (
-        <>
-          email us at{" "}
-          <a href={`mailto:${email}`} className={linkClasses}>
-            {email}
-          </a>
-        </>
-      )}
-      {email && phone && " or "}
-      {phone && (
-        <>
-          call{" "}
-          <a href={telHref(phone)} className={linkClasses}>
-            {formatPhone(phone)}
-          </a>
-        </>
-      )}
-      {!email && !phone && "contact us through the details on our website"}
+      email us at{" "}
+      <a href={`mailto:${email}`} className={linkClasses}>
+        {email}
+      </a>
     </>
   )
 
@@ -74,19 +59,18 @@ export default async function PrivacyPage() {
 
               <PolicySection title="What we collect">
                 <p>
-                  Only what you type into the enquiry form: your name, your role (for example
-                  distributor or pharmacy), your message, and a phone number or email if you add
-                  them. When you send the enquiry on WhatsApp, we also receive the WhatsApp number
-                  and profile name you send it from.
+                  Only what you type into the enquiry form: your name, your email address, your
+                  message, and your role (for example distributor or pharmacy) and a phone number
+                  if you add them.
                 </p>
               </PolicySection>
 
               <PolicySection title="How your enquiry reaches us">
                 <p>
-                  The form does not send or store your details itself. When you press &ldquo;Send
-                  on WhatsApp&rdquo;, WhatsApp opens on your device with your details written into
-                  a message. The message reaches us only if you choose to send it. WhatsApp&rsquo;s
-                  own privacy policy applies to messages sent through it.
+                  When you press &ldquo;Send enquiry&rdquo;, your details are sent from your browser
+                  to Web3Forms, a form service, which delivers them to our email inbox. Our website
+                  does not store them itself. Web3Forms states that it may keep submissions for up
+                  to 3 years, and its own privacy policy applies to them.
                 </p>
               </PolicySection>
 

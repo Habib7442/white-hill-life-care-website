@@ -31,6 +31,7 @@ export const enquirySchema = z.object({
     .string()
     .check(
       z.trim(),
+      z.minLength(1, "Enter your email address so we can reply."),
       z.refine(
         (value) => value === "" || z.safeParse(emailSchema, value).success,
         "Enter a valid email address."

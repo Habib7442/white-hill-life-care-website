@@ -3,11 +3,9 @@ import Link from "next/link"
 
 import { Container } from "@/components/layout/container"
 import { Reveal } from "@/components/reveal"
-import { contactWhatsappMessage } from "@/lib/contact"
 import { contactHref } from "@/lib/site-nav"
-import { whatsappHref } from "@/lib/whatsapp"
 
-export function AboutCta({ whatsappNumber }: { whatsappNumber: string }) {
+export function AboutCta({ email }: { email: string }) {
   return (
     <section aria-labelledby="about-cta-heading" className="bg-white pb-16 lg:pb-24">
       <Container>
@@ -47,12 +45,10 @@ export function AboutCta({ whatsappNumber }: { whatsappNumber: string }) {
                 Send an enquiry
               </Link>
               <a
-                href={whatsappHref(whatsappNumber, contactWhatsappMessage)}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`mailto:${email}`}
                 className="inline-flex min-h-12 w-full sm:w-auto items-center justify-center rounded-xl border border-white/80 bg-transparent px-7 py-3 text-[15px] font-medium text-white transition-[background-color,border-color,transform] duration-150 hover:bg-white/10 hover:border-white motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                Chat on Whatsapp
+                Email us
               </a>
             </div>
           </div>

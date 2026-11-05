@@ -1,23 +1,36 @@
 "use client"
 
-import { useRef, useState, type FormEvent, type ReactNode, type SyntheticEvent } from "react"
+import {
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type FormEvent,
+  type ReactNode,
+  type SyntheticEvent,
+} from "react"
 import Link from "next/link"
-import { CheckCircle2, MessageCircle } from "lucide-react"
+import { CheckCircle2, Send } from "lucide-react"
 
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Textarea } from "@/components/ui/textarea"
-import { enquiryMessage, enquiryRoles } from "@/lib/contact"
+import { enquiryFormData, enquiryRoles, medicineEnquiryMessage } from "@/lib/contact"
 import {
   MESSAGE_MAX,
   enquirySchema,
   type EnquiryField,
 } from "@/lib/enquiry-schema"
-import { whatsappHref } from "@/lib/whatsapp"
 
 type Errors = Partial<Record<EnquiryField, string>>
+type Phase = "idle" | "sending" | "sent" | "failed"
+
+const WEB3FORMS_URL = "https://api.web3forms.com/submit"
+const SEND_TIMEOUT = 15_000
+
+const subscribeNever = () => () => {}
 
 // Order in which focus goes to the first invalid field.
 const fieldOrder: EnquiryField[] = ["name", "phone", "email", "role", "message", "consent"]
@@ -48,26 +61,46 @@ function validate(form: HTMLFormElement) {
 }
 
 type EnquiryFormProps = {
-  whatsappNumber: string
+  /** Shown if sending fails, so the customer can still reach the company. */
+  email: string
   /** Consent line text before the Privacy Policy link (includes <CompanyName />). */
   consentLabel: ReactNode
 }
 
 /**
- * Builds a WhatsApp message from the fields and opens a chat with the company
- * number. Nothing is sent or stored by the site: the customer presses Send in
- * WhatsApp themselves.
+ * Sends the enquiry from the browser to Web3Forms, which emails it to the
+ * company (its docs recommend browser use; server use needs a paid plan).
+ * Nothing is stored or logged by the site.
  */
-export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) {
+export function EnquiryForm({ email, consentLabel }: EnquiryFormProps) {
   const formRef = useRef<HTMLFormElement>(null)
   const statusRef = useRef<HTMLHeadingElement>(null)
+  const sendingRef = useRef(false)
   const [errors, setErrors] = useState<Errors>({})
   const [submitted, setSubmitted] = useState(false)
   const [messageLength, setMessageLength] = useState(0)
-  const [chatHref, setChatHref] = useState<string | null>(null)
+  const [phase, setPhase] = useState<Phase>("idle")
+  // Send stays off until the form is running: a native submit before then would
+  // put the customer's details in the page URL.
+  const ready = useSyncExternalStore(
+    subscribeNever,
+    () => true,
+    () => false
+  )
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  // "Send an Enquiry" on a medicine page links here with ?medicine=. Read after
+  // load so the page stays static. Dispatching input also updates the counter.
+  useEffect(() => {
+    const medicine = new URLSearchParams(window.location.search).get("medicine")?.trim()
+    const message = formRef.current?.querySelector("textarea")
+    if (!medicine || !message) return
+    message.value = medicineEnquiryMessage(medicine)
+    message.dispatchEvent(new Event("input", { bubbles: true }))
+  }, [])
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (sendingRef.current) return
     const form = event.currentTarget
     const { values, errors } = validate(form)
     setSubmitted(true)
@@ -79,15 +112,35 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
       return
     }
 
-    const href = whatsappHref(whatsappNumber, enquiryMessage(values, window.location.host))
-    // Opened in the submit handler (a user gesture), so it isn't popup-blocked.
-    // If a browser still blocks it, open WhatsApp in this tab instead. (A
-    // "noopener" feature would make window.open return null, so cut the
-    // opener link by hand.)
-    const opened = window.open(href, "_blank")
-    if (opened) opened.opener = null
-    else window.location.assign(href)
-    setChatHref(href)
+    // Only a bot fills the hidden box: look successful, send nothing.
+    if (new FormData(form).get("botcheck")) {
+      showSent()
+      return
+    }
+
+    sendingRef.current = true
+    setPhase("sending")
+    try {
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
+      if (!accessKey) throw new Error("Missing access key")
+      const response = await fetch(WEB3FORMS_URL, {
+        method: "POST",
+        body: enquiryFormData(values, accessKey),
+        signal: AbortSignal.timeout(SEND_TIMEOUT),
+      })
+      const result: { success?: boolean } = await response.json()
+      if (!response.ok || !result.success) throw new Error("Not sent")
+      showSent()
+    } catch {
+      // What was typed stays in the form so the customer can try again.
+      setPhase("failed")
+    } finally {
+      sendingRef.current = false
+    }
+  }
+
+  function showSent() {
+    setPhase("sent")
     requestAnimationFrame(() => statusRef.current?.focus())
   }
 
@@ -113,61 +166,49 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
   }
 
   function reset() {
-    formRef.current?.reset()
     setErrors({})
     setSubmitted(false)
     setMessageLength(0)
-    setChatHref(null)
+    setPhase("idle")
     requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>('[name="name"]')?.focus())
   }
 
   const describedBy = (field: EnquiryField, hint?: string) =>
     [hint, errors[field] && `enquiry-${field}-error`].filter(Boolean).join(" ") || undefined
 
-  return (
-    <>
-      {chatHref && (
-        <div
-          role="status"
-          className="mb-8 rounded-card-sm border border-blue-100 bg-blue-25 p-5 sm:p-6"
-        >
-          <div className="flex gap-3">
-            <CheckCircle2
-              aria-hidden="true"
-              strokeWidth={1.8}
-              className="mt-0.5 size-6 shrink-0 text-blue-600"
-            />
-            <div>
-              <h3
-                ref={statusRef}
-                tabIndex={-1}
-                className="text-base font-semibold text-navy-900 outline-none"
-              >
-                WhatsApp is opening with your enquiry.
-              </h3>
-              <p className="mt-1 text-[15px] leading-[1.6] text-ink-muted">
-                Press <strong className="font-semibold text-ink">Send</strong> in WhatsApp to
-                deliver it to us.
-              </p>
-              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href={chatHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={buttonVariants({ size: "sm" })}
-                >
-                  <MessageCircle aria-hidden="true" strokeWidth={1.8} data-icon="inline-start" />
-                  Open WhatsApp again
-                </a>
-                <Button type="button" variant="outline" size="sm" onClick={reset}>
-                  Start a new enquiry
-                </Button>
-              </div>
-            </div>
+  if (phase === "sent") {
+    return (
+      <div role="status" className="rounded-card-sm border border-blue-100 bg-blue-25 p-5 sm:p-6">
+        <div className="flex gap-3">
+          <CheckCircle2
+            aria-hidden="true"
+            strokeWidth={1.8}
+            className="mt-0.5 size-6 shrink-0 text-blue-600"
+          />
+          <div>
+            <h3
+              ref={statusRef}
+              tabIndex={-1}
+              className="text-base font-semibold text-navy-900 outline-none"
+            >
+              Thank you. We have received your enquiry.
+            </h3>
+            <p className="mt-1 text-[15px] leading-[1.6] text-ink-muted">
+              We will reply by email.
+            </p>
+            <Button type="button" variant="outline" size="sm" onClick={reset} className="mt-4">
+              Send another enquiry
+            </Button>
           </div>
         </div>
-      )}
+      </div>
+    )
+  }
 
+  const sending = phase === "sending"
+
+  return (
+    <>
       <form
         ref={formRef}
         noValidate
@@ -177,6 +218,16 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
         aria-label="Enquiry form"
         className="grid gap-5"
       >
+        {/* Honeypot: hidden from people and screen readers, so only bots fill it. */}
+        <input
+          type="checkbox"
+          name="botcheck"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="hidden"
+        />
+
         <Field id="enquiry-name" label="Full name" required error={errors.name}>
           <Input
             id="enquiry-name"
@@ -203,19 +254,20 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
               aria-describedby={describedBy("phone", "enquiry-contact-hint")}
             />
           </Field>
-          <Field id="enquiry-email" label="Email" error={errors.email}>
+          <Field id="enquiry-email" label="Email" required error={errors.email}>
             <Input
               id="enquiry-email"
               name="email"
               type="email"
               autoComplete="email"
               placeholder="name@example.com"
+              aria-required="true"
               aria-invalid={errors.email ? true : undefined}
-              aria-describedby={describedBy("email", "enquiry-contact-hint")}
+              aria-describedby={describedBy("email")}
             />
           </Field>
           <p id="enquiry-contact-hint" className="-mt-2 text-xs text-ink-muted sm:col-span-2">
-            Optional. Add these if you would like us to reply by phone or email as well.
+            Phone is optional. Add a number if you would like a call back.
           </p>
         </div>
 
@@ -284,13 +336,24 @@ export function EnquiryForm({ whatsappNumber, consentLabel }: EnquiryFormProps) 
           <FieldError id="enquiry-consent-error" message={errors.consent} />
         </div>
 
+        {phase === "failed" && (
+          <p role="alert" className="text-sm text-error">
+            We could not send your enquiry. Please try again, or email us at{" "}
+            <a href={`mailto:${email}`} className="font-medium break-all underline underline-offset-2">
+              {email}
+            </a>
+            .
+          </p>
+        )}
+
         <div className="flex justify-end pt-1">
           <Button
             type="submit"
+            disabled={sending || !ready}
             className="w-full min-h-11 rounded-full bg-navy-900 px-7 font-medium text-white transition-colors hover:bg-blue-700 sm:w-auto"
           >
-            Send on Whatsapp
-            <MessageCircle aria-hidden="true" strokeWidth={1.8} data-icon="inline-end" className="size-4.5" />
+            {sending ? "Sending…" : "Send enquiry"}
+            <Send aria-hidden="true" strokeWidth={1.8} data-icon="inline-end" className="size-4.5" />
           </Button>
         </div>
       </form>

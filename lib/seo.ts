@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 
-import { formatPhone } from "@/lib/contact"
 import type { SiteSettings } from "@/lib/sanity/fetch"
 import { company } from "@/lib/site"
 
@@ -49,7 +48,6 @@ export const rootMetadata: Metadata = {
 /** Contact fields come from siteSettings; empty ones are left out. */
 export function organizationJsonLd(settings: SiteSettings | null) {
   const email = settings?.email?.trim()
-  const phone = settings?.phone?.trim()
   const address = settings?.address?.trim()
 
   return {
@@ -61,7 +59,6 @@ export function organizationJsonLd(settings: SiteSettings | null) {
     logo: new URL(company.logo.src, siteUrl).href,
     description: company.description,
     ...(email && { email }),
-    ...(phone && { telephone: formatPhone(phone) }),
     address: {
       "@type": "PostalAddress",
       ...(address && { streetAddress: address.replace(/\s*\n\s*/g, ", ") }),

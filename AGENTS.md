@@ -38,13 +38,13 @@ If `PRD.md`, `DESIGN.md`, and this file disagree, stop and ask. Do not pick one 
 - Product cards rendered from Sanity `product` documents; category / dosage-form filters and a debounced search (client-side) on `/medicines`
 - A page per medicine at `/medicines/[slug]` (added at the user's request; `prompts/medicines-catalog-and-detail-pages.md`)
 - `/medicines` listing with search, category / dosage-form filters and pagination (12 per page, state in the URL); the home section previews the first 10 with a "View all medicines" button (added at the user's request; `prompts/medicines-listing-page.md`)
-- "Send an Enquiry" on medicine pages opens WhatsApp with a prefilled message and the page link (added at the user's request; `lib/whatsapp.ts`). Number: `siteSettings.whatsapp`, else `company.whatsapp` in `lib/site.ts`
+- "Send an Enquiry" on medicine pages opens `/contact` with the form's message prefilled for that medicine (`prompts/email-only-contact.md`)
 - Company details rendered from the Sanity `siteSettings` document
 - Embedded Sanity Studio at `/studio` for **local development only** (`npm run dev`); production builds return 404 (user request). The client edits content in the separate admin panel (`whitehill-lifecare-admin`)
-- Enquiry form that opens the company WhatsApp with every field prefilled, after the customer ticks consent (added at the user's request, replacing Web3Forms; `prompts/contact-footer-privacy.md`). Number: `siteSettings.whatsapp`, else `company.whatsapp`
+- Enquiry form that emails the company through Web3Forms, after the customer ticks consent (user request, replacing WhatsApp; `prompts/email-only-contact.md`). The site shows no company phone number or WhatsApp. Email: `siteSettings.email`, else `company.email` in `lib/site.ts`
 - Privacy Policy page at `/privacy` (needed because the form collects personal data, DPDP Act 2023)
 - SEO basics: metadata, Open Graph image, `Organization` JSON-LD, `sitemap.xml`, `robots.txt`
-- Click-to-call / click-to-email links
+- Click-to-email links
 
 ## Out of scope (do not build unless the user asks)
 
@@ -186,7 +186,7 @@ Use:
 - **lucide-react** — icons
 - **Sanity + `next-sanity`** — content (products, pack images, site settings) and embedded Studio
 - **`@sanity/image-url`** — pack image URLs (WebP/AVIF, resized) through `next/image`
-- **WhatsApp (`wa.me` links)** — enquiry delivery; the customer sends the prefilled message from their own WhatsApp
+- **Web3Forms** — enquiry delivery by email, submitted from the browser (server use needs a paid plan)
 - **Zod** — validating form input
 - **Vercel** — hosting
 
@@ -254,7 +254,7 @@ Section anchors (`#medicines`, `#quality`) are defined once in `lib/` and reused
 
 Content updates: two signed paths call `/api/revalidate` with `{ _type }`: the Sanity webhook (Studio and any API write; the route waits 3 s for Content Lake consistency) and the admin panel right after each save (`source: "admin"`, no wait). The route expires the tag with `revalidateTag(type, { expire: 0 })`, never `"max"`: with stale-while-revalidate a page rebuilt right after a change can bake in the stale data and cache it as fresh. The Sanity client reads the live API (`useCdn: false`) for the same reason; Next caches the results. See `prompts/instant-content-refresh.md`. Do not use full Vercel deploy hooks unless the user asks.
 
-The enquiry form sends nothing to any server: it builds a `wa.me` link with the details and opens it, and the customer presses Send in WhatsApp. Do not add a form service or a custom email route unless the user asks.
+The enquiry form posts from the browser to Web3Forms, which emails the company. The site stores nothing. Do not add a custom email route or another form service unless the user asks.
 
 ---
 
@@ -280,10 +280,10 @@ When copy is not given in `PRD.md`, write modest, factual placeholder copy and l
 # 11. Enquiry form
 
 - Fields: Full name (required), Phone, Email, "I am a" (Distributor/Stockist, Pharmacy, Healthcare professional, Other), Message, consent checkbox.
-- Validation (Zod, `lib/enquiry-schema.ts`, client-side): name and message required; phone and email optional (WhatsApp already shows the sender's number); email format valid when given; Indian phone format tolerant (spaces, `+91`); consent required.
-- Delivery: opens `wa.me/<company number>` with the fields in the message (`lib/contact.ts` `enquiryMessage`). The enquiry reaches the client only when the customer presses Send in WhatsApp.
-- Spam: no honeypot needed; a bot cannot send the WhatsApp message.
-- States: idle → invalid (errors) → "WhatsApp is opening" status with "Open WhatsApp again" and "Start a new enquiry".
+- Validation (Zod, `lib/enquiry-schema.ts`, client-side): name, email and message required; phone optional; email format valid; Indian phone format tolerant (spaces, `+91`); consent required.
+- Delivery: posts to Web3Forms from the browser (`lib/contact.ts` `enquiryFormData`, `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`), which emails the inbox the key was created for. The customer's email is the reply-to address.
+- Spam: hidden `botcheck` honeypot; when filled, the form shows success and sends nothing.
+- States: idle → invalid (errors) → sending → sent ("Send another enquiry") or failed (keeps the values and shows the company email).
 - Labels above fields; errors linked with `aria-describedby`; focus moves to the first invalid field.
 - Never log, store, or persist submitted data in the app.
 
@@ -320,6 +320,7 @@ The canonical list lives in `.env.example`. `.gitignore` ignores `.env*`, so add
 | `SANITY_API_WRITE_TOKEN` | Local seed script only (`npm run seed`); not needed on Vercel | server only |
 | `SANITY_REVALIDATE_SECRET` | Verifies Sanity webhook signature | server only |
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for metadata, sitemap, OG | client + server |
+| `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` | Web3Forms key for the enquiry form (public; sends only to its own inbox) | client |
 
 Keep this table and `.env.example` in sync.
 
@@ -365,7 +366,7 @@ Manual checks to include in test steps when relevant:
 - keyboard-only navigation through the header, menu, and form; visible focus everywhere
 - every nav link scrolls to the correct section; hamburger opens and closes below 820 px
 - products appear in Sanity `order`; a hidden (`visible: false`) product disappears after publish
-- form: empty submit, invalid email, invalid phone, no phone/email, consent unticked, valid submit opens WhatsApp with every field
+- form: empty submit, invalid email, invalid phone, no phone, consent unticked, valid submit emails every field and shows the thank-you message
 - no colours outside the palette, no dark mode, no cure claims, no invented numbers
 - Studio loads at `/studio` in `npm run dev` and shows `product` and `siteSettings`; a production build returns 404 there
 

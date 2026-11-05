@@ -9,7 +9,7 @@ import { company } from "@/lib/site"
 
 export async function Contact() {
   const settings = await getSiteSettings()
-  const whatsappNumber = settings?.whatsapp?.trim() || company.whatsapp
+  const email = settings?.email?.trim() || company.email
 
   return (
     <Section tone="tint" aria-labelledby="contact-heading">
@@ -18,23 +18,23 @@ export async function Contact() {
           <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
             {/* Left sidebar: Vibrant Blue Panel with Contact Details */}
             <div className="flex flex-col rounded-card bg-blue-600 p-6 sm:p-8 lg:col-span-5 lg:p-10">
-              <ContactDetails settings={settings} whatsappNumber={whatsappNumber} />
+              <ContactDetails settings={settings} />
             </div>
 
-            {/* Right panel: WhatsApp Enquiry Form */}
+            {/* Right panel: Enquiry Form */}
             <div className="flex flex-col justify-center p-2 sm:p-4 lg:col-span-7 lg:py-6 lg:pr-6">
               <h3 className="font-heading text-2xl font-bold text-navy-900 sm:text-3xl">
-                Send an enquiry on WhatsApp
+                Send an enquiry
               </h3>
               <p className="mt-1.5 mb-6 text-sm leading-relaxed text-ink-muted">
-                Fill in the form and WhatsApp opens with your details ready to send.
+                Fill in the form and we will reply by email.
               </p>
               <EnquiryForm
-                whatsappNumber={whatsappNumber}
+                email={email}
                 consentLabel={
                   <>
-                    I agree to send these details to <CompanyName legal /> on WhatsApp so they can
-                    reply to my enquiry. See our
+                    I agree to send these details to <CompanyName legal /> so they can reply to my
+                    enquiry. See our
                   </>
                 }
               />

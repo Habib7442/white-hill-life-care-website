@@ -27,8 +27,8 @@ export const company = {
   tagline: "Pharmaceutical Marketing Company",
   description:
     "WhiteHill Lifecares is an India-based pharmaceutical marketing company offering quality-led medicines for better support of health.",
-  /** Enquiry WhatsApp number (client-supplied). Sanity siteSettings.whatsapp overrides it when set. */
-  whatsapp: "+91 70029 16175",
+  /** Enquiry email (client-supplied). Sanity siteSettings.email overrides it when set. */
+  email: "whitehilllifecarespvtltd@gmail.com",
   logo: {
     src: "/brand/whitehill-logo.webp",
     width: 640,
