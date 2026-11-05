@@ -34,7 +34,7 @@ Rewrite the About page's first two text blocks in natural language, using the cl
 **First block**
 
 - Heading: **Medicines** for better support of health ("Medicines" in blue, as today)
-- Text: `<CompanyName legal />` is an Indian pharmaceutical company. We work with distributors, stockists, pharmacies and healthcare professionals so that quality medicines and wellness products reach the people who need them.
+- Text: `<CompanyName legal />` is an Indian pharmaceutical company. Our medicines and wellness products are chosen with care, and every pack lists its full composition, so doctors and pharmacists know exactly what they are recommending.
 
 **Second block**
 

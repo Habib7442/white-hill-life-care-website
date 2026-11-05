@@ -23,9 +23,9 @@ export function AboutOverview() {
             </h2>
 
             <p className="mt-6 text-base leading-[1.7] text-slate-700 sm:text-[17px]">
-              <CompanyName legal /> is an Indian pharmaceutical company. We work with
-              distributors, stockists, pharmacies and healthcare professionals so that quality
-              medicines and wellness products reach the people who need them.
+              <CompanyName legal /> is an Indian pharmaceutical company. Our medicines and wellness
+              products are chosen with care, and every pack lists its full composition, so doctors
+              and pharmacists know exactly what they are recommending.
             </p>
           </Reveal>
 
