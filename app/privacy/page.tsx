@@ -47,8 +47,7 @@ export default async function PrivacyPage() {
 
               <PolicySection title="Who we are">
                 <p>
-                  This website is run by <CompanyName legal />, a pharmaceutical marketing
-                  company in India. This policy explains how we handle the personal details you
+                  This website is run by <CompanyName legal />, a pharmaceuticalcompany in India. This policy explains how we handle the personal details you
                   share with us through the enquiry form, in line with the Digital Personal Data
                   Protection Act, 2023.
                 </p>

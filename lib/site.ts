@@ -23,10 +23,9 @@ export const company = {
   name: "WhiteHill Lifecares",
   legalName: "WhiteHill Lifecares Pvt Ltd",
   shortName: "WhiteHill",
-  /** As printed under the logo on the packs. */
-  tagline: "Pharmaceutical Marketing Company",
+  tagline: "Pharmaceutical Company",
   description:
-    "WhiteHill Lifecares is an India-based pharmaceutical marketing company offering quality-led medicines for better support of health.",
+    "WhiteHill Lifecares is an India-based pharmaceutical company offering quality-led medicines for better support of health.",
   /** Enquiry email (client-supplied). Sanity siteSettings.email overrides it when set. */
   email: "whitehilllifecarespvtltd@gmail.com",
   logo: {
@@ -191,7 +190,7 @@ export type HeroTrustItem = {
   icon: LucideIcon
 }
 
-// Modest, factual points for a newly launched marketing company: no counts or years.
+// Modest, factual points: no counts or years.
 export const heroTrust: HeroTrustItem[] = [
   { label: "A growing range of medicines", icon: Package },
   // Approved wording (AGENTS.md §10.6): never shorten it.
@@ -224,7 +223,7 @@ export const heroHighlights: HeroHighlight[] = [
   },
   {
     label: "Focus on India's Health & Wellness",
-    text: "Marketing and supplying medicines across India",
+    text: "Supplying medicines across India",
     icon: HandHeart,
   },
 ]
@@ -248,7 +247,7 @@ export const companyValues: IconCard[] = [
   },
   {
     title: "Responsible growth",
-    text: "We add medicines to our range one at a time, only when we can supply them properly.",
+    text: "We add medicines to our range only when we can supply them properly.",
     icon: Sprout,
   },
 ]

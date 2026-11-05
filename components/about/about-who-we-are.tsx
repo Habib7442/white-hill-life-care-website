@@ -33,23 +33,21 @@ export function AboutWhoWeAre() {
                 id="who-heading"
                 className="mt-4 font-heading text-3xl font-bold tracking-tight text-black sm:text-4xl lg:text-[44px] lg:leading-[1.18]"
               >
-                <span className="text-blue-600">A young company</span> with a{" "}
-                <span className="text-blue-600">careful approach</span>
+                Working towards a <span className="text-blue-600">healthier India</span>
               </h2>
 
               <div className="mt-6 space-y-4 text-base leading-[1.7] text-slate-700 sm:text-[17px]">
                 <p>
-                  We started <CompanyName /> to offer medicines that people in the supply chain can
-                  stock and recommend with confidence. Our role is marketing and distribution: our
-                  medicines are made by{" "}
-                  <strong className="font-semibold text-black">WHO-GMP</strong> certified
-                  manufacturing partners, and we make sure each one reaches the market with clear,
-                  accurate information.
+                  Good health is the foundation of a better tomorrow. That belief guides our work at{" "}
+                  <CompanyName />, as we help make quality medicines and wellness products easier to
+                  access for people across India.
                 </p>
                 <p>
-                  We are starting small on purpose. Rather than a long list of products, we are
-                  building a focused range and adding new medicines step by step, as each one is
-                  ready.
+                  Our role is marketing and distribution. Our medicines are made by{" "}
+                  <strong className="font-semibold text-black">WHO-GMP</strong> certified
+                  manufacturing partners, and we make sure each one reaches the market with clear,
+                  accurate information. Consistent quality and responsible practices guide every
+                  step.
                 </p>
               </div>
             </div>

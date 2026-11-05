@@ -19,14 +19,13 @@ export function AboutOverview() {
               id="about-overview-heading"
               className="mt-4 font-heading text-3xl font-bold tracking-tight text-black sm:text-4xl lg:text-[44px] lg:leading-[1.18]"
             >
-              <span className="text-blue-600">Medicines</span> for better support of health,{" "}
-              <span className="text-blue-600">with the facts in plain view</span>
+              <span className="text-blue-600">Medicines</span> for better support of health
             </h2>
 
             <p className="mt-6 text-base leading-[1.7] text-slate-700 sm:text-[17px]">
-              <CompanyName legal /> is a newly established, India-based pharmaceutical marketing
-              company. We work with distributors, stockists, pharmacies and healthcare
-              professionals to make a focused range of medicines available.
+              <CompanyName legal /> is an Indian pharmaceutical company. We work with
+              distributors, stockists, pharmacies and healthcare professionals so that quality
+              medicines and wellness products reach the people who need them.
             </p>
           </Reveal>
 

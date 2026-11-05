@@ -102,7 +102,7 @@ export const medicinesMetadata: Metadata = {
 }
 
 const aboutTitle = "About us"
-const aboutDescription = `${company.legalName} is a newly established, India-based pharmaceutical marketing company offering medicines for better support of health.`
+const aboutDescription = `${company.legalName} is an Indian pharmaceutical company offering medicines for better support of health.`
 
 export const aboutMetadata: Metadata = {
   title: aboutTitle,
