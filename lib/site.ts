@@ -23,7 +23,7 @@ export const company = {
   name: "WhiteHill Lifecares",
   legalName: "WhiteHill Lifecares Pvt Ltd",
   shortName: "WhiteHill",
-  tagline: "Pharmaceutical Company",
+  tagline: "Health & Wellness",
   description:
     "WhiteHill Lifecares is an India-based pharmaceutical company offering quality-led medicines for better support of health.",
   /** Enquiry email (client-supplied). Sanity siteSettings.email overrides it when set. */
