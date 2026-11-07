@@ -48,7 +48,7 @@ Redesign the home splash to match the client's new reference: a deep blue screen
 
 | File | Change |
 |---|---|
-| `public/brand/splash-bg.webp` | New, from the tablets photo |
+| `public/brand/splash-tablets.webp` | New, from the client's 1672 × 941 tablets photo (replaced a first 736 px version) |
 | `components/preloader/preloader.tsx` | New layout |
 | `app/globals.css` | Remove `--splash-sky` and `--splash-unit` |
 | `lib/site.ts` | `company.tagline` becomes "Health & Wellness" |
@@ -118,3 +118,8 @@ None. Static images and text; the splash gate script is unchanged.
 2. Open http://localhost:3000 in a **new tab** and compare the splash with the reference.
 3. Refresh: no splash.
 4. Check the splash in the device toolbar at 360 px and 768 px, using a new tab each time.
+
+## Update: sharper photo (user request)
+
+- Client supplied a 1672 × 941 version; the tint is lighter (photo 70%, softer navy overlay) so the tablets and molecules show more.
+- A soft navy shade sits behind the logo, tagline and bar, so the tablets behind them never lower text contrast.

@@ -16,16 +16,19 @@ export function Preloader() {
       {/* Served as it is: the splash lasts 2.8 s, too short to wait for the image
           optimizer. Lazy, so a skipped splash downloads nothing. */}
       <Image
-        src="/brand/splash-bg.webp"
+        src="/brand/splash-tablets.webp"
         alt=""
         fill
         unoptimized
         fetchPriority="high"
-        className="object-cover opacity-45 mix-blend-luminosity"
+        className="object-cover object-[50%_75%] opacity-70 mix-blend-luminosity"
       />
       {/* Darkens the edges towards the navy of the reference, with a soft glow top left. */}
-      <div className="absolute inset-0 bg-radial from-navy-900/40 via-navy-900/60 to-navy-900/85" />
+      <div className="absolute inset-0 bg-radial from-navy-900/45 via-navy-900/45 to-navy-900/75" />
       <div className="absolute -top-1/4 -left-1/4 size-[70vmax] rounded-full bg-blue-600/30 blur-3xl" />
+
+      {/* Soft shade behind the text, so the tablets never lower its contrast. */}
+      <div className="absolute top-1/2 left-1/2 h-[46svh] w-[min(90vw,640px)] -translate-x-1/2 -translate-y-[62%] rounded-full bg-navy-900/55 blur-3xl" />
 
       <div className="relative -mt-[12svh] flex flex-col items-center px-6 text-center">
         <Image
