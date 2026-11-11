@@ -89,3 +89,4 @@ None. Text only.
 - The description is now the two paragraphs supplied by the user ("We believe that access to quality medicines..."); client to approve, in particular "reliable" and "affordable" (AGENTS §10 rules 3 and 4).
 - Third paragraph added at the user's request: "We believe that healthcare should not be a privilege but an assurance that every individual deserves."
 - Capsule replaced by the client's realistic photo (`public/brand/hero-capsule-real.webp`), trimmed to the capsule and capped at 510 px tall on desktop.
+- Capsule replaced by the client's clear, teal-and-pink capsule (`public/brand/hero-capsule-teal.webp`), cut along its outline to remove edge fringe and tilted 32 degrees. Teal and pink are a user-requested exception to the blue-and-white palette, inside this image only; client to confirm.

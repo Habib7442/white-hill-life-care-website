@@ -49,9 +49,9 @@ export const company = {
 
 /** Opened capsule on the hero (decorative, transparent background). */
 export const heroCapsule = {
-  src: "/brand/hero-capsule-real.webp",
-  width: 806,
-  height: 1025,
+  src: "/brand/hero-capsule-teal.webp",
+  width: 899,
+  height: 1118,
 } as const
 
 export type RangeTile = {
