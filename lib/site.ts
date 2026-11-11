@@ -27,7 +27,7 @@ export const company = {
   description:
     "WhiteHill Lifecares is an India-based pharmaceutical company offering quality-led medicines for better support of health.",
   /** Enquiry email (client-supplied). Sanity siteSettings.email overrides it when set. */
-  email: "whitehilllifecarespvtltd@gmail.com",
+  email: "whitehilllifecares@gmail.com",
   logo: {
     src: "/brand/whitehill-logo.webp",
     width: 640,
