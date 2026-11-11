@@ -80,3 +80,12 @@ None. Text only.
 1. `npm run dev` and open http://localhost:3000.
 2. Read the hero as a first-time visitor.
 3. Resize to 1024, 768 and 360 px.
+
+## Update: shorter name and new tagline (user request)
+
+- The H1 is now "WhiteHill Lifecares", without "Pvt Ltd". The registered name still appears in the logo, footer, About page and metadata.
+- The tagline is now "Committed to Quality. Dedicated to Better Healthcare." (supplied by the user; client to approve).
+
+- The description is now the two paragraphs supplied by the user ("We believe that access to quality medicines..."); client to approve, in particular "reliable" and "affordable" (AGENTS §10 rules 3 and 4).
+- Third paragraph added at the user's request: "We believe that healthcare should not be a privilege but an assurance that every individual deserves."
+- Capsule replaced by the client's realistic photo (`public/brand/hero-capsule-real.webp`), trimmed to the capsule and capped at 510 px tall on desktop.

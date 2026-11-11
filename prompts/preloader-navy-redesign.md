@@ -38,7 +38,7 @@ Redesign the home splash to match the client's new reference: a deep blue screen
 1. **Background:** the tablets photo, `object-cover`, anchored to the bottom so the tablets stay in view, over `navy-900`. A blue tint and a soft lighter glow at the top left reproduce the reference, using palette colours only (`navy-900`, `blue-600`). The exact tint strength is tuned against the reference in screenshots.
 2. **One background file for every screen,** since the photo is square and mostly soft bokeh. The three old art files and their script are deleted.
 3. **Logo:** `whitehill-logo-white.webp`, centred. It already contains "WhiteHill" and "Lifecares Pvt Ltd", so the company name is not repeated as text.
-4. **"Health & Wellness"** under the logo, in spaced capitals with thin rules on each side, in `white` on navy (`blue-200` measured about 4.4:1 against the background, under 4.5:1). `company.tagline` changes to "Health & Wellness"; nothing else uses it.
+4. **"Health & Wellness"** under the logo, in spaced capitals with thin rules on each side, in `white` on navy (`blue-200` measured about 4.4:1 against the background, under 4.5:1). `company.tagline` changes to "Healthcare & Wellness" (user update; side rules hidden below 400 px so it stays on one line); nothing else uses it.
 5. **Loading bar** under the tagline: `white/20` track, `white` fill. It fills over 2.2 s, just before the splash fades, as today.
 6. **Fixed sizes instead of the sky calculations,** since nothing in the background has to be avoided except the tablets near the bottom. The `--splash-sky` and `--splash-unit` CSS is removed.
 7. **Timing, once-per-tab gate and reduced-motion skip are unchanged.** Entrance motion stays as today: logo pop, tagline and bar rise, fade-out at the end.
@@ -94,7 +94,7 @@ None. Static images and text; the splash gate script is unchanged.
 ## Compliance check
 
 - Registered name shown through the logo; no claims, numbers or prices.
-- "Health & Wellness" is the client's own wording, as printed on the Cynovera pack.
+- "Healthcare & Wellness" is the client's own wording, as printed on the Cynovera pack.
 - The photo shows no people.
 
 ## Acceptance criteria

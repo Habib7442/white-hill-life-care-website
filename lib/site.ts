@@ -23,7 +23,7 @@ export const company = {
   name: "WhiteHill Lifecares",
   legalName: "WhiteHill Lifecares Pvt Ltd",
   shortName: "WhiteHill",
-  tagline: "Health & Wellness",
+  tagline: "Healthcare & Wellness",
   description:
     "WhiteHill Lifecares is an India-based pharmaceutical company offering quality-led medicines for better support of health.",
   /** Enquiry email (client-supplied). Sanity siteSettings.email overrides it when set. */
@@ -49,9 +49,9 @@ export const company = {
 
 /** Opened capsule on the hero (decorative, transparent background). */
 export const heroCapsule = {
-  src: "/brand/hero-capsule.webp",
-  width: 1200,
-  height: 900,
+  src: "/brand/hero-capsule-real.webp",
+  width: 806,
+  height: 1025,
 } as const
 
 export type RangeTile = {

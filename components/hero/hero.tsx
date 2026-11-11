@@ -36,18 +36,26 @@ export function Hero() {
               className="hero-slide font-display text-[length:min(calc((100vw_-_48px)/8.8),52px)] leading-[1.15] font-semibold tracking-[-0.02em] text-black sm:text-[52px] lg:text-[56px] xl:text-[64px]"
             >
               {company.name}
-              <br /> Pvt Ltd
             </h1>
 
             <p className="hero-rise mt-3 [--i:1] font-display text-xl font-semibold text-blue-700 lg:text-2xl">
-              Towards a Healthier India
+              <span className="inline-block">Committed to Quality.</span>{" "}
+              <span className="inline-block">Dedicated to Better Healthcare.</span>
             </p>
 
-            <p className="hero-rise mt-4 max-w-[34rem] [--i:1] text-base leading-[1.65] text-slate-800 lg:text-[17px]">
-              An Indian pharmaceutical company bringing quality medicines and wellness products to
-              healthcare professionals, pharmacies and distributors across India. We focus on
-              consistent quality, clear product information and responsible healthcare practices.
-            </p>
+            <div className="hero-rise mt-4 max-w-[34rem] space-y-3 [--i:1] text-base leading-[1.65] text-slate-800 lg:text-[17px]">
+              <p>We believe that access to quality medicines is the foundation of a healthier society.</p>
+              <p>
+                Our commitment is to bring reliable, quality-driven and affordable healthcare solutions
+                to people across India. We strive to make a meaningful difference in everyday lives by
+                focusing on product quality, responsible healthcare practices and continuous
+                improvement.
+              </p>
+              <p>
+                We believe that healthcare should not be a privilege but an assurance that every
+                individual deserves.
+              </p>
+            </div>
 
             <div className="hero-rise mt-8 flex flex-col gap-2.5 [--i:2] sm:flex-row sm:gap-4">
               <a
@@ -94,8 +102,8 @@ export function Hero() {
                   alt=""
                   aria-hidden="true"
                   priority
-                  sizes="(min-width: 1024px) 520px, (min-width: 768px) 400px, 300px"
-                  className="hero-pop mx-auto h-full w-auto max-w-full object-contain md:h-auto md:max-h-[300px] lg:max-h-[min(62vh,520px)]"
+                  sizes="(min-width: 1024px) 420px, (min-width: 768px) 240px, 140px"
+                  className="hero-pop mx-auto h-full w-auto max-w-full object-contain md:h-auto md:max-h-[300px] lg:max-h-[min(64vh,510px)]"
                 />
               </div>
             </CapsuleTilt>

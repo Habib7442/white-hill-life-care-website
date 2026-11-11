@@ -42,11 +42,11 @@ export function Preloader() {
         />
 
         <div className="mt-5 flex animate-splash-rise items-center gap-3 [animation-delay:0.15s]">
-          <span className="h-px w-8 bg-white/50 md:w-12" />
-          <p className="text-xs font-semibold tracking-[0.3em] text-white uppercase md:text-sm">
+          <span className="h-px w-8 bg-white/50 max-[399px]:hidden md:w-12" />
+          <p className="text-xs font-semibold tracking-[0.3em] whitespace-nowrap text-white uppercase md:text-sm">
             {company.tagline}
           </p>
-          <span className="h-px w-8 bg-white/50 md:w-12" />
+          <span className="h-px w-8 bg-white/50 max-[399px]:hidden md:w-12" />
         </div>
 
         {/* Loading bar: fills over the splash's life, just before it fades out. */}
