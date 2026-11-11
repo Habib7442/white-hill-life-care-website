@@ -92,7 +92,7 @@ export function Hero() {
 
           {/* Above the headline on phones, below it on tablets, right column on
               desktop. Layers: tilt > float > pop, so the transforms don't clash. */}
-          <div className="order-first mt-4 h-[170px] md:order-none md:mt-0 md:h-auto md:pb-10 lg:pb-0">
+          <div className="order-first mt-4 h-[230px] md:order-none md:mt-0 md:h-auto md:pb-10 lg:pb-0">
             <CapsuleTilt className="h-full md:h-auto">
               <div className="hero-float h-full md:h-auto">
                 <Image
@@ -102,7 +102,7 @@ export function Hero() {
                   alt=""
                   aria-hidden="true"
                   priority
-                  sizes="(min-width: 1024px) 420px, (min-width: 768px) 240px, 140px"
+                  sizes="(min-width: 1024px) 420px, (min-width: 768px) 240px, 190px"
                   className="hero-pop mx-auto h-full w-auto max-w-full object-contain md:h-auto md:max-h-[300px] lg:max-h-[min(64vh,510px)]"
                 />
               </div>
